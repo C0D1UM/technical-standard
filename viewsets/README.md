@@ -25,7 +25,7 @@ class MyViewSet(ModelViewSet):
 ```
 
 ## Customize Seriailizer
-If you want difference serializer for GET/POST request, you can following attribute instead of setting in `get_serializer_class` function.
+If you want different serializer for GET/POST request, you can use following attribute:
  * list_serializer_class - for GET request
  * retrieve_serializer_class - for GET request with item ID
  * write_serializer_class - for POST request
@@ -63,8 +63,7 @@ class MyViewSet(ModelViewSet):
 
 
 ## Use Django Built-in FilterClass/Ordering
-for simple search/filter/ordering, use Django built-in filterClass. It is easier than implmenting in `get_queryset` function
-To setup, `pip install django-filter`. Then add `'django_filters'` to Django's `INSTALLED_APPS`
+For simple search/filter/ordering, use Django built-in FilterClass. To setup, run `pip install django-filter`. Then add `'django_filters'` to Django's `INSTALLED_APPS`
 
 ```py
 # Good:
@@ -141,7 +140,7 @@ class MyViewSet(ModelViewSet):
 ```
 
 ## Customize HTTP Method
-You should limit http method that user can call to server. ModelViewset will enable all methods by default.
+You should limit http method that user can call to the server. ModelViewset will enable all methods by default.
 ```py
 # Good
 class MyViewSet(ModelViewSet):
