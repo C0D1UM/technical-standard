@@ -22,9 +22,6 @@ Use AllowAny if you want to skip authentication checking.
 class MyViewSet(ModelViewSet):
     # Use AllowAny if you want to skip authentication checking.
     permission_classes = (AllowAny,)
-
-    # or use None to skip authentication checking.
-    permission_classes = None
 ```
 
 ## Customize Seriailizer
@@ -141,4 +138,88 @@ class MyViewSet(ModelViewSet):
             queryset = queryset.select_related('...')
         
         return queryset
+```
+
+## Customize HTTP Method
+You should limit http method that user can call to server. ModelViewset will enable all methods by default.
+```py
+# Good
+class MyViewSet(ModelViewSet):
+    queryset = myModel.objects.all()
+    serializer_class = myModelSerializer
+    http_method_names = ['get', 'head', 'post', 'patch']
+
+# Bad
+class MyViewset(ModelViewSet):
+    queryset = myModel.objects.all()
+    serializer_class = myModelSerializer
+    
+    def get_queryset(self):
+        if not self.request.method in ['GET', 'POST', 'PATCH']:
+            raise Exception('method invalid')
+        else
+            return super().get_queryset()
+```
+
+
+## ReadOnlyModelViewset
+Use ReadonlyModelViewset if you want request in GET only. 
+```py
+# Good
+class MyViewSet(ReadOnlyModelViewSet):
+    queryset = myModel.objects.all()
+    serializer_class = myModelSerializer
+
+
+# Bad
+class MyViewSet(ModelViewSet):
+    queryset = myModel.objects.all()
+    serializer_class = myModelSerializer
+    http_method_names = ['get', 'head']
+```
+
+
+# APIView
+Use APIView if request does not specifically belongs to some model. Use JsonResponse or Response instead of HttpResponse
+
+```py
+# Good
+from django import http
+class UserViewSet(views.APIView):
+    def get(self, request):
+        return http.JsonResponse({
+            'users': 123,
+        })
+
+# Good
+from rest_framework.response import Response
+class UserViewSet(views.APIView):
+    def get(self, request):
+        return Response(data={
+            'users': 123,
+        })
+
+# Bad
+class UserViewSet(views.APIView):
+    def get(self, request):
+        response_json_str = json.dumps({
+            'users': 123,
+        })
+        return http.HttpResponse(response_json_str, content_type="application/json", status=200)
+
+```
+
+Use HttpResponseStatus instead of status number
+```py
+# Good
+from rest_framework import status
+class UserViewSet(views.APIView):
+    def get(self, request):
+        return Response(data={}, status=status.HTTP_200_OK)
+
+# Bad
+class UserViewSet(views.APIView):
+    def get(self, request):
+        return Response(data={}, status=200)
+
 ```
