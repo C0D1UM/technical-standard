@@ -14,16 +14,16 @@ The difference in structure of each project makes it developers difficult to und
     •
     ├── [project_name]/
     │   ├── apps/
-    │   │   ├── [app1_name]/ <sup><a href="#application-name">1</a></sup>
+    │   │   ├── [app1_name]/ <sup><a href="#1-application-name">1</a></sup>
     │   │   │   └── ..
     │   │   ├── [app2_name]/
     │   │   │   └── ..
     │   │   └── ..
-    │   ├── api_urls.py <sup><a href="#api-urls">2</a></sup>
+    │   ├── api_urls.py <sup><a href="#2-api-urls">2</a></sup>
     │   ├── asgi.py
     │   ├── celery.py
     │   ├── settings.py
-    │   ├── urls.py <sup><a href="#urls">3</a></sup>
+    │   ├── urls.py <sup><a href="#3-urls">3</a></sup>
     │   └── wsgi.py
     ├── locales/
     │   └── [lang]/
@@ -33,9 +33,9 @@ The difference in structure of each project makes it developers difficult to und
     │   ├── css/
     │   ├── images/
     │   └── ..
-    ├── .flake8 <sup><a href="#flake8">4</a></sup>
-    ├── .coveragerc <sup><a href="#coveragepy">5</a></sup>
-    ├── .gitignore <sup><a href="#gitignore">6</a></sup>
+    ├── .flake8 <sup><a href="#4-flake8">4</a></sup>
+    ├── .coveragerc <sup><a href="#5-coveragepy">5</a></sup>
+    ├── .gitignore <sup><a href="#6-gitignore">6</a></sup>
     ├── Dockerfile
     ├── manage.py
     ├── requirements.in
