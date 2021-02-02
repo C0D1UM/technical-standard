@@ -67,8 +67,8 @@ The difference in structure of each project makes it developers difficult to und
     ├── .gitignore <sup><a href="#6-gitignore">6</a></sup>
     ├── Dockerfile
     ├── manage.py
-    ├── requirements.in
-    └── requirements.txt
+    ├── requirements.in <sup><a href="#18-requirements">18</a></sup>
+    └── requirements.txt <sup><a href="#18-requirements">18</a></sup>
 </pre>
 
 ### Explanation
@@ -160,3 +160,7 @@ Contains **utility** functions which are not related with the business logic. Fo
 - Date formatting
 - Manipulating string
 - etc
+
+#### <sup>[18]</sup> Requirements
+
+Using [`pip-tools`](https://github.com/jazzband/pip-tools) you can compile `requirements.in` into `requirements.txt` automatically.
