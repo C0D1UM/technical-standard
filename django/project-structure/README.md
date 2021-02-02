@@ -8,9 +8,9 @@ The difference in structure of each project makes it developers difficult to und
 
 > **Note:** `__init__.py` is omitted in this tree.
 
-```
+<pre>
 •
-├── [app_name]/
+├── [app_name](http://test.com)/
 │   └── apps/
 ├── locales/
 │   └── [lang]/
@@ -27,4 +27,4 @@ The difference in structure of each project makes it developers difficult to und
 ├── manage.py
 ├── requirements.in
 └── requirements.txt
-```
+</pre>
