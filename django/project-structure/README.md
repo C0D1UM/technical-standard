@@ -19,12 +19,12 @@ The difference in structure of each project makes it developers difficult to und
     │   │   ├── [app2_name]/
     │   │   │   └── ..
     │   │   └── ..
-    │   ├── api_urls.py <sup><a href="#2-api-urls-py">2</a></sup>
-    │   ├── asgi.py <sup><a href="#7-asgi-py">7</a></sup>
-    │   ├── celery.py <sup><a href="#8-celery-py">8</a></sup>
+    │   ├── api_urls.py <sup><a href="#2-api-urlspy">2</a></sup>
+    │   ├── asgi.py <sup><a href="#7-asgipy">7</a></sup>
+    │   ├── celery.py <sup><a href="#8-celerypy">8</a></sup>
     │   ├── settings.py
-    │   ├── urls.py <sup><a href="#3-urls-py">3</a></sup>
-    │   └── wsgi.py <sup><a href="#9-wsgi-py">9</a></sup>
+    │   ├── urls.py <sup><a href="#3-urlspy">3</a></sup>
+    │   └── wsgi.py <sup><a href="#9-wsgipy">9</a></sup>
     ├── locales/
     │   └── [lang]/
     │       └── LC_MESSAGES/
