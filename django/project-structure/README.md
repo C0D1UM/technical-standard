@@ -6,9 +6,9 @@ The difference in structure of each project makes it developers difficult to und
 
 ## Structure
 
-> **Note:**
-> - `__init__.py` is omitted
-> - Every file/directory name should be [snake_case](https://en.wikipedia.org/wiki/Snake_case)
+> **IMPORTANT:** Every file/directory name should be [snake_case](https://en.wikipedia.org/wiki/Snake_case)
+
+> **Note:** `__init__.py` is omitted
 
 <pre>
     •
