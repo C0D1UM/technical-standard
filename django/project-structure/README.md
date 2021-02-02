@@ -14,6 +14,8 @@ The difference in structure of each project makes it developers difficult to und
     •
     ├── [project_name]/
     │   ├── apps/
+    │   │   ├── common/ <sup><a href="#19-common-application">19</a></sup>
+    │   │   │   └── ..
     │   │   ├── [app1_name]/ <sup><a href="#1-application-name">1</a></sup>
     │   │   │   ├── management/
     │   │   │   │   └── commands/
@@ -75,7 +77,7 @@ The difference in structure of each project makes it developers difficult to und
 
 #### <sup>[1]</sup> Application Name
 
-Every applciation name should be **noun**, is in the **plural** form, and using underscore (`_`) to improve readability <sup>[*]</sup>.
+Every applciation name should be **noun**, is in the **plural** form, and using underscore (`_`) to improve readability <sup>[*]</sup>. `common` is an exception.
 
 ```python
 memos            # Yes
@@ -164,3 +166,9 @@ Contains **utility** functions which are not related with the business logic. Fo
 #### <sup>[18]</sup> Requirements
 
 Using [`pip-tools`](https://github.com/jazzband/pip-tools) you can compile `requirements.in` into `requirements.txt` automatically.
+
+#### <sup>[19]</sup> `common` Application
+
+The `common` application is the application that you can put any code which is reused in many applications. You can put filters, permission classes, managers, and etc here. This is because of the [DRY](https://en.wikipedia.org/wiki/Don%27t_repeat_yourself) principle.
+
+> Note: Inside `common` application, it should follow the standard of application as well.
