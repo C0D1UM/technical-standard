@@ -19,28 +19,28 @@ The difference in structure of each project makes it developers difficult to und
     │   │   │   │   └── commands/
     │   │   │   ├── migrations/
     │   │   │   ├── templates/
-    │   │   │   │   ├── css/
-    │   │   │   │   ├── fonts/
-    │   │   │   │   ├── images/
+    │   │   │   │   ├── css/ <sup><a href="#11-static-for-applications-template">11</a></sup>
+    │   │   │   │   ├── fonts/ <sup><a href="#11-static-for-applications-template">11</a></sup>
+    │   │   │   │   ├── images/ <sup><a href="#11-static-for-applications-template">11</a></sup>
     │   │   │   │   └── [template_name].html
     │   │   │   ├── tests/
     │   │   │   │   ├── test_[topic_name].py
     │   │   │   │   └── ..
     │   │   │   ├── admin.py
     │   │   │   ├── apps.py
-    │   │   │   ├── choices.py
+    │   │   │   ├── choices.py <sup><a href="#12-choicespy">12</a></sup>
     │   │   │   ├── exceptions.py
-    │   │   │   ├── factories.py
-    │   │   │   ├── filters.py
-    │   │   │   ├── functions.py
+    │   │   │   ├── factories.py <sup><a href="#13-factoriespy">13</a></sup>
+    │   │   │   ├── filters.py <sup><a href="#14-filterspy">14</a></sup>
+    │   │   │   ├── functions.py <sup><a href="#15-functionspy">15</a></sup>
     │   │   │   ├── managers.py
     │   │   │   ├── models.py
     │   │   │   ├── paginations.py
     │   │   │   ├── permissions.py
     │   │   │   ├── serializers.py
     │   │   │   ├── signals.py
-    │   │   │   ├── tasks.py
-    │   │   │   ├── utils.py
+    │   │   │   ├── tasks.py <sup><a href="#16-taskspy">16</a></sup>
+    │   │   │   ├── utils.py <sup><a href="#17-utilspy">17</a></sup>
     │   │   │   └── views.py
     │   │   │   └── ..
     │   │   ├── [app2_name]/
@@ -124,3 +124,39 @@ It is not required if your application is not using [WSGI](https://docs.djangopr
 #### <sup>[10]</sup> Static Across Applications
 
 Static files here should be used across many applications in the project.
+
+#### <sup>[11]</sup> Static for Application's Template
+
+Static files here should be used only in the certain application's template.
+
+#### <sup>[12]</sup> `choices.py`
+
+Contains [Django's Enumeration types](https://docs.djangoproject.com/en/3.1/ref/models/fields/#enumeration-types) class definitions
+
+#### <sup>[13]</sup> `factories.py`
+
+Contains [Factory Boy](https://factoryboy.readthedocs.io/) factories
+
+#### <sup>[14]</sup> `filters.py`
+
+Contains [django-filter](https://django-filter.readthedocs.io/) classes
+
+#### <sup>[15]</sup> `functions.py`
+
+Contains functions which are related with the business logic. Most of functions should be in this file. For example:
+
+- Function to calculate SLA from work hour
+- Function to removing expired products
+- etc
+
+#### <sup>[16]</sup> `tasks.py`
+
+Contains [Celery](https://docs.celeryproject.org/en/stable/index.html) tasks
+
+#### <sup>[17]</sup> `utils.py`
+
+Contains **utility** functions which are not related with the business logic. For example:
+
+- Date formatting
+- Manipulating string
+- etc
