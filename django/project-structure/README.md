@@ -70,7 +70,7 @@ It should contains only [Django's urlpatterns](https://docs.djangoproject.com/en
 
 See: [Flake8](https://flake8.pycqa.org/en/latest/)
 
-### <sup>[5]</sup> `.coveragerc
+### <sup>[5]</sup> `.coveragerc`
 
 See: [Coverage.py](https://coverage.readthedocs.io/)
 
