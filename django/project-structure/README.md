@@ -30,8 +30,9 @@ The difference in structure of each project makes it developers difficult to und
     │   │   └── LC_MESSAGES/
     │   │       └── django.po
     │   └── ..
-    ├── static/
+    ├── static/ <sup><a href="#10-static-across-applications">10</a></sup>
     │   ├── css/
+    │   ├── fonts/
     │   ├── images/
     │   └── ..
     ├── .flake8 <sup><a href="#4-flake8">4</a></sup>
@@ -81,14 +82,18 @@ It should contains only `gitignore` for Django/Python application only.
 
 See: [What is .gitignore?](https://www.freecodecamp.org/news/gitignore-what-is-it-and-how-to-add-to-repo/)
 
-#### <sup>7</sup> `asgi.py`
+#### <sup>[7]</sup> `asgi.py`
 
 It is not required if your application is not using [ASGI](https://docs.djangoproject.com/en/3.1/howto/deployment/asgi/).
 
-#### <sup>8</sup> `celery.py`
+#### <sup>[8]</sup> `celery.py`
 
 It is not required if your application is not using [Celery](https://docs.celeryproject.org/en/stable/index.html).
 
-#### <sup>9</sup> `wsgi.py`
+#### <sup>[9]</sup> `wsgi.py`
 
 It is not required if your application is not using [WSGI](https://docs.djangoproject.com/en/3.1/howto/deployment/wsgi/).
+
+#### <sup>[10]</sup> Static Across Applications
+
+Static files here should be used across many applications in the project.
