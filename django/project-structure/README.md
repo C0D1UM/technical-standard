@@ -14,16 +14,16 @@ The difference in structure of each project makes it developers difficult to und
     •
     ├── [project_name]/
     │   ├── apps/
-    │   │   ├── [app1_name]/ <sup><a href="#application-name">?</a></sup>
+    │   │   ├── [app1_name]/ <sup><a href="#application-name">1</a></sup>
     │   │   │   └── ..
     │   │   ├── [app2_name]/
     │   │   │   └── ..
     │   │   └── ..
-    │   ├── api_urls.py <sup><a href="#api-urls">?</a></sup>
+    │   ├── api_urls.py <sup><a href="#api-urls">2</a></sup>
     │   ├── asgi.py
     │   ├── celery.py
     │   ├── settings.py
-    │   ├── urls.py <sup><a href="#urls">?</a></sup>
+    │   ├── urls.py <sup><a href="#urls">3</a></sup>
     │   └── wsgi.py
     ├── locales/
     │   └── [lang]/
@@ -33,9 +33,9 @@ The difference in structure of each project makes it developers difficult to und
     │   ├── css/
     │   ├── images/
     │   └── ..
-    ├── .flake8 <sup><a href="#flake8">?</a></sup>
-    ├── .coveragerc <sup><a href="#coveragepy">?</a></sup>
-    ├── .gitignore <sup><a href="#gitignore">?</a></sup>
+    ├── .flake8 <sup><a href="#flake8">4</a></sup>
+    ├── .coveragerc <sup><a href="#coveragepy">5</a></sup>
+    ├── .gitignore <sup><a href="#gitignore">6</a></sup>
     ├── Dockerfile
     ├── manage.py
     ├── requirements.in
@@ -44,9 +44,9 @@ The difference in structure of each project makes it developers difficult to und
 
 ## Explanation
 
-### Application Name
+### <sup>[1]</sup> Application Name
 
-Every applciation name should be **noun**, is in the **plural** form, and using underscore (`_`) to improve readability <sup>[1]</sup>.
+Every applciation name should be **noun**, is in the **plural** form, and using underscore (`_`) to improve readability <sup>[*]</sup>.
 
 ```python
 memos            # Yes
@@ -56,24 +56,24 @@ person           # No, because it is in singular form
 externalservices # No, because it didn't use underscore
 ```
 
-<sup>[1]</sup> There is no best practice choosing between singular or plural form but it should match [PEP8's Package and Module Names](https://www.python.org/dev/peps/pep-0008/#package-and-module-names).
+<sup>[*]</sup> There is no best practice choosing between singular or plural form but it should match [PEP8's Package and Module Names](https://www.python.org/dev/peps/pep-0008/#package-and-module-names).
 
-### API URLs
+### <sup>[2]</sup> API URLs
 
 It should contains only [Django REST Framework's router and urlpatterns](https://www.django-rest-framework.org/api-guide/routers/).
 
-### URLs
+### <sup>[3]</sup> URLs
 
 It should contains only [Django's urlpatterns](https://docs.djangoproject.com/en/3.1/topics/http/urls/).
 
-### Flake8
+### <sup>[4]</sup> Flake8
 
 [Documentation](https://flake8.pycqa.org/en/latest/)
 
-### Coverage.py
+### <sup>[5]</sup> Coverage.py
 
 [Documentation](https://coverage.readthedocs.io/)
 
-### .gitignore
+### <sup>[6]</sup> .gitignore
 
 [What is .gitignore?](https://www.freecodecamp.org/news/gitignore-what-is-it-and-how-to-add-to-repo/)
