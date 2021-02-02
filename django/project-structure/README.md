@@ -26,9 +26,10 @@ The difference in structure of each project makes it developers difficult to und
     │   ├── urls.py <sup><a href="#3-urlspy">3</a></sup>
     │   └── wsgi.py <sup><a href="#9-wsgipy">9</a></sup>
     ├── locales/
-    │   └── [lang]/
-    │       └── LC_MESSAGES/
-    │           └── django.po
+    │   ├── [lang]/
+    │   │   └── LC_MESSAGES/
+    │   │       └── django.po
+    │   └── ..
     ├── static/
     │   ├── css/
     │   ├── images/
