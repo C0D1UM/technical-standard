@@ -19,7 +19,7 @@ The difference in structure of each project makes it developers difficult to und
     │   │   ├── [app2_name]/
     │   │   │   └── ..
     │   │   └── ..
-    │   ├── api_urls.py <sup><a href="#2-api-urlspy">2</a></sup>
+    │   ├── api_urls.py <sup><a href="#2-api_urlspy">2</a></sup>
     │   ├── asgi.py <sup><a href="#7-asgipy">7</a></sup>
     │   ├── celery.py <sup><a href="#8-celerypy">8</a></sup>
     │   ├── settings.py
@@ -66,7 +66,7 @@ It should contains only [Django REST Framework's router and urlpatterns](https:/
 
 #### <sup>[3]</sup> `urls.py`
 
-It should contains only [Django's urlpatterns](https://docs.djangoproject.com/en/3.1/topics/http/urls/).
+It should contains only top-level `urlpatterns`. That is `urlpatterns` from any other packages including [`api_urls.py`](#2-api_urlspy)
 
 #### <sup>[4]</sup> `.flake8`
 
