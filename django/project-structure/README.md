@@ -15,6 +15,33 @@ The difference in structure of each project makes it developers difficult to und
     ├── [project_name]/
     │   ├── apps/
     │   │   ├── [app1_name]/ <sup><a href="#1-application-name">1</a></sup>
+    │   │   │   ├── management/
+    │   │   │   │   └── commands/
+    │   │   │   ├── migrations/
+    │   │   │   ├── templates/
+    │   │   │   │   ├── css/
+    │   │   │   │   ├── fonts/
+    │   │   │   │   ├── images/
+    │   │   │   │   └── [template_name].html
+    │   │   │   ├── tests/
+    │   │   │   │   ├── test_[topic_name].py
+    │   │   │   │   └── ..
+    │   │   │   ├── admin.py
+    │   │   │   ├── apps.py
+    │   │   │   ├── choices.py
+    │   │   │   ├── exceptions.py
+    │   │   │   ├── factories.py
+    │   │   │   ├── filters.py
+    │   │   │   ├── functions.py
+    │   │   │   ├── managers.py
+    │   │   │   ├── models.py
+    │   │   │   ├── paginations.py
+    │   │   │   ├── permissions.py
+    │   │   │   ├── serializers.py
+    │   │   │   ├── signals.py
+    │   │   │   ├── tasks.py
+    │   │   │   ├── utils.py
+    │   │   │   └── views.py
     │   │   │   └── ..
     │   │   ├── [app2_name]/
     │   │   │   └── ..
