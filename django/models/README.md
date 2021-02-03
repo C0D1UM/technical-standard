@@ -111,7 +111,7 @@ Model Controller is a third party library that we use to keep track of data
 in each row, sometimes we would like to know when this row was create or
 update or who create or update this row.
 
-For installation and setup 
+For installation and setup
 [read here](https://github.com/NorakGithub/django-model-controller) <sup>1</sup>
 
 ```python
@@ -123,18 +123,15 @@ class Person(AbstractSoftDeletionModelController):
 ```
 
 With this abstract class you get 5 fields:
-- `alive`: instead of delete row from database we just change the `alive`
-field to `null`, so that we can recover this row later.
-- `created_user/updated_user`: these fields are foreign key to `User` model.
-If you are using `ModelControllerSerializer` it will automatically add these
-field for you.
-- `created_at/updated_at`: these fields store the datetime fields when the
-record was created or latest update.
 
-Two important things you need to know after extend 
+- `alive`: instead of delete row from database we just change the `alive` field to `null`, so that we can recover this row later.
+- `created_user/updated_user`: these fields are foreign key to `User` model. If you are using `ModelControllerSerializer` it will automatically add these field for you.
+- `created_at/updated_at`: these fields store the datetime fields when the record was created or latest update.
+
+Two important things you need to know after extend
 `AbstractSoftDeletionModelController`:
-- It overwrite the `delete()` method so that when you call delete method in
-your model object it update `alive = null` instead of actual delete the object.
+
+- It overwrite the `delete()` method so that when you call delete method in your model object it update `alive = null` instead of actual delete the object.
 - It provided you with two managers `objects` and `all_objects`
 
 ```python
