@@ -114,12 +114,22 @@ By default the related name of a relationship field is `{field_name}_set`,
 so by adding `related_name` parameter make the code cleaner and more readable.
 
 ```python
-person = Person.objects.first()
-
 # Yes
+class Employee(models.Model):
+    person = models.ForeignKey(
+        to='people.Person',
+        on_delete.CASCADE,
+        related_name='employees'
+    )
+
+person = Person.objects.first()
 person.employees.all()
 
 # No
+class Employee(models.Model):
+    person = models.ForeignKey(to='people.Person', on_delete.CASCADE)
+
+person = Person.objects.first()
 person.employee_set.all()
 ```
 
