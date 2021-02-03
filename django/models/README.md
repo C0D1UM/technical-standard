@@ -2,19 +2,19 @@
 
 Best practices for creating your model
 ## Table of Contents
-
 - Common
 - Fields
 - Model Controller
 - Managers
 ## Common
-
 These are some of the best practices that you should add to your model class.
 
 ### The String Representation Function
 
 By default django will use id when we try to print the object.
+
 ```python
+
 obj = Model.objects.first()
 print(obj)
 >>> <Model: 1>
