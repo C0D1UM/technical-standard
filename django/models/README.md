@@ -173,7 +173,8 @@ Person.all_objects.all()
 ### Unique
 
 When using `AbstractSoftDeletionModelController` if you want to make field value
-unique, make sure you use `unique_together` instead of field unique.
+unique, make sure you use `unique_together` with `alive` field instead of
+field unique. Use `UniqueConstraint` with Django >= 2.0.
 
 ```python
 # Yes
@@ -181,7 +182,12 @@ class Person(AbstractSoftDeletionModelController):
     username = model.CharField(max_length=100)
 
     class Meta:
+        # Django <= 1.9
         unique_together = ('username', 'alive')
+        # Django >= 2.0
+        constaints = (
+            models.UniqueConstraint(fields=('username', 'alive'), name='unique-username')
+        )
 
 
 # No
