@@ -1,13 +1,13 @@
 # Model
 
-Best practices for creating your model
+Best practices for creating model class.
 
 ## Table of Contents
 
-- Common
-- Fields
-- Model Controller
-- Managers
+- [Common](#common)
+- [Fields](#fields)
+- [Model Controller](#model-controller)
+- [Managers](#managers)
 
 ## Common
 
@@ -21,7 +21,7 @@ By default django will use id when we try to print the object.
 
 obj = Model.objects.first()
 print(obj)
->>> <Model: 1>
+>>> <Model: (1)>
 ```
 
 It's easier to debug when you get more information regarding the object.
@@ -57,7 +57,7 @@ because this could lead to performance problem.
 def __str__(self):
     return f'{self.first_name} {self.last_name} {self.position.name}'
 
-# If you query is not select_related position, this will hit database
+# If your query is not select_related position, this will hit database
 # with the amount of people.
 ```
 
@@ -108,7 +108,7 @@ class Employee(models.Model):
     person = models.ForeignKey(to=Person, on_delete=models.CASCADE)
 ```
 
-#### Related Name
+### Related Name
 
 By default the related name of a relationship field is `{field_name}_set`,
 so by adding `related_name` parameter make the code cleaner and more readable.
@@ -146,10 +146,10 @@ With this abstract class you get 5 fields:
 - `created_user/updated_user`: these fields are foreign key to `User` model. If you are using `ModelControllerSerializer` it will automatically add these field for you.
 - `created_at/updated_at`: these fields store the datetime fields when the record was created or latest update.
 
-Two important things you need to know after extend
+Two important things you need to know after extended
 `AbstractSoftDeletionModelController`:
 
-- It overwrite the `delete()` method so that when you call delete method in your model object it update `alive = null` instead of actually delete the object.
+- It overwrite the `delete()` method so that when you call delete method in your model object it will update `alive = null` instead of actually delete the object.
 - It provided you with two managers `objects` and `all_objects`
 
 ```python
