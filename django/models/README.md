@@ -50,7 +50,7 @@ Best practices when defining field in model.
 
 ### Naming
 
-- Field name should be **noun** and in **singular** form, except 
+- Field name should be **noun** and in **singular** form, except
 for many-to-many field should be **plural** form.
 - Use past tense with boolean field.
 - Do not repeat model name in field name.
@@ -74,8 +74,8 @@ class Person(models.Model):
 
 ### Relationship Fields
 
-- When defining foreign key in a model you should use lazy reference instead 
-of importing the model class directly, preventing recursive import exception. 
+- When defining foreign key in a model you should use lazy reference instead
+of importing the model class directly, preventing recursive import exception.
 [Read more](https://docs.djangoproject.com/en/3.1/ref/models/fields/#foreignkey)
 - Always add related name parameter to foreign key or many to many field.
 
@@ -92,7 +92,7 @@ class Employee(models.Model):
 
 #### Related Name
 
-By default the related name of a relationship field is `{field_name}_set`, 
+By default the related name of a relationship field is `{field_name}_set`,
 so by adding `related_name` parameter make the code cleaner and more readable.
 
 ```python
@@ -107,8 +107,8 @@ person.employee_set.all()
 
 ## Model Controller
 
-Model Controller is a third party library that we use to keep track of data 
-in each row, sometimes we would like to know when this row was create or 
+Model Controller is a third party library that we use to keep track of data
+in each row, sometimes we would like to know when this row was create or
 update or who create or update this row.
 
 For installation and setup 
@@ -123,17 +123,17 @@ class Person(AbstractSoftDeletionModelController):
 ```
 
 With this abstract class you get 5 fields:
-- `alive`: instead of delete row from database we just change the `alive` 
+- `alive`: instead of delete row from database we just change the `alive`
 field to `null`, so that we can recover this row later.
-- `created_user/updated_user`: these fields are foreign key to `User` model. 
-If you are using `ModelControllerSerializer` it will automatically add these 
+- `created_user/updated_user`: these fields are foreign key to `User` model.
+If you are using `ModelControllerSerializer` it will automatically add these
 field for you.
-- `created_at/updated_at`: these fields store the datetime fields when the 
+- `created_at/updated_at`: these fields store the datetime fields when the
 record was created or latest update.
 
 Two important things you need to know after extend 
 `AbstractSoftDeletionModelController`:
-- It overwrite the `delete()` method so that when you call delete method in 
+- It overwrite the `delete()` method so that when you call delete method in
 your model object it update `alive = null` instead of actual delete the object.
 - It provided you with two managers `objects` and `all_objects`
 
@@ -146,10 +146,11 @@ Person.all_objects.all()
 ```
 
 ## Managers
-This is where you add reusable query, it make query more maintainable and 
+
+This is where you add reusable query, it make query more maintainable and
 readable.
 
-If you are using `AbstractSoftDeletionModelController` make sure to extend 
+If you are using `AbstractSoftDeletionModelController` make sure to extend
 your manager from `SoftDeletionManager`.
 
 ```python
@@ -178,10 +179,11 @@ people = Person.objects.get_with_employees()
 ```
 
 ### Reference
+
 - [Official Doc](https://docs.djangoproject.com/en/3.1/topics/db/managers/)
-- [Project Structure](django/project-structure/README.md) 
+- [Project Structure](django/project-structure/README.md)
 (where should your manager be)
 
 ___
-<sup>1</sup> *At the time of writting, the latest version is 
+<sup>1</sup> *At the time of writting, the latest version is
 `django-model-controller==0.4.2`*.
