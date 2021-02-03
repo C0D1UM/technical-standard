@@ -30,6 +30,11 @@ It's easier to debug when you get more information regarding the object.
 class Person(models.Model):
     first_name = models.CharField(max_length=50)
     last_name = models.CharField(max_length=50)
+    position = models.ForeignKey(
+        to='people.Position',
+        on_delete=models.CASCADE,
+        related_name='people',
+    )
 
     # String function that you should add
     def __str__(self):
@@ -44,6 +49,18 @@ print(person)
 >>> <Person: Khemanorak Khath>
 ```
 
+**CAUCTION**: You should not use foreign key field in your string function,
+because this could lead to performance problem.
+
+```python
+# No
+def __str__(self):
+    return f'{self.first_name} {self.last_name} {self.position.name}'
+
+# If you query is not select_related position, this will hit database
+# with the amount of people.
+```
+
 ## Fields
 
 Best practices when defining field in model.
@@ -52,7 +69,7 @@ Best practices when defining field in model.
 
 - Field name should be **noun** and in **singular** form, except
 for many-to-many field should be **plural** form.
-- Use past tense with boolean field.
+- Boolean field should be **verb** with past tense.
 - Do not repeat model name in field name.
 - Related name parameter value should be **plural** form.
 
@@ -72,10 +89,11 @@ class Person(models.Model):
     is_active = models.BooleanFiled()
 ```
 
-### Relationship Fields
+### Relationship
 
-- When defining foreign key in a model you should use lazy reference instead
-of importing the model class directly, preventing recursive import exception.
+- When defining foreign key, one to one or many to many in a model it should be
+lazy reference instead of importing the model class directly, preventing
+recursive import exception.
 [Read more](https://docs.djangoproject.com/en/3.1/ref/models/fields/#foreignkey)
 - Always add related name parameter to foreign key or many to many field.
 
@@ -98,10 +116,10 @@ so by adding `related_name` parameter make the code cleaner and more readable.
 ```python
 person = Person.objects.first()
 
-# Yes: With related name
+# Yes
 person.employees.all()
 
-# No : Without related name
+# No
 person.employee_set.all()
 ```
 
@@ -131,7 +149,7 @@ With this abstract class you get 5 fields:
 Two important things you need to know after extend
 `AbstractSoftDeletionModelController`:
 
-- It overwrite the `delete()` method so that when you call delete method in your model object it update `alive = null` instead of actual delete the object.
+- It overwrite the `delete()` method so that when you call delete method in your model object it update `alive = null` instead of actually delete the object.
 - It provided you with two managers `objects` and `all_objects`
 
 ```python
@@ -141,6 +159,45 @@ Person.objects.all()
 # This will return all person rows in database include alive is null
 Person.all_objects.all()
 ```
+
+### Unique
+
+When using `AbstractSoftDeletionModelController` if you want to make field value
+unique, make sure you use `unique_together` instead of field unique.
+
+```python
+# Yes
+class Person(AbstractSoftDeletionModelController):
+    username = model.CharField(max_length=100)
+
+    class Meta:
+        unique_together = ('username', 'alive')
+
+
+# No
+class Person(AbstractSoftDeletionModelController):
+    username = models.CharField(max_length=100, unique=True)
+```
+
+By using `unique_together` it allow you to create only 1 record if it's alive,
+you can recreate the same object if `alive is null`.
+
+**FAQ:** Why we set alive to null instead of false when delete?
+
+| id | username | alive |
+| -- | -------- | ----- |
+| 1  | sample   | false |
+| 2  | sample   | fasle |
+
+If you are using unique together, this case is not possible because data with id
+1 is already exists.
+
+| id | username | alive |
+| -- | -------- | ----- |
+| 1  | sample   | null  |
+| 2  | sample   | null  |
+
+This case is possible because database will ignore null field.
 
 ## Managers
 
