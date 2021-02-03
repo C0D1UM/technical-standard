@@ -49,7 +49,7 @@ print(person)
 >>> <Person: Khemanorak Khath>
 ```
 
-**CAUCTION**: You should not use foreign key field in your string function,
+**CAUTION**: You should not use foreign key field in your string function,
 because this could lead to performance problem.
 
 ```python
