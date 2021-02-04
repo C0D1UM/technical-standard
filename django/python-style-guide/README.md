@@ -22,7 +22,7 @@ Imports should be grouped in the following order
 * third party libraries
 * local modules
 
-Each group should be sorted lexicographically, ignoring case,separate by a newline, e.g.
+Each group should be sorted lexicographically, ignoring case, separate by an empty line, e.g.
 
 ```python
 import collections
