@@ -96,7 +96,7 @@ lazy reference instead of importing the model class directly, preventing
 circular or recursive import exception.
 [Read more](https://docs.djangoproject.com/en/3.1/ref/models/fields/#foreignkey)
 - Always add related name parameter to foreign key or many to many field. If you
-don't want Django to create backward relation add '+' to the `related_name` parameter.
+don't want Django to create backward relation, add '+' to the `related_name` parameter.
 
 ```python
 # Yes
@@ -189,7 +189,7 @@ class Person(AbstractSoftDeletionModelController):
         # Django <= 1.9
         unique_together = ('username', 'alive')
         # Django >= 2.0
-        constaints = (
+        constraints = (
             models.UniqueConstraint(fields=('username', 'alive'), name='unique-username')
         )
 
@@ -259,5 +259,5 @@ people = Person.objects.get_with_employees()
 (where should your manager be)
 
 ___
-<sup>1</sup> *At the time of writting, the latest version is
+<sup>1</sup> *At the time of writing, the latest version is
 `django-model-controller==0.4.2`*.
