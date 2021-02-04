@@ -6,13 +6,13 @@ We follow [Google style guide for Python](https://google.github.io/styleguide/py
 
 ## Linting
 
-* You can use `pylint` with this [pylintc](https://google.github.io/styleguide/pylintrc) to check if your code is passed standard.
+* You can use `pylint` with this [pylintc](https://google.github.io/styleguide/pylintrc) to check if your code passed the standard.
 
 ## Formatter
 
 * You can use [yapf](https://github.com/google/yapf/) to avoid arguing over formatting.
-* For Pycharm user you can configure `yapf` as external tools see [How to config Pycharm](PYCHARM.md).
-* For VSCode user in `setting.json` set `python.formatting.provider: "yapf"`
+* For PyCharm users, you can configure `yapf` as an external tool, see [How to config Pycharm](PYCHARM.md).
+* For VSCode users, in `setting.json` set `python.formatting.provider: "yapf"`
 
 ## Imports
 
@@ -159,7 +159,7 @@ file = open('file.txt')
 file.close()
 ```
 
-For psycopg2 connection you should use [try catch](https://www.psycopg.org/docs/usage.html#with-statement) style
+For psycopg2 connection, you should use [try catch](https://www.psycopg.org/docs/usage.html#with-statement) style.
 
 ```python
 conn = psycopg2.connect(DSN)
