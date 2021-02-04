@@ -36,8 +36,11 @@ plugins:
   - jekyll-titles-from-headings
   - jekyll-toc
 
-# defaults:
-#   - toc: true
+defaults:
+- scope:
+    path: ""
+  values:
+    toc: true
 
 readme_index:
   remove_originals: true
