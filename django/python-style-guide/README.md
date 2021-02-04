@@ -18,7 +18,7 @@ We follow [Google style guide for Python](https://google.github.io/styleguide/py
 
 Imports should be grouped in the following order
 
-* stdlib
+* standard libraries
 * third party libraries
 * local modules
 
