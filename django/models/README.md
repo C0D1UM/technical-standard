@@ -75,7 +75,7 @@ for many-to-many field should be **plural** form.
 
 ```python
 class Person(models.Model):
-    # Yes: Signular noun
+    # Yes: Singular noun
     first_name = models.CharField(max_length=100)
     # No : Repeat model name person
     person_first_name = models.CharField(max_length=100)
@@ -93,14 +93,18 @@ class Person(models.Model):
 
 - When defining foreign key, one to one or many to many in a model it should be
 lazy reference instead of importing the model class directly, preventing
-recursive import exception.
+circular or recursive import exception.
 [Read more](https://docs.djangoproject.com/en/3.1/ref/models/fields/#foreignkey)
-- Always add related name parameter to foreign key or many to many field.
+- Always add related name parameter to foreign key or many to many field. If you
+don't want Django to create backward relation add '+' to the `related_name` parameter.
 
 ```python
 # Yes
 class Employee(models.Model):
+    # Create backward relation
     person = models.ForeignKey(to='people.Person', on_delete=models.CASCADE, related_name='employees')
+    # Do not create backward relation
+    person = models.ForeignKey(to='people.Person', on_delete=models.CASCADE, related_name='+')
 
 # No
 from people.models import Person
