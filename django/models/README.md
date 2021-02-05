@@ -258,6 +258,6 @@ people = Person.objects.get_with_employees()
 - [Project Structure](django/project-structure/README.md)
 (where should your manager be)
 
-___
+---
 <sup>1</sup> *At the time of writing, the latest version is
 `django-model-controller==0.4.2`*.
