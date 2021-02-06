@@ -29,18 +29,13 @@ github_username:  c0d1um
 # Build settings
 theme: minima
 markdown: GFM
-source: ..
 plugins:
   - jekyll-feed
   - jekyll-readme-index
   - jekyll-titles-from-headings
-  - jekyll-toc
 
-defaults:
-- scope:
-    path: ""
-  values:
-    toc: true
+header_pages:
+  - django/README.md
 
 readme_index:
   remove_originals: true
