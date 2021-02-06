@@ -28,7 +28,7 @@ class MyViewSet(ModelViewSet):
     permission_classes = (AllowAny,)
 ```
 
-## Customize Seriailizer
+## Customize Serializer
 
 If you want different serializer for GET/POST request, you can use following attribute:
 
