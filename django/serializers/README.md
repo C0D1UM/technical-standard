@@ -5,7 +5,8 @@
 Basic usage of ModelSerializer
 
 * Need to provide one of the attributes `fields` or `exclude`
-* If you need to write some custom fields, check [Third party packages](https://www.django-rest-framework.org/api-guide/serializers/#third-party-packages) first
+* Prefer to use [Third party packages](https://www.django-rest-framework.org/api-guide/serializers/#third-party-packages) instead of writing on your own
+* Use `select_related` and `prefetch_related` to improve queries performance
 
 ```python
 # serializers.py
@@ -66,9 +67,7 @@ class AccountSerializer(serializers.ModelSerializer):
 
 ### SerializerMethodField
 
-SerializerMethodField is a read only field that computes its value at request processing time.
-Be careful, always use `prefetch_related` or `select_related` on the queryset when it's hit the database.
-Sometimes you might not need this. If it's just a property of object you can use `source` instead.
+If it's just a property of object you can use `source` instead
 
 ```python
 # serializers.py
@@ -82,7 +81,7 @@ class ProfileSerializer(serializers.ModelSerializer):
 class ProfileSerializer(serializers.ModelSerializer):
     username = serializers.SerializerMethodField()
 
-    def get_age(self, obj):
+    def get_username(self, obj):
         return obj.username
 
 ```
@@ -130,9 +129,66 @@ class EmailSerializer(serializers.ModelSerializer):
 
 ```
 
-
 ## Validation
+
+* Prefer to use [DRF Validators](https://www.django-rest-framework.org/api-guide/validators/) over custom validation functions
 
 ### Field level Validation
 
+Your `validate_<field_name>` methods should return a validated value or raise `serializers.ValidationError`
+
+```python
+from rest_framework import serializers
+
+# Yes
+class BlogPostSerializer(serializers.Serializer):
+    title = serializers.CharField(max_length=100)
+    content = serializers.CharField()
+
+    def validate_title(self, value):
+        if 'django' not in value.lower():
+            raise serializers.ValidationError("Blog post is not about Django")
+        return value
+
+
+# No 
+class BlogPostSerializer(serializers.Serializer):
+    title = serializers.CharField(max_length=100)
+    content = serializers.CharField()
+
+    def validate_title(self, value):
+        if 'django' not in value.lower():
+            raise ValueError("Blog post is not about Django")
+        return value
+```
+
 ### Object level validation
+
+Do not manipulate the data while doing object level validation
+
+```python
+from rest_framework import serializers
+
+# Yes
+class EventSerializer(serializers.Serializer):
+    description = serializers.CharField(max_length=100)
+    start = serializers.DateTimeField()
+    finish = serializers.DateTimeField()
+
+    def validate(self, data):
+        if data['start'] > data['finish']:
+            raise serializers.ValidationError("finish must occur after start")
+        return data
+
+# No
+class EventSerializer(serializers.Serializer):
+    description = serializers.CharField(max_length=100)
+    start = serializers.DateTimeField()
+    finish = serializers.DateTimeField()
+
+    def validate(self, data):
+        data['description'] = 'some description'
+        if data['start'] > data['finish']:
+            raise serializers.ValidationError("finish must occur after start")
+        return data
+```
