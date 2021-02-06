@@ -21,7 +21,7 @@
 title: CODIUM Technical Standard
 email: contact@codium.co
 description: >- # this means to ignore newlines until "baseurl:"
-  Technical Standard
+  CODIUM Co., Ltd.
 baseurl: "" # the subpath of your site, e.g. /blog
 url: "https://codium.co"
 github_username:  c0d1um
