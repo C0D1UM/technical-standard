@@ -34,6 +34,13 @@ plugins:
   - jekyll-readme-index
   - jekyll-titles-from-headings
 
+defaults:
+  # hide ToC
+  - scope:
+      path: 'README.md'
+    values:
+      hide_toc: true
+
 header_pages:
   - django/README.md
 
