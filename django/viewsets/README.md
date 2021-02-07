@@ -1,6 +1,8 @@
-# ModelViewset
+# ViewSets
 
-## Basic ModelViewSet
+## ModelViewset
+
+### Basic ModelViewSet
 Basic usage of ModelViewset is to define 2 objects
  * queryset - database query for your model
  * serializer_class - class for converting model query into JSON string.
@@ -9,14 +11,14 @@ Basic usage of ModelViewset is to define 2 objects
 from rest_framework.viewsets import ModelViewSet
 
 class MyViewSet(ModelViewSet):
-    # define queryset. 
+    # define queryset.
     queryset = myModel.objects.all()
 
     # define serializer.
     serializer_class = myModelSerializer
 ```
 
-## Skip Authenitcation Checking
+### Skip Authenitcation Checking
 Use AllowAny if you want to skip authentication checking.
 ```py
 class MyViewSet(ModelViewSet):
@@ -24,7 +26,7 @@ class MyViewSet(ModelViewSet):
     permission_classes = (AllowAny,)
 ```
 
-## Customize Seriailizer
+### Customize Seriailizer
 If you want different serializer for GET/POST request, you can use following attribute:
  * list_serializer_class - for GET request
  * retrieve_serializer_class - for GET request with item ID
@@ -62,7 +64,7 @@ class MyViewSet(ModelViewSet):
 ```
 
 
-## Use Django Built-in FilterClass/Ordering
+### Use Django Built-in FilterClass/Ordering
 For simple search/filter/ordering, use Django built-in FilterClass. To setup, run `pip install django-filter`. Then add `'django_filters'` to Django's `INSTALLED_APPS`
 
 ```py
@@ -73,14 +75,14 @@ class MyViewSet(ModelViewSet):
     filter_backends = [filters.SearchFilter, DjangoFilterBackend, filters.OrderingFilter]
 
     # DjangoFilterBackend used for equality filter.
-    #   Ex. localhost:8000/api/department/?name=ABC 
+    #   Ex. localhost:8000/api/department/?name=ABC
     #      it will search for name='ABC'
-    #   Ex. localhost:8000/api/department/?name_en=ABC 
+    #   Ex. localhost:8000/api/department/?name_en=ABC
     #      it will search for name_en='ABC'
     filterset_fields = ['name', 'name_en']
 
-    # SearchFilter used for search multiple fields at once. 
-    # Ex. localhost:8000/api/department/?search=ABC 
+    # SearchFilter used for search multiple fields at once.
+    # Ex. localhost:8000/api/department/?search=ABC
     #    it will search for field 'name' contains 'ABC' or 'name_en' contains 'ABC'
     search_fields = ['name', 'name_en', ]
 
@@ -97,7 +99,7 @@ class MyViewSet(ModelViewSet):
 class MyViewSet(ModelViewSet):
     def get_queryset(self):
         queryset = super().get_queryset()
-        
+
         name = self.request.GET.get('name')
         if name:
             queryset = queryset.filter(name=name)
@@ -116,7 +118,7 @@ class MyViewSet(ModelViewSet):
 
 ```
 
-## Use Custom FilterClass
+### Use Custom FilterClass
 In case that Django Built-In FilterClass does not meet with your requirements. You can create your own FilterClass and set in ModelViewset below.
 ```py
 class MyViewSet(ModelViewSet):
@@ -125,21 +127,21 @@ class MyViewSet(ModelViewSet):
 
     def get_queryset(self):
         #
-        # In case you want to modify queryset. 
+        # In case you want to modify queryset.
         # This function will be called before queryset goes to FilterClass
         #
         queryset = super().get_queryset()
-        
+
         #
         # do something here. Ex. You can add .select_related() to queryset in some conditions.
-        # 
+        #
         if some_conditions:
             queryset = queryset.select_related('...')
-        
+
         return queryset
 ```
 
-## Customize HTTP Method
+### Customize HTTP Method
 You should limit http method that user can call to the server. ModelViewset will enable all methods by default.
 ```py
 # Good
@@ -152,7 +154,7 @@ class MyViewSet(ModelViewSet):
 class MyViewset(ModelViewSet):
     queryset = myModel.objects.all()
     serializer_class = myModelSerializer
-    
+
     def get_queryset(self):
         if not self.request.method in ['GET', 'POST', 'PATCH']:
             raise Exception('method invalid')
@@ -161,8 +163,8 @@ class MyViewset(ModelViewSet):
 ```
 
 
-## ReadOnlyModelViewset
-Use ReadonlyModelViewset if you want request in GET only. 
+### ReadOnlyModelViewset
+Use ReadonlyModelViewset if you want request in GET only.
 ```py
 # Good
 class MyViewSet(ReadOnlyModelViewSet):
@@ -178,7 +180,7 @@ class MyViewSet(ModelViewSet):
 ```
 
 
-# APIView
+## APIView
 Use APIView if request does not specifically belongs to some model. Use JsonResponse or Response instead of HttpResponse
 
 ```py
