@@ -1,0 +1,23 @@
+{% assign site_pages = site.pages | sort_natural: "title" %}
+{% assign page_dir = page.path | replace: "/README.md", "" %}
+
+{%- include toc_header.html -%}
+
+<ul>
+{% for site_page in site_pages %}
+
+    {% assign site_page_dir = site_page.path | replace: "/README.md", "" %}
+    {% assign path_wo_current = site_page.path | replace: site_page_dir, "" | replace_first: "/", "" %}
+
+    {% if path_wo_current contains "/" %}
+        {% continue %}
+    {% endif %}
+
+    {% if site_page_dir contains page_dir and site_page.path != page.path and (site_page.name == "README.md" or site_page.name == "index.md" or site_page.name == "index.html") %}
+    <li>
+        <a href="{{ site_page.url }}">{{ site_page.title }}</a>
+    </li>
+    {% endif %}
+
+{% endfor %}
+</ul>
