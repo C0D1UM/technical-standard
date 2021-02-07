@@ -4,7 +4,8 @@
     {% for header_page_path in site.header_pages %}
         {% for site_page in site.pages %}
             {% if site_page.path == header_page_path %}
-                <li><a href="{{ site_page.url }}">{{ site_page.title }}</a></li>
+                {% assign url = site_page.url | replace_first: "/" %}
+                <li><a href="{{ url }}">{{ site_page.title }}</a></li>
             {% endif %}
         {% endfor %}
     {% endfor %}
