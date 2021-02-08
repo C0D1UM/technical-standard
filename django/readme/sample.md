@@ -37,7 +37,7 @@ make run-django
     * admin
         * username:admin
         * password:P@ssword
-    * user: 
+    * user 
         * username:test_user
         * password:P@assword
 ## DB
