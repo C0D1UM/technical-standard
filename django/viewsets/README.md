@@ -70,6 +70,7 @@ class MyViewSet(ModelViewSet):
 ```
 
 ### Use Django Built-in FilterClass/Ordering
+
 For simple search/filter/ordering, use Django built-in FilterClass. To setup, run `pip install django-filter`. Then add `'django_filters'` to Django's `INSTALLED_APPS`
 
 ```py
@@ -190,6 +191,7 @@ class MyViewSet(ModelViewSet):
 ```
 
 ## APIView
+
 Use APIView if request does not specifically belongs to some model. Use JsonResponse or Response instead of HttpResponse
 
 ```py
