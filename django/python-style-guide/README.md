@@ -193,7 +193,6 @@ with conn:
         curs.execute(SQL2)
 ```
 
-
 ## Testing
 
 Always write unittest if you have enough time.
