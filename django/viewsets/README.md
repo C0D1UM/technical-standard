@@ -12,13 +12,13 @@ from rest_framework.viewsets import ModelViewSet
 
 class MyViewSet(ModelViewSet):
     # define queryset. 
-    queryset = myModel.objects.all()
+    queryset = MyModel.objects.all()
 
     # define serializer.
-    serializer_class = myModelSerializer
+    serializer_class = MyModelSerializer
 ```
 
-## Skip Authenitcation Checking
+## Skip Authentication Checking
 
 Use AllowAny if you want to skip authentication checking.
 
@@ -40,29 +40,29 @@ If you want different serializer for GET/POST request, you can use following att
 # Good:
 class MyViewSet(ModelViewSet):
     # define serializer for GET request
-    list_serializer_class = myModelListSerializer
+    list_serializer_class = MyModelListSerializer
 
     # define serializer for GET request with item ID
-    retrieve_serializer_class = myModelDetailSerializer
+    retrieve_serializer_class = MyModelDetailSerializer
 
     # define serializer for POST request
-    write_serializer_class = myModelWriteSerializer
+    write_serializer_class = MyModelWriteSerializer
 
 
 # Bad:
 class MyViewSet(ModelViewSet):
-    serializer_class = myModelSerializer
+    serializer_class = MyModelSerializer
 
     def get_serializer_class(self):
         serializer = super().get_serializer_class()
 
         if self.request.method == 'GET':
             if self.kwargs.get('pk'):
-                return myModelDetailSerializer
+                return MyModelDetailSerializer
             else:
-                return myModelListSerializer
+                return MyModelListSerializer
         elif self.request.method == 'POST':
-            return myModelWriteSerializer
+            return MyModelWriteSerializer
         else
             return serializer
 ```
@@ -85,7 +85,7 @@ class MyViewSet(ModelViewSet):
     #      it will search for name_en='ABC'
     filterset_fields = ['name', 'name_en']
 
-    # SearchFilter used for search multiple fields at once. 
+    # SearchFilter used for searching multiple fields at once. 
     # Ex. localhost:8000/api/department/?search=ABC 
     #    it will search for field 'name' contains 'ABC' or 'name_en' contains 'ABC'
     search_fields = ['name', 'name_en', ]
@@ -122,14 +122,48 @@ class MyViewSet(ModelViewSet):
 
 ```
 
+
+## Viewset Actions
+You can create custom url for viewset by using "Viewset Actions". It is better than creating separated APIViews.
+
+
+```py
+class MyViewset(viewsets.ModelViewSet):
+    queryset = MyModel.objects.all()
+    serializer_class = MyModelSerializer
+
+    @action(detail=False, methods=['GET'], url_name='my_reverse_url_name', url_path='my_url_path')
+    def my_custom_viewset_action(self, request):
+        # do something ...
+        return Response( ... )
+
+
+# in api_urls.py
+router.register(r'my-viewset', MyViewset)
+```
+So, you can call GET `localhost:8000/my-viewset/my_url_path/` which django will call function `my_custom_viewset_action`
+
+
+If you set `detail=True` in action parameters, you need to add `pk` parameter in your action function below. 
+
+```py
+@action(detail=True, methods=['GET'], url_name='my_reverse_url_name', url_path='my_url_path')
+def my_custom_viewset_action(self, request, pk):
+    # do something ...
+    return Response(queryset)
+```
+So, you call GET `localhost:8000/my-viewset/10/my_url_path/` which request will go to function `my_custom_viewset_action` with `pk=10`
+
+
+
 ## Use Custom FilterClass
 
-In case that Django Built-In FilterClass does not meet with your requirements. You can create your own FilterClass and set in ModelViewset below.
+In case that Django Built-In FilterClass does not meet your requirements. You can create your own FilterClass and set it in ModelViewset below.
 
 ```py
 class MyViewSet(ModelViewSet):
     # define filterclass
-    filter_class = myModelFilter
+    filter_class = MyModelFilter
 
     def get_queryset(self):
         #
@@ -154,14 +188,14 @@ You should limit http method that user can call to the server. ModelViewset will
 ```py
 # Good
 class MyViewSet(ModelViewSet):
-    queryset = myModel.objects.all()
-    serializer_class = myModelSerializer
+    queryset = MyModel.objects.all()
+    serializer_class = MyModelSerializer
     http_method_names = ['get', 'head', 'post', 'patch']
 
 # Bad
 class MyViewset(ModelViewSet):
-    queryset = myModel.objects.all()
-    serializer_class = myModelSerializer
+    queryset = MyModel.objects.all()
+    serializer_class = MyModelSerializer
     
     def get_queryset(self):
         if not self.request.method in ['GET', 'POST', 'PATCH']:
@@ -170,23 +204,39 @@ class MyViewset(ModelViewSet):
             return super().get_queryset()
 ```
 
-## ReadOnlyModelViewset
+## Generic Views
 
-Use ReadonlyModelViewset if you want request in GET only.
+### ReadOnlyModelViewSet
+Use ReadonlyModelViewset if you want request in GET and GET with item id only.
 
 ```py
 # Good
 class MyViewSet(ReadOnlyModelViewSet):
-    queryset = myModel.objects.all()
-    serializer_class = myModelSerializer
+    queryset = MyModel.objects.all()
+    serializer_class = MyModelSerializer
 
 
 # Bad
 class MyViewSet(ModelViewSet):
-    queryset = myModel.objects.all()
-    serializer_class = myModelSerializer
+    queryset = MyModel.objects.all()
+    serializer_class = MyModelSerializer
     http_method_names = ['get', 'head']
 ```
+
+### Other Generic Views
+Moreover, there are many generic views as follows
+| Generic View Class           | GET (Listing) | GET (item ID) | POST | PUT/PATCH | DELETE |
+|------------------------------|---------------|---------------|------|-----------|--------|
+| CreateAPIView                |               |               |   *  |           |        |
+| ListAPIView                  |       *       |               |      |           |        |
+| RetrieveAPIView              |               |       *       |      |           |        |
+| DestroyAPIView               |               |               |      |           |    *   |
+| UpdateAPIView                |               |               |      |     *     |        |
+| ListCreateAPIView            |       *       |               |   *  |           |        |
+| RetrieveUpdateAPIView        |               |       *       |      |     *     |        |
+| RetrieveDestroyAPIView       |               |       *       |      |           |    *   |
+| RetrieveUpdateDestroyAPIView |               |       *       |      |     *     |    *   |
+
 
 # APIView
 
