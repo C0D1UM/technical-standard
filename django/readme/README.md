@@ -1,7 +1,9 @@
 # Django README Instructions
+
 This page will give you recommendations on how to write `README.md` file for your Django project.
 
 ## Topics
+
 <pre>
     README.md
     ├── Requirements
@@ -37,4 +39,5 @@ This page will give you recommendations on how to write `README.md` file for you
 </pre>
 
 ## Example
+
 See sample [here](./sample.md)
