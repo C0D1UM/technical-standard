@@ -8,7 +8,7 @@ url: "https://codium.co"
 github_username:  c0d1um
 
 # Build settings
-theme: minima
+theme: jekyll-theme-slate
 markdown: GFM
 plugins:
   - jekyll-feed
