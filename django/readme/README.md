@@ -33,7 +33,7 @@ This page will give you recommendations on how to write `README.md` file for you
     │        # Steps for restore localhost DB
     │
     └── Other topics 
-         # For example, custom config celery/rabbitmq, setup some complex data, etc.
+         # For example, custom config Celery/RabbitMQ, setup some complex data, etc.
 </pre>
 
 ## Example
