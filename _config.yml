@@ -14,6 +14,9 @@ plugins:
   - jekyll-readme-index
   - jekyll-titles-from-headings
 
+header_pages:
+  - django/README.md
+
 readme_index:
   remove_originals: true
 
