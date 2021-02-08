@@ -122,7 +122,6 @@ class MyViewSet(ModelViewSet):
 
 ```
 
-
 ## Viewset Actions
 
 You can create custom url for viewset by using `@action` decorator. It is better than creating separated APIViews.
@@ -146,7 +145,7 @@ router.register(r'my-viewset', MyViewset)
 
 You can call GET `localhost:8000/my-viewset/my_url_path/` which Django will call function `my_custom_viewset_action`
 
-If you set `detail=True` in action parameters, you need to add `pk` parameter in your action function. 
+If you set `detail=True` in action parameters, you need to add `pk` parameter in your action function.
 
 ```py
 @action(detail=True, methods=['GET'], url_name='my_reverse_url_name', url_path='my_url_path')
