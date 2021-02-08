@@ -1,9 +1,9 @@
 
 # Requirements
- * Docker version >= 17.12.0-ce
- * docker-compose version >= 1.18.0
- * IntelliJ IDEA >= 2018.1
 
+* Docker version >= 17.12.0-ce
+* docker-compose version >= 1.18.0
+* IntelliJ IDEA >= 2018.1
 
 # Setup Project (First time only)
 
@@ -27,30 +27,30 @@ make reset-init-db
     sudo bash manage-host.sh addhost host.docker.internal 127.0.0.1
     ```
 
-
 # Run Project 
 
 ```sh
 make run-django
 ```
 
-
 # Accounts
 
 ## API
- * url: http://localhost:8000/ 
-    * admin
-        * username:admin
-        * password:P@ssword
-    * user 
-        * username:test_user
-        * password:P@assword
+
+* url: http://localhost:8000/ 
+  * admin
+    * username:admin
+    * password:P@ssword
+  * user 
+    * username:test_user
+    * password:P@assword
 
 ## DB
- * url: localhost:5432
- * database: my_db
- * username: postgres
- * password: postgres
+
+* url: localhost:5432
+* database: my_db
+* username: postgres
+* password: postgres
 
 
 # Miscellaneous Tools
