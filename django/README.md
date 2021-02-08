@@ -6,3 +6,4 @@
 - [Python Style Guide](python-style-guide/README.md)
 - [Model](models/README.md)
 - [ViewSets](viewsets/README.md)
+- [Serializers](serializers/README.md)
