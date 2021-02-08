@@ -124,8 +124,8 @@ class MyViewSet(ModelViewSet):
 
 
 ## Viewset Actions
-You can create custom url for viewset by using `@action` decorator. It is better than creating separated APIViews.
 
+You can create custom url for viewset by using `@action` decorator. It is better than creating separated APIViews.
 
 ```py
 class MyViewset(viewsets.ModelViewSet):
@@ -139,12 +139,12 @@ class MyViewset(viewsets.ModelViewSet):
 ```
 
 Then, in your api_urls.py
+
 ```py
 router.register(r'my-viewset', MyViewset)
 ```
 
 You can call GET `localhost:8000/my-viewset/my_url_path/` which Django will call function `my_custom_viewset_action`
-
 
 If you set `detail=True` in action parameters, you need to add `pk` parameter in your action function. 
 
@@ -154,9 +154,8 @@ def my_custom_viewset_action(self, request, pk):
     # do something ...
     return Response( ... )
 ```
+
 For example: calling GET `localhost:8000/my-viewset/10/my_url_path/` which Django will call function `my_custom_viewset_action` with parameter `pk=10`
-
-
 
 ## Use Custom FilterClass
 
@@ -209,6 +208,7 @@ class MyViewset(ModelViewSet):
 ## Generic Views
 
 ### ReadOnlyModelViewSet
+
 Use ReadonlyModelViewset if you want request in GET and GET with item id only.
 
 ```py
@@ -226,19 +226,19 @@ class MyViewSet(ModelViewSet):
 ```
 
 ### Other Generic Views
+
 Moreover, there are many generic views as follows
 | Generic View Class           | GET (Listing) | GET (item ID) | POST | PUT/PATCH | DELETE |
 |------------------------------|---------------|---------------|------|-----------|--------|
-| CreateAPIView                |               |               |   *  |           |        |
-| ListAPIView                  |       *       |               |      |           |        |
-| RetrieveAPIView              |               |       *       |      |           |        |
-| DestroyAPIView               |               |               |      |           |    *   |
-| UpdateAPIView                |               |               |      |     *     |        |
-| ListCreateAPIView            |       *       |               |   *  |           |        |
-| RetrieveUpdateAPIView        |               |       *       |      |     *     |        |
-| RetrieveDestroyAPIView       |               |       *       |      |           |    *   |
-| RetrieveUpdateDestroyAPIView |               |       *       |      |     *     |    *   |
-
+| CreateAPIView                |               |               |   Y  |           |        |
+| ListAPIView                  |       Y       |               |      |           |        |
+| RetrieveAPIView              |               |       Y       |      |           |        |
+| DestroyAPIView               |               |               |      |           |    Y   |
+| UpdateAPIView                |               |               |      |     Y     |        |
+| ListCreateAPIView            |       Y       |               |   Y  |           |        |
+| RetrieveUpdateAPIView        |               |       Y       |      |     Y     |        |
+| RetrieveDestroyAPIView       |               |       Y       |      |           |    Y   |
+| RetrieveUpdateDestroyAPIView |               |       Y       |      |     Y     |    Y   |
 
 # APIView
 

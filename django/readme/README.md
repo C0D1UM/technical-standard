@@ -7,14 +7,14 @@ This page will give you recommendations on how to write `README.md` file for you
 <pre>
     README.md
     ├── Requirements
-    │   # requirement version of Docker, Docker-Compose, etc. 
+    │   # requirement version of Docker, Docker-Compose, etc.
     │
-    ├── Setup Project 
+    ├── Setup Project
     │   # Steps for setup project for the first time.
     │
     ├── Run Project
     │   # Steps for running project after developer have already setup the project.
-    │   
+    │
     ├── Account
     │   ├── API
     │   │    # Account for login to localhost API for admin and regular user
@@ -34,7 +34,7 @@ This page will give you recommendations on how to write `README.md` file for you
     │   └── Restore DB
     │        # Steps for restore localhost DB
     │
-    └── Other topics 
+    └── Other topics
          # For example, custom config Celery/RabbitMQ, setup some complex data, etc.
 </pre>
 
