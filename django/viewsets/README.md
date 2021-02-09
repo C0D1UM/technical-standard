@@ -13,7 +13,7 @@ Basic usage of ModelViewset is to define 2 objects
 from rest_framework.viewsets import ModelViewSet
 
 class MyViewSet(ModelViewSet):
-    # define queryset. 
+    # define queryset.
     queryset = MyModel.objects.all()
 
     # define serializer.
@@ -87,8 +87,8 @@ class MyViewSet(ModelViewSet):
     #      it will search for name_en='ABC'
     filterset_fields = ['name', 'name_en']
 
-    # SearchFilter used for searching multiple fields at once. 
-    # Ex. localhost:8000/api/department/?search=ABC 
+    # SearchFilter used for searching multiple fields at once.
+    # Ex. localhost:8000/api/department/?search=ABC
     #    it will search for field 'name' contains 'ABC' or 'name_en' contains 'ABC'
     search_fields = ['name', 'name_en', ]
 
@@ -198,7 +198,7 @@ class MyViewSet(ModelViewSet):
 class MyViewset(ModelViewSet):
     queryset = MyModel.objects.all()
     serializer_class = MyModelSerializer
-    
+
     def get_queryset(self):
         if not self.request.method in ['GET', 'POST', 'PATCH']:
             raise Exception('method invalid')
@@ -229,6 +229,7 @@ class MyViewSet(ModelViewSet):
 ### Other Generic Views
 
 Moreover, there are many generic views as follows
+
 | Generic View Class           | GET (Listing) | GET (item ID) | POST | PUT/PATCH | DELETE |
 |------------------------------|---------------|---------------|------|-----------|--------|
 | CreateAPIView                |               |               |   Y  |           |        |
