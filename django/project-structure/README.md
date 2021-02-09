@@ -14,27 +14,27 @@ The difference in structure of each project makes it developers difficult to und
     •
     ├── [project_name]/
     │   ├── apps/
-    │   │   ├── common/ <sup><a href="#19-common-application">19</a></sup>
+    │   │   ├── common/ <sup><a href="#sup19sup-codecommoncode-application">19</a></sup>
     │   │   │   └── ..
-    │   │   ├── [app1_name]/ <sup><a href="#1-application-name">1</a></sup>
+    │   │   ├── [app1_name]/ <sup><a href="#sup1sup-application-name">1</a></sup>
     │   │   │   ├── management/
     │   │   │   │   └── commands/
     │   │   │   ├── migrations/
     │   │   │   ├── templates/
-    │   │   │   │   ├── css/ <sup><a href="#11-static-for-applications-template">11</a></sup>
-    │   │   │   │   ├── fonts/ <sup><a href="#11-static-for-applications-template">11</a></sup>
-    │   │   │   │   ├── images/ <sup><a href="#11-static-for-applications-template">11</a></sup>
+    │   │   │   │   ├── css/ <sup><a href="#sup11sup-static-for-applications-template">11</a></sup>
+    │   │   │   │   ├── fonts/ <sup><a href="#sup11sup-static-for-applications-template">11</a></sup>
+    │   │   │   │   ├── images/ <sup><a href="#sup11sup-static-for-applications-template">11</a></sup>
     │   │   │   │   └── [template_name].html
     │   │   │   ├── tests/
     │   │   │   │   ├── test_[topic_name].py
     │   │   │   │   └── ..
     │   │   │   ├── admin.py
     │   │   │   ├── apps.py
-    │   │   │   ├── choices.py <sup><a href="#12-choicespy">12</a></sup>
+    │   │   │   ├── choices.py <sup><a href="#sup12sup-codechoicespycode">12</a></sup>
     │   │   │   ├── exceptions.py
-    │   │   │   ├── factories.py <sup><a href="#13-factoriespy">13</a></sup>
-    │   │   │   ├── filters.py <sup><a href="#14-filterspy">14</a></sup>
-    │   │   │   ├── functions.py <sup><a href="#15-functionspy">15</a></sup>
+    │   │   │   ├── factories.py <sup><a href="#sup13sup-codefactoriespycode">13</a></sup>
+    │   │   │   ├── filters.py <sup><a href="#sup14sup-codefilterspycode">14</a></sup>
+    │   │   │   ├── functions.py <sup><a href="#sup15sup-codefunctionspycode">15</a></sup>
     │   │   │   ├── managers.py
     │   │   │   ├── models.py
     │   │   │   ├── paginations.py
@@ -42,36 +42,36 @@ The difference in structure of each project makes it developers difficult to und
     │   │   │   ├── serializers.py
     │   │   │   ├── services.py <sup><a href="#20-third-party-services">20</a></sup>
     │   │   │   ├── signals.py
-    │   │   │   ├── tasks.py <sup><a href="#16-taskspy">16</a></sup>
-    │   │   │   ├── utils.py <sup><a href="#17-utilspy">17</a></sup>
+    │   │   │   ├── tasks.py <sup><a href="#sup16sup-codetaskspycode">16</a></sup>
+    │   │   │   ├── utils.py <sup><a href="#sup17sup-codeutilspycode">17</a></sup>
     │   │   │   └── views.py
     │   │   │   └── ..
     │   │   ├── [app2_name]/
     │   │   │   └── ..
     │   │   └── ..
-    │   ├── api_urls.py <sup><a href="#2-api_urlspy">2</a></sup>
-    │   ├── asgi.py <sup><a href="#7-asgipy">7</a></sup>
-    │   ├── celery.py <sup><a href="#8-celerypy">8</a></sup>
+    │   ├── api_urls.py <sup><a href="#sup2sup-codeapi_urlspycode">2</a></sup>
+    │   ├── asgi.py <sup><a href="#sup7sup-codeasgipycode">7</a></sup>
+    │   ├── celery.py <sup><a href="#sup8sup-codecelerypycode">8</a></sup>
     │   ├── settings.py
-    │   ├── urls.py <sup><a href="#3-urlspy">3</a></sup>
-    │   └── wsgi.py <sup><a href="#9-wsgipy">9</a></sup>
+    │   ├── urls.py <sup><a href="#sup3sup-codeurlspycode">3</a></sup>
+    │   └── wsgi.py <sup><a href="#sup9sup-codewsgipycode">9</a></sup>
     ├── locales/
     │   ├── [lang]/
     │   │   └── LC_MESSAGES/
     │   │       └── django.po
     │   └── ..
-    ├── static/ <sup><a href="#10-static-across-applications">10</a></sup>
+    ├── static/ <sup><a href="#sup10sup-static-across-applications">10</a></sup>
     │   ├── css/
     │   ├── fonts/
     │   ├── images/
     │   └── ..
-    ├── .flake8 <sup><a href="#4-flake8">4</a></sup>
-    ├── .coveragerc <sup><a href="#5-coveragerc">5</a></sup>
-    ├── .gitignore <sup><a href="#6-gitignore">6</a></sup>
+    ├── .flake8 <sup><a href="#sup4sup-codeflake8code">4</a></sup>
+    ├── .coveragerc <sup><a href="#sup5sup-codecoveragerccode">5</a></sup>
+    ├── .gitignore <sup><a href="#sup6sup-codegitignorecode">6</a></sup>
     ├── Dockerfile
     ├── manage.py
-    ├── requirements.in <sup><a href="#18-requirements">18</a></sup>
-    └── requirements.txt <sup><a href="#18-requirements">18</a></sup>
+    ├── requirements.in <sup><a href="#sup18sup-requirements">18</a></sup>
+    └── requirements.txt <sup><a href="#sup18sup-requirements">18</a></sup>
 </pre>
 
 ### Explanation
@@ -96,7 +96,7 @@ It should contains only [Django REST Framework's router and urlpatterns](https:/
 
 #### <sup>[3]</sup> `urls.py`
 
-It should contains only top-level `urlpatterns`. That is `urlpatterns` from any other packages including [`api_urls.py`](#2-api_urlspy)
+It should contains only top-level `urlpatterns`. That is `urlpatterns` from any other packages including [`api_urls.py`](#sup2sup-codeapi_urlspycode)
 
 #### <sup>[4]</sup> `.flake8`
 
