@@ -199,7 +199,7 @@ for person in Person.objects.all():
     person.save()                    # hit database (n times)
 ```
 
-Calling `QuerySet.update()` will produce a single query using `UPDATE ... WHERE ...` faster than looping update the model in Python which hit database every iteration.
+Calling `QuerySet.update()` will produce a single query using `UPDATE ... WHERE ...`. It is faster than looping update the model in Python which hit database every iteration.
 
 ### Refresh model from database
 
