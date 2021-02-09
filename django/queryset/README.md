@@ -91,13 +91,15 @@ Selecting aggregate function from database always consume less time that getting
 
 ```python
 # Yes
-if Person.objects.filter(first_name='John').exists():  # SELECT
+if Person.objects.filter(first_name='John').exists():
     do_something()
 
 # No
 if Person.objects.filter(first_name='John'):
     do_something()
 ```
+
+Using `.exists()` consume less resources than not using it.
 
 ### Using `.first()` instead of calling `.exists()`, followed by `.get()`
 
