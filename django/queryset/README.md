@@ -1,24 +1,26 @@
 # QuerySet
 
-## Sample Models
+## Sample models
 
-This guideline will base on this `Person` model:
+This guideline will base on these models:
 
 ```python
+class User(models.Model):
+    username = models.CharField(max_length=50)
+
+
 class Person(models.Model):
     user = models.ForeignKey(
-        get_user_model(),
+        'User',
         on_delete=models.CASCADE,
-        related_name='person',
+        related_name='people',
     )
     first_name = models.CharField(max_length=50)
     last_name = models.CharField(max_length=150)
     employee_id = models.CharField(max_length=15, unique=True)
-```
+    active = models.Boolean(default=True, blank=True)
 
-And this `Department` model:
 
-```python
 class Department(models.Model):
     name = models.CharField(max_length=255)
 
@@ -37,13 +39,13 @@ person = Person.objects \
     .prefetch_related('departments') \
     .first()                                 # hit database
 print(person.first_name)
-print(person.user)
+print(person.user.username)
 print(person.departments.all())
 
 # No
 person = Person.objects.first()              # hit database
 print(person.first_name)
-print(person.user)                           # hit database
+print(person.user.username)                  # hit database
 print(person.departments.all())              # hit database
 ```
 
@@ -51,7 +53,7 @@ The second method seems short and easy to understand. But behind that, it hits d
 
 > **WARNING:** Calling `person.departments.filter(name='HR')` in both methods will hit database since it needs to query database to find the records which matched the given condition. `prefetch_related` does not help you in this situation.
 
-## Using `.first()` Instead of Calling `.exists()` Followed by `.get()`
+## Using `.first()` instead of calling `.exists()`, followed by `.get()`
 
 ```python
 # Yes
@@ -109,3 +111,80 @@ people = find_people_no(query='John Doe')
 Now you see the difference? It's because the second method (`find_people_no`) does not support filtering across two fields.
 
 So if you have a requirement like this, you should join two fields together before filter them.
+
+## Using `.count()` instead of `len()`
+
+```python
+# Yes
+Person.objects.count()     # SELECT COUNT(*) FROM person
+
+# No
+len(Person.objects.all())  # SELECT * FROM person
+```
+
+Selecting aggregate function from database always consume less time that getting every records.
+
+## `.update()` is more preferred than looping save models
+
+```python
+# Yes
+Person.objects.update(active=False)  # hit database
+
+# No
+for person in Person.objects.all():
+    person.active = False
+    person.save()                    # hit database (n times)
+```
+
+Calling `QuerySet.update()` will produce a single query using `UPDATE ... WHERE ...` faster than looping update the model in Python which hit database every iteration.
+
+## Select/Prefetch related only when you're using those values
+
+```python
+any_user = User.objects.first()
+
+# No need to use `select_related` since you only filter it.
+Person.objects.filter(user=any_user)
+
+# You need to, because you're accessing user instance
+person = Person.objects.select_related('user').first()
+print(person.user.username)
+```
+
+## Avoid filtering across many relationship
+
+Filtering across _one-to-many_ or _many-to-many_ relationship can cause an unexpected result such as duplicated records.
+
+Suppose we have two departments
+
+```python
+hr = Department.objects.create(name='HRD')
+accounting = Department.objects.create(name='HRM')
+```
+
+John Doe is in both departments
+
+```python
+john_doe = Person.objects.create(...)
+hr.add(john_doe)
+accounting.add(john_doe)
+```
+
+If we try to get person who is in department that it's name contains word `HR`
+
+```python
+Person.objects.filter(departments__name__icontains='HR')
+# return: <QuerySet [<Person: John Doe>, <Person: John Doe>]>
+```
+
+We will get duplicated records because John Doe is in both departments. The solution for this case is to use `.distinct()`
+
+```python
+Person.objects.filter(departments__name__icontains='HR').distinct()
+# return: <QuerySet [<Person: John Doe>]>
+```
+
+---
+<sup>[1]</sup> See more about `through` here.
+
+## No Raw SQL
