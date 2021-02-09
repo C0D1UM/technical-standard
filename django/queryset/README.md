@@ -124,6 +124,18 @@ len(Person.objects.all())  # SELECT * FROM person
 
 Selecting aggregate function from database always consume less time that getting every records.
 
+## Using `.exists()` to check if any data exists
+
+```python
+# Yes
+if Person.objects.filter(first_name='John').exists():  # SELECT
+    do_something()
+
+# No
+if Person.objects.filter(first_name='John'):
+    do_something()
+```
+
 ## `.update()` is more preferred than looping save models
 
 ```python
@@ -184,7 +196,57 @@ Person.objects.filter(departments__name__icontains='HR').distinct()
 # return: <QuerySet [<Person: John Doe>]>
 ```
 
----
-<sup>[1]</sup> See more about `through` here.
+## Avoid comparing instance if not select/prefetch related
+
+```python
+person = Person.objects.first()
+user = User.objects.first()
+
+# Yes
+if person.user_id == user.pk:    # no database hit
+    do_something()
+
+# No
+if person.user == user:          # hit database
+    do_something()
+```
+
+The first method doesn't hit the database because field `user_id` is in `Person` instance locally.
+
+The second one hit the database because accessing `user` property makes Django to query `User` instance.
+
+## Refresh model from database
+
+```python
+# Getting John
+john = Person.objects.get(first_name='John', active=True)
+# Set John to inactive
+Person.objects.filter(pk=person.pk).update(active=False)
+
+print(john.active)
+# return: True
+
+john.refresh_from_db(fields=['active'])
+print(john.active)
+# return: False
+```
+
+When you update a model field using `.update()`, a local instance won't update automatically. You'll need to call `.refresh_from_db()` to refresh an instance from database.
 
 ## No Raw SQL
+
+Writing query in _Raw SQL_ format can cause many problems.
+
+The most important reason is _the difficulty to maintain_. If you write a lot of queries, it will be difficult to understand the logics of those queries. Makes it difficult to modify as well.
+
+The second one is _security_. Writing _Raw SQL_ can cause a SQL injection if you don't carefully escape every parameters used in the queries.
+
+The last reason is _it can goes wrong easily_. By using _Raw SQL_, you'll need to write it as a plain text. If you're using IDE that support validating SQL language, you might be lucky. But if you aren't, you'll easily mess things up. Checking with a real database query should be done frequently.
+
+Django provides a lot of utility functions which can help you writing queries without using _Raw SQL_ such as [Subquery](https://docs.djangoproject.com/en/3.1/ref/models/expressions/#subquery-expressions), [Func](https://docs.djangoproject.com/en/3.1/ref/models/expressions/#func-expressions), [Aggregate](https://docs.djangoproject.com/en/3.1/ref/models/expressions/#aggregate-expressions), and etc.
+
+---
+
+## Reference
+
+- [QuerySet API reference](https://docs.djangoproject.com/en/3.1/ref/models/querysets/)
