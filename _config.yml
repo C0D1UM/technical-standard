@@ -1,0 +1,25 @@
+# Site settings
+title: CODIUM Technical Standard
+email: contact@codium.co
+description: >-
+  CODIUM Co., Ltd.
+baseurl: "/technical-standard"
+url: "https://codium.co"
+github_username:  c0d1um
+
+# Build settings
+theme: minima
+markdown: GFM
+plugins:
+  - jekyll-feed
+  - jekyll-readme-index
+  - jekyll-titles-from-headings
+
+header_pages:
+  - django/README.md
+
+readme_index:
+  remove_originals: true
+
+titles_from_headings:
+  strip_title: true

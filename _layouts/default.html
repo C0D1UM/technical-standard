@@ -1,0 +1,34 @@
+<!DOCTYPE html>
+<html lang="{{ page.lang | default: site.lang | default: "en" }}">
+
+  {%- include head.html -%}
+
+  <body>
+
+    {%- include header.html -%}
+
+    <main class="page-content" aria-label="Content">
+      <div class="wrapper">
+        {% if page.hide_toc == nil and page.has_sub_pages == nil and page.url != "/" %}
+          {%- include toc_header.html -%}
+          {% include toc.html html=content h_min=2 h_max=4 %}
+          <hr><br><br>
+        {% endif %}
+
+        {{ content }}
+
+        {% if page.has_sub_pages %}
+          {% include nested_toc.html %}
+        {% endif %}
+
+        {% if page.url == "/" %}
+          {% include top_toc.html %}
+        {% endif %}
+      </div>
+    </main>
+
+    {%- include footer.html -%}
+
+  </body>
+
+</html>
