@@ -39,7 +39,7 @@ make run-django
 
 ## API
 
-* url: http://localhost:8000/
+* url: `http://localhost:8000/`
   * admin
     * username:admin
     * password:P@ssword
@@ -49,7 +49,7 @@ make run-django
 
 ## DB
 
-* url: localhost:5432
+* url: `localhost:5432`
 * database: my_db
 * username: postgres
 * password: postgres
