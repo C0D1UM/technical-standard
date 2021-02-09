@@ -40,7 +40,7 @@ The difference in structure of each project makes it developers difficult to und
     │   │   │   ├── paginations.py
     │   │   │   ├── permissions.py
     │   │   │   ├── serializers.py
-    │   │   │   ├── services.py <sup><a href="#20-servicespy">20</a></sup>
+    │   │   │   ├── services.py <sup><a href="#20-third-party-services">20</a></sup>
     │   │   │   ├── signals.py
     │   │   │   ├── tasks.py <sup><a href="#16-taskspy">16</a></sup>
     │   │   │   ├── utils.py <sup><a href="#17-utilspy">17</a></sup>
@@ -174,6 +174,6 @@ The `common` application is the application that you can put any code which is r
 
 > Note: Inside `common` application, it should follow the standard of application as well.
 
-#### <sup>[20]</sup> Services
+#### <sup>[20]</sup> Third-Party Services
 
 If your application connects to third-party services, this is where you want to put the service-related logics.
