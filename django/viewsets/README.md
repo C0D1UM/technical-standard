@@ -1,6 +1,8 @@
-# ModelViewset
+# ViewSets
 
-## Basic ModelViewSet
+## ModelViewset
+
+### Basic ModelViewSet
 
 Basic usage of ModelViewset is to define 2 objects
 
@@ -18,7 +20,7 @@ class MyViewSet(ModelViewSet):
     serializer_class = MyModelSerializer
 ```
 
-## Skip Authentication Checking
+### Skip Authenitcation Checking
 
 Use AllowAny if you want to skip authentication checking.
 
@@ -28,7 +30,7 @@ class MyViewSet(ModelViewSet):
     permission_classes = (AllowAny,)
 ```
 
-## Customize Serializer
+### Customize Seriailizer
 
 If you want different serializer for GET/POST request, you can use following attribute:
 
@@ -67,7 +69,7 @@ class MyViewSet(ModelViewSet):
             return serializer
 ```
 
-## Use Django Built-in FilterClass/Ordering
+### Use Django Built-in FilterClass/Ordering
 
 For simple search/filter/ordering, use Django built-in FilterClass. To setup, run `pip install django-filter`. Then add `'django_filters'` to Django's `INSTALLED_APPS`
 
@@ -79,9 +81,9 @@ class MyViewSet(ModelViewSet):
     filter_backends = [filters.SearchFilter, DjangoFilterBackend, filters.OrderingFilter]
 
     # DjangoFilterBackend used for equality filter.
-    #   Ex. localhost:8000/api/department/?name=ABC 
+    #   Ex. localhost:8000/api/department/?name=ABC
     #      it will search for name='ABC'
-    #   Ex. localhost:8000/api/department/?name_en=ABC 
+    #   Ex. localhost:8000/api/department/?name_en=ABC
     #      it will search for name_en='ABC'
     filterset_fields = ['name', 'name_en']
 
@@ -103,7 +105,7 @@ class MyViewSet(ModelViewSet):
 class MyViewSet(ModelViewSet):
     def get_queryset(self):
         queryset = super().get_queryset()
-        
+
         name = self.request.GET.get('name')
         if name:
             queryset = queryset.filter(name=name)
@@ -122,7 +124,7 @@ class MyViewSet(ModelViewSet):
 
 ```
 
-## Viewset Actions
+### Viewset Actions
 
 You can create custom url for viewset by using `@action` decorator. It is better than creating separated APIViews.
 
@@ -156,7 +158,7 @@ def my_custom_viewset_action(self, request, pk):
 
 For example: calling GET `localhost:8000/my-viewset/10/my_url_path/` which Django will call function `my_custom_viewset_action` with parameter `pk=10`
 
-## Use Custom FilterClass
+### Use Custom FilterClass
 
 In case that Django Built-In FilterClass does not meet your requirements. You can create your own FilterClass and set it in ModelViewset below.
 
@@ -167,21 +169,21 @@ class MyViewSet(ModelViewSet):
 
     def get_queryset(self):
         #
-        # In case you want to modify queryset. 
+        # In case you want to modify queryset.
         # This function will be called before queryset goes to FilterClass
         #
         queryset = super().get_queryset()
-        
+
         #
         # do something here. Ex. You can add .select_related() to queryset in some conditions.
-        # 
+        #
         if some_conditions:
             queryset = queryset.select_related('...')
-        
+
         return queryset
 ```
 
-## Customize HTTP Method
+### Customize HTTP Method
 
 You should limit http method that user can call to the server. ModelViewset will enable all methods by default.
 
@@ -239,7 +241,7 @@ Moreover, there are many generic views as follows
 | RetrieveDestroyAPIView       |               |       Y       |      |           |    Y   |
 | RetrieveUpdateDestroyAPIView |               |       Y       |      |     Y     |    Y   |
 
-# APIView
+## APIView
 
 Use APIView if request does not specifically belongs to some model. Use JsonResponse or Response instead of HttpResponse
 
