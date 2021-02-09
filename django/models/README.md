@@ -2,13 +2,6 @@
 
 Best practices for creating model class.
 
-## Table of Contents
-
-- [Common](#common)
-- [Fields](#fields)
-- [Model Controller](#model-controller)
-- [Managers](#managers)
-
 ## Common
 
 These are some of the best practices that you should add to your model class.
@@ -79,7 +72,7 @@ class Person(models.Model):
     first_name = models.CharField(max_length=100)
     # No : Repeat model name person
     person_first_name = models.CharField(max_length=100)
-    
+
     # Yes: Many to Many in plural form
     companies = model.ManyToMany(to='company.Company', blank=True, related_name='people')
 
@@ -232,7 +225,7 @@ from model_controller.managers import SoftDeletionManager
 
 
 class PersonManager(SoftDeletionManager):
-    
+
     def get_with_employees(self):
         query = self.get_query()
         return query.prefetch_related('employees')
