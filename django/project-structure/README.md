@@ -40,7 +40,7 @@ The difference in structure of each project makes it developers difficult to und
     │   │   │   ├── paginations.py
     │   │   │   ├── permissions.py
     │   │   │   ├── serializers.py
-    │   │   │   ├── services.py <sup><a href="#20-third-party-services">20</a></sup>
+    │   │   │   ├── services.py <sup><a href="#sup20sup-third-party-services">20</a></sup>
     │   │   │   ├── signals.py
     │   │   │   ├── tasks.py <sup><a href="#sup16sup-codetaskspycode">16</a></sup>
     │   │   │   ├── utils.py <sup><a href="#sup17sup-codeutilspycode">17</a></sup>
