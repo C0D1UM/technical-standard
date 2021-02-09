@@ -87,7 +87,7 @@ MD032: true
 MD033: false
 
 # Bare URL used <https://github.com/DavidAnson/markdownlint/blob/master/doc/Rules.md#md034>
-MD034: false
+MD034: true
 
 # Horizontal rule style <https://github.com/DavidAnson/markdownlint/blob/master/doc/Rules.md#md035>
 MD035:
