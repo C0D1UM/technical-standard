@@ -1,9 +1,8 @@
 name: Deploy GitHub Pages
 
 on:
-  push
-  # push:
-  #   branches: [ main ]
+  push:
+    branches: [ main ]
 
 jobs:
   jekyll:
