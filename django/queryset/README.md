@@ -106,7 +106,7 @@ Using `.exists()` consume less resources than not using it.
 ```python
 # Yes
 matched_person = Person.objects.filter(employee_id='123').first()
-if matched_person:
+if matched_person is not None:
     do_something(matched_person)
 
 # No
