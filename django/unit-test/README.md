@@ -161,18 +161,6 @@ class PersonTest(tests.TestCase):
     ]
 ```
 
-## Factory Boy
-
-### Introduction
-
-### Rules
-
-## Baker
-
-### Introduction
-
-### Rules
-
 ## Parallel Testing
 
 Running test in parallel could speed up your test suite. [Read More](https://docs.djangoproject.com/en/3.1/ref/django-admin/#cmdoption-test-parallel)
