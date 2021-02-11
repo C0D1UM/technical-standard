@@ -55,20 +55,24 @@ First, we try to filter people with name `John`...
 
 ```python
 people = find_people_yes(query='John')
-# return: <QuerySet [<Person: John Doe>, <Person: John Wick>]>
+print(people)
+# <QuerySet [<Person: John Doe>, <Person: John Wick>]>
 
 people = find_people_no(query='John')
-# return: <QuerySet [<Person: John Doe>, <Person: John Wick>]>
+print(people)
+# <QuerySet [<Person: John Doe>, <Person: John Wick>]>
 ```
 
 Everything seems fine, right? Both techniques return the same results. But what about filtering person's name by `John Doe`?
 
 ```python
 people = find_people_yes(query='John Doe')
-# return: <QuerySet [<Person: John Doe>]>
+print(people)
+# <QuerySet [<Person: John Doe>]>
 
 people = find_people_no(query='John Doe')
-# return: <QuerySet []>
+print(people)
+# <QuerySet []>
 ```
 
 Now you see the difference? It's because the second method (`find_people_no`) does not support filtering across two fields.
@@ -115,7 +119,12 @@ if Person.objects.filter(employee_id='123').exists():
     do_something(matched_person)
 ```
 
-The reason is calling a single `.first()` will hit database only one. But when we call `.exists()`, it hits. Calling `.get()` will hits database again. Makes the second method to hit database twice which is a bad idea.
+- Calling `.first()` method will hit database only one time, and you will also get the object.
+- Calling `.exists()` method hit database one time, then calling `.get()` hit database one more time.
+
+In this case, using `.first()` has better performance since it hit database only one.
+
+You can read more about [When QuerySets are evaluated](https://docs.djangoproject.com/en/3.1/ref/models/querysets/#when-querysets-are-evaluated).
 
 ### Avoid filtering across many relationship
 
@@ -140,14 +149,14 @@ If we try to get person who is in department that it's name contains word `HR`
 
 ```python
 Person.objects.filter(departments__name__icontains='HR')
-# return: <QuerySet [<Person: John Doe>, <Person: John Doe>]>
+# <QuerySet [<Person: John Doe>, <Person: John Doe>]>
 ```
 
 We will get duplicated records because John Doe is in both departments. The solution for this case is to use `.distinct()`
 
 ```python
 Person.objects.filter(departments__name__icontains='HR').distinct()
-# return: <QuerySet [<Person: John Doe>]>
+# <QuerySet [<Person: John Doe>]>
 ```
 
 ### No need to use `.all()` before `.filter()`
@@ -212,11 +221,11 @@ john = Person.objects.get(first_name='John', active=True)
 Person.objects.filter(pk=person.pk).update(active=False)
 
 print(john.active)
-# return: True
+# True
 
 john.refresh_from_db(fields=['active'])
 print(john.active)
-# return: False
+# False
 ```
 
 When you update a model field using `.update()`, a local instance won't update automatically. You'll need to call `.refresh_from_db()` to refresh an instance from database.
@@ -266,7 +275,7 @@ Person.objects.filter(user=any_user)
 
 # You need to, because you're accessing user instance
 person = Person.objects.select_related('user').first()
-print(person.user.username)
+do_something(person.user.username)
 ```
 
 ### Avoid comparing instance if not select/prefetch related
@@ -328,6 +337,41 @@ Person.objects.all()  # will now showing only active person
 ```
 
 ## Other
+
+### Using `.only()` to optimize performance
+
+In case you want to process only person's first name, using `.only()` will result a better performance.
+
+```python
+Person.objects.only('first_name')  # faster
+Person.objects.all()
+```
+
+> **WARNING:** If you try to get field that is not in `.only()`, Django will query the database again to get the field.
+
+### Difference between `.only()` and `.values()`
+
+Both of them are getting only for selected field(s). But,
+
+- `.only()` produce a model instance which you still can get any other field from the result
+- `.values()` produce a dictionary. So, you cannot get any other field from the result
+
+```python
+person = Person.objects.only('first_name').first()
+print(person)
+# <Person: John Doe>
+print(person.first_name)
+# John
+print(person.last_name)     # hit database
+# Doe
+
+person = Person.objects.values('first_name').first()
+print(person)
+# {'first_name': 'John'}
+print(person['first_name'])
+# John
+print(person['last_name'])  # raise KeyError
+```
 
 ### No Raw SQL
 
