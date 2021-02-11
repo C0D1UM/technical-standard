@@ -77,7 +77,9 @@ print(people)
 
 Now you see the difference? It's because the second method (`find_people_no`) does not support filtering across two fields.
 
-So if you have a requirement like this, you should join two fields together before filter them.
+But in the other side, the second method give us a better performance if both fields are `db_index`'ed. The first method was using the annotated field which is not indexed.
+
+However, after considered those factors, we would suggest you to go with the first method.
 
 ### Using `.count()` instead of `len()`
 
@@ -89,7 +91,10 @@ Person.objects.count()     # SELECT COUNT(*) FROM person
 len(Person.objects.all())  # SELECT * FROM person
 ```
 
-Selecting aggregate function from database always consume less time that getting every records.
+- Calling `Person.objects.count()` will count directly inside the database
+- But, calling `len(Person.objects.all())` will fetch all data from the database and count them in Python instead
+
+So, using an aggregate function from database always consume less time that getting every records.
 
 ### Using `.exists()` to check if any data exists
 
@@ -156,6 +161,13 @@ We will get duplicated records because John Doe is in both departments. The solu
 
 ```python
 Person.objects.filter(departments__name__icontains='HR').distinct()
+# <QuerySet [<Person: John Doe>]>
+```
+
+If you are using `PostgreSQL` as a database backend, you can specify field `id` in `.distinct()` to improve the performance. Note that you will need to order the queryset by `id` as well
+
+```python
+Person.objects.filter(departments__name__icontains='HR').order_by('id').distinct('id')
 # <QuerySet [<Person: John Doe>]>
 ```
 
