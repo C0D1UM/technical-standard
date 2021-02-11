@@ -201,6 +201,8 @@ for person in Person.objects.all():
 
 Calling `QuerySet.update()` will produce a single query using `UPDATE ... WHERE ...`. It is faster than looping update the model in Python which hit database every iteration.
 
+> **WARNING:** Calling `.update()` won't trigger `post_save` signal.
+
 ### Refresh model from database
 
 ```python
@@ -218,6 +220,16 @@ print(john.active)
 ```
 
 When you update a model field using `.update()`, a local instance won't update automatically. You'll need to call `.refresh_from_db()` to refresh an instance from database.
+
+Sometimes you might need refresh the whole queryset. In this case, you can query it again by calling `.all()`
+
+```python
+queryset = Person.objects.all()
+queryset.filter(first_name='John').update(active=False)
+
+# update the whole queryset
+queryset = queryset.all()
+```
 
 ## Related Models
 
