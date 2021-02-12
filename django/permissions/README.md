@@ -77,7 +77,7 @@ class BlocklistPermission(permissions.BasePermission):
 
 ## Object level permission
 
-For clarification, use `has_object_permission` over `has_permission`
+For clarification, use `has_object_permission` over `has_permission` as in [View level permission](#view-level-permission).
 
 ```python
 # permissions.py
