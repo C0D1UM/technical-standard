@@ -127,7 +127,7 @@ Do not write your own fixtures, always generate from Django Admin command line.
 $ python manage.py dumpdata app.Model >> path/app/fixtures/model.json
 ```
 
-If you have a set of fixtures can be reusable, consider creating a reusable constants.
+If you have a set of fixtures that can be reusable, consider creating a reusable constants.
 
 ```python
 # Yes
@@ -161,9 +161,19 @@ class PersonTest(tests.TestCase):
     ]
 ```
 
+**Note:** The `fixture_templates.py` file should be in `common` app directory.
+
 ## Parallel Testing
 
 Running test in parallel could speed up your test suite. [Read More](https://docs.djangoproject.com/en/3.1/ref/django-admin/#cmdoption-test-parallel)
+
+Sample usage:
+
+```shell script
+python manage.py test --parallel=2
+# With docker-compose
+docker-compose exec django python manage.py test --parallel=2
+```
 
 If you are using test coverage, make sure to run combine after run the coverage:
 
