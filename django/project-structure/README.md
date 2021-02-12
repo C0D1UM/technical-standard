@@ -15,8 +15,10 @@ The difference in structure of each project makes it developers difficult to und
     ├── [project_name]/
     │   ├── apps/
     │   │   ├── common/ <sup><a href="#sup19sup-codecommoncode-application">19</a></sup>
+    │   │   │   └── fixture_templates.py <sup><a href="#sup22sup-fixtures-templates"></a></sup>
     │   │   │   └── ..
     │   │   ├── [app1_name]/ <sup><a href="#sup1sup-application-name">1</a></sup>
+    │   │   │   ├── fixtures/ <sup><a href="#sup21sup-fixtures">21</a></sup>
     │   │   │   ├── management/
     │   │   │   │   └── commands/
     │   │   │   ├── migrations/
@@ -177,3 +179,11 @@ The `common` application is the application that you can put any code which is r
 #### <sup>[20]</sup> Third-Party Services
 
 If your application connects to third-party services, this is where you want to put the service-related logics.
+
+#### <sub>[21]</sup> Fixtures
+
+Put your JSON fixtures here.
+
+#### <sub>[22]</sup> Fixture Template
+
+Contain reusable set of fixtures, read more [here](/django/unit-test/#fixtures).
