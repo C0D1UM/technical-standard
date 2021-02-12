@@ -34,7 +34,7 @@ class ReadOnly(permissions.BasePermission):
 
 ## Compose permissions
 
-Many permission classes can be composed Python bitwise operators.
+Many permission classes can be composed by Python bitwise operators.
 *Note: It supports `&` (and), `|` (or) and `~` (not).*
 
 ```python
