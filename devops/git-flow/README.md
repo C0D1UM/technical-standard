@@ -38,7 +38,7 @@ Here's how you choose a Git Flow for your project:
 
 ### Concepts
 
-- Developers work on a single branch (usually called `main`)
+- Developers work on a single branch (usually named `main`)
 - Developers push directly to main branch without any branching required
 
 ### Deployment
@@ -66,7 +66,7 @@ Here's how you choose a Git Flow for your project:
 
 ### Concepts
 
-- A single _main branch_ (usually called `main`)
+- A single _main branch_ (usually named `main`)
 - Branching is required to develop a new feature, enhancements, bug fixes, and etc.
 - Frequently merge _main branch_ to _feature branch_
 - When it is finished, code review (including pipelines) is required before merging into _main branch_.
@@ -96,7 +96,17 @@ Here's how you choose a Git Flow for your project:
 
 ### Concepts
 
-TBD
+Similar as [Feature Branching](#feature-branching) but
+
+- There is a separated branch called `release` to freeze the development in a certain time, preparing to deploy to staging (if any) or production.
+- Feature branches are _short-lived_
+- Every point in _main branch_ should be _production-ready_. Here comes the **Feature Flag**.
+
+### Feature Flag
+
+**Feature Flag**<sup>[1]</sup> (aka. Feature Toggle) is the ability to turn on or turn off every particular feature without re-deploying which is a time-consumed task.
+
+Feature Flag also helps us to turn off a feature that we don't want to release as well. This will allow us to merge our code as fast as possible to _main branch_ without considering that it will be released on production or not.
 
 ### Deployment
 
@@ -106,8 +116,12 @@ TBD
 
 ### When do you want?
 
-TBD
+- Project is in _go-live phase_ but there are features left to be implemented as well as fixing bugs in production server
+- Release schedule is strictly
+- Has enough senior developers to review everyone's code
+- Already set-up CI/CD
 
 ### References
 
 - [Trunk Based Development](https://trunkbaseddevelopment.com/)
+- <sup>[1]</sup> [Feature flags, what are they?](https://launchdarkly.com/blog/what-are-feature-flags)
