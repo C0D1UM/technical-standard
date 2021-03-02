@@ -14,7 +14,7 @@ Here's how you choose a Git Flow for your project:
 | :--: |
 | _Flow Selection_ |
 
-### Difference between each flow
+### Comparison
 
 | Topic | Centralized Workflow | Feature Branching | Trunk-based Development |
 | ----- | -------------------- | ----------------- | ----------------------- |
@@ -22,11 +22,13 @@ Here's how you choose a Git Flow for your project:
 | Number of branch | 1 | 1 | 1 |
 | Branching | - | By feature | By feature |
 | Branch live | - | Long-lived | Short-lived |
-| When to merge? | - | When feature is done | Depends but every often  (everyday, every 2 days, etc.) |
+| When to merge? | - | When feature is done | Depends but every often<br>(everyday, every 2 days, etc.) |
 | Code review | No | Possible | Recommended |
 | Maximum number of developers | 2 | N/A | N/A |
 | **Deployment** |
 | Development Server | On pushed to _main branch_ | On pushed to _main branch_ | On pushed to _main branch_ |
+| Staging Server (if any) | Manually deploy from _main branch_ | Manually deploy from _main branch_ | On pushed to _release branch_ |
+| Production Server | On tag pushed from _main branch_ | On tag pushed from _main branch_ | On tag pushed from _release branch_ |
 
 ## Centralized Workflow
 
@@ -38,6 +40,12 @@ Here's how you choose a Git Flow for your project:
 
 - Developers work on a single branch (usually called `main`)
 - Developers push directly to main branch without any branching required
+
+### Deployment
+
+- **Development:** Deploy when pushed into _main branch_
+- **Staging _(if any)_:** Manually deploy from _main branch_
+- **Production:** Manually deploy by creating a tag from _main branch_
 
 ### When do you want?
 
@@ -89,6 +97,12 @@ Here's how you choose a Git Flow for your project:
 ### Concepts
 
 TBD
+
+### Deployment
+
+- **Development:** Deploy when pushed into _main branch_
+- **Staging _(if any)_:** Deploy when pushed into _release branch_
+- **Production:** Deploy when pushed tag created from _release branch_
 
 ### When do you want?
 
