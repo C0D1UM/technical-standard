@@ -10,11 +10,45 @@ Before we start, one thing that's constant is we will use only _one branch_ as a
 | :--: |
 | _Centralized Workflow_ |
 
+### Concepts
+
+- Developers work on a single branch (usually called `main`)
+- Developers push directly to main branch without any branching required
+
+### When do you want?
+
+- Project is in _starting or first phase_
+- Team has only a few developers in the team
+- Developers are advanced since there is no code review
+- Need to speed up the process
+
+### References
+
+- [Atlassian: Centralized Workflow](https://www.atlassian.com/git/tutorials/comparing-workflows#centralized-workflow)
+
 ## Feature Branching
 
 | <img src="https://wac-cdn.atlassian.com/dam/jcr:09308632-38a3-4637-bba2-af2110629d56/07.svg?cdnVersion=1481" width="450"> |
 | :--: |
 | _Feature Branching_ |
+
+### Concepts
+
+- A single _main branch_ (usually called `main`)
+- Branching is required to develop a new feature, enhancements, bug fixes, and etc.
+- Frequently merge _main branch_ to _feature branch_
+- When it is finished, code review (including pipelines) is required before merging into _main branch_.
+- Delete _feature branch_ immediately after it has been merged
+
+### When do you want?
+
+- Project is in _development phase_ or _support phase_
+- Team has senior developers enough to review the code for every other developers
+- There are many features or tasks to do and they need to be implemented at the same time
+
+### References
+
+- [Atlassian: Feature Branch Workflow](https://www.atlassian.com/git/tutorials/comparing-workflows/feature-branch-workflow)
 
 ## Trunk-based Development
 
@@ -22,6 +56,14 @@ Before we start, one thing that's constant is we will use only _one branch_ as a
 | :--: |
 | _Trunk-based Branching_ |
 
-## References
+### Concepts
 
-- [Atlassian: Git Workflow](https://www.atlassian.com/git/tutorials/comparing-workflows)
+TBD
+
+### When do you want?
+
+TBD
+
+### References
+
+- [Trunk Based Development](https://trunkbaseddevelopment.com/)
