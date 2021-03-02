@@ -88,7 +88,7 @@ Here's how you choose a Git Flow for your project:
 
 - [Atlassian: Feature Branch Workflow](https://www.atlassian.com/git/tutorials/comparing-workflows/feature-branch-workflow)
 
-## Trunk-based Development
+## Trunk-based Development (with Feature Flag)
 
 | ![Trunk-based Branching](https://trunkbaseddevelopment.com/trunk1c.png) |
 | :--: |
