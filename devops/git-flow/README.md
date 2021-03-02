@@ -100,7 +100,7 @@ Similar as [Feature Branching](#feature-branching) but
 
 - There is a separated branch called `release` to freeze the development in a certain time, preparing to deploy to staging (if any) or production.
 - Feature branches are _short-lived_
-- Every point in _main branch_ should be _production-ready_. Here comes the **Feature Flag**.
+- Every point in _main branch_ should be _production-ready_. Here comes the [Feature Flag](#feature-flag).
 
 ### Feature Flag
 
