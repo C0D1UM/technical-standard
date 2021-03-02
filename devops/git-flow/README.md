@@ -6,20 +6,20 @@ Before we start, one thing that's constant is we will use only _one branch_ as a
 
 ## Centralized Workflow
 
-| ![Centralized Workflow](https://wac-cdn.atlassian.com/dam/jcr:f03a0fbd-a880-477f-aa32-33340383ce07/02%20(3).svg?cdnVersion=1481) |
-| --- |
+| <img src="https://wac-cdn.atlassian.com/dam/jcr:f03a0fbd-a880-477f-aa32-33340383ce07/02%20(3).svg?cdnVersion=1481" width="450"> |
+| :--: |
 | _Centralized Workflow_ |
 
 ## Feature Branching
 
-| ![Feature Branching](https://wac-cdn.atlassian.com/dam/jcr:09308632-38a3-4637-bba2-af2110629d56/07.svg?cdnVersion=1481) |
-| --- |
+| <img src="https://wac-cdn.atlassian.com/dam/jcr:09308632-38a3-4637-bba2-af2110629d56/07.svg?cdnVersion=1481" width="450"> |
+| :--: |
 | _Feature Branching_ |
 
 ## Trunk-based Development
 
 | ![Trunk-based Branching](https://trunkbaseddevelopment.com/trunk1c.png) |
-| --- |
+| :--: |
 | _Trunk-based Branching_ |
 
 ## References
