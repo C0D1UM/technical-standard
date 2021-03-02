@@ -54,7 +54,7 @@ Before we start, one thing that's constant is we will use only _one branch_ as a
 
 | ![Trunk-based Branching](https://trunkbaseddevelopment.com/trunk1c.png) |
 | :--: |
-| _Trunk-based Branching_ |
+| _Trunk-based Development_ |
 
 ### Concepts
 
