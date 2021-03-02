@@ -4,6 +4,30 @@ In this standard, we suggest you multiple implementations of Git Flow. Each flow
 
 Before we start, one thing that's constant is we will use only _one branch_ as a standard.
 
+## TL;DR
+
+### Flow Selection
+
+Here's how you choose a Git Flow for your project:
+
+| ![Flow Selection](Flow%20Selection.png) |
+| :--: |
+| _Flow Selection_ |
+
+### Difference between each flow
+
+| Topic | Centralized Workflow | Feature Branching | Trunk-based Development |
+| ----- | -------------------- | ----------------- | ----------------------- |
+| **Development** |
+| Number of branch | 1 | 1 | 1 |
+| Branching | - | By feature | By feature |
+| Branch live | - | Long-lived | Short-lived |
+| When to merge? | - | When feature is done | Depends but every often  (everyday, every 2 days, etc.) |
+| Code review | No | Possible | Recommended |
+| Maximum number of developers | 2 | N/A | N/A |
+| **Deployment** |
+| Development Server | On pushed to _main branch_ | On pushed to _main branch_ | On pushed to _main branch_ |
+
 ## Centralized Workflow
 
 | <img src="https://wac-cdn.atlassian.com/dam/jcr:f03a0fbd-a880-477f-aa32-33340383ce07/02%20(3).svg?cdnVersion=1481" width="450"> |
@@ -39,6 +63,12 @@ Before we start, one thing that's constant is we will use only _one branch_ as a
 - Frequently merge _main branch_ to _feature branch_
 - When it is finished, code review (including pipelines) is required before merging into _main branch_.
 - Delete _feature branch_ immediately after it has been merged
+
+### Deployment
+
+- **Development:** Deploy when pushed into _main branch_
+- **Staging _(if any)_:** Manually deploy from _main branch_
+- **Production:** Manually deploy by creating a tag from _main branch_
 
 ### When do you want?
 
