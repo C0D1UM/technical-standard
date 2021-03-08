@@ -184,7 +184,7 @@ file = open('file.txt')
 file.close()
 ```
 
-For psycopg2 connection, you should use [try catch over `with` statement](https://www.psycopg.org/docs/usage.html#with-statement). `with` statement will help commit/rollback transaction, and `try catch` will help close connection. 
+For psycopg2 connection, you should use [try catch over `with` statement](https://www.psycopg.org/docs/usage.html#with-statement). `with` statement will help commit/rollback transaction, and `try catch` will help close connection.
 
 ```python
 conn = psycopg2.connect(DSN)
