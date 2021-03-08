@@ -1,4 +1,12 @@
-# Python Style Guide
+# Python Style Guide (Optional)
+
+<br>
+<br>
+
+**this page is in draft mode. it is optional to follow guidelines on this page.**
+
+<br>
+<br>
 
 ## Base Style guide
 
@@ -176,21 +184,24 @@ file = open('file.txt')
 file.close()
 ```
 
-For psycopg2 connection, you should use [try catch](https://www.psycopg.org/docs/usage.html#with-statement) style.
+For psycopg2 connection, you should use [try catch over `with` statement](https://www.psycopg.org/docs/usage.html#with-statement). `with` statement will help commit/rollback transaction, and `try catch` will help close connection. 
 
 ```python
 conn = psycopg2.connect(DSN)
 
-# Yes
 try:
-    # connection usage
-finally:
-    conn.close()
+    # using with statement here, it will help commit/rollback transaction.
+    with conn:
+        with conn.cursor() as curs:
+            curs.execute(...)
 
-# No
-with conn:
-    with conn.cursor() as curs:
-        curs.execute(SQL2)
+    # put another transaction here.
+    with conn:
+        with conn.cursor() as curs:
+            curs.execute(...)
+finally:
+    # if you don't use connection anymore, close connection in finally block.
+    conn.close()
 ```
 
 ## Testing
