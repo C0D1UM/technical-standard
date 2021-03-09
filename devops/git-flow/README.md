@@ -11,8 +11,8 @@ Before we start, one thing that's constant is we will use only _one branch_ as a
 There are three flows we suggested you in this standard:
 
 1. **Centralized Workflow:** only master branch and all changes are committed into master.
-2. **Feature Branching:** have master and feature branch(es).
-3. **Trunk-based Development**: it is like _Feature Branching_ but feature branch is very short-lived and will be merged into master as fast as possible. Project should also implement [feature flags](#feature-flag) to turn on/off feature as well.
+1. **Feature Branching:** have master and feature branch(es).
+1. **Trunk-based Development**: it is like _Feature Branching_ but feature branch is very short-lived and will be merged into master as fast as possible. Project should also implement [feature flags](#feature-flag) to turn on/off feature as well.
 
 ### Flow Selection
 
