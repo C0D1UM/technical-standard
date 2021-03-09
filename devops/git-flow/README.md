@@ -6,6 +6,8 @@ Before we start, one thing that's constant is we will use only _one branch_ as a
 
 ## TL;DR
 
+### Flows
+
 There are three flows we suggested you in this standard:
 
 1. **Centralized Workflow:** only master branch and all changes are committed into master.
