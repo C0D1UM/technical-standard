@@ -17,6 +17,7 @@ plugins:
 
 header_pages:
   - django/README.md
+  - devops/README.md
 
 readme_index:
   remove_originals: true
