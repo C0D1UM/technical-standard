@@ -23,9 +23,9 @@ too much time, so I would recommend using [Django Excel Tools](https://github.co
 
 ## Simple
 
-### When to use simple technique?
+### When to use this technique?
 
-- The data importing will never be more than 2000 rows. (Tip validation and raise
+The data importing will never be more than 2000 rows. (Tip validation and raise
 400 when data is more than 2000 rows)
 
 ### How?
@@ -47,11 +47,13 @@ Overall process should not take any longer than 30 seconds.
 
 ## Advance
 
-- You don't know how many rows will be imported to the system at a time.
+### When to use this technique?
+
+You don't know how many rows will be imported to the system at a time.
 
 ### How?
 
-This would required more setup because we will need a background workers (Celery),
+This would required more setup because we will need background workers (Celery),
 here are some guides:
 
 - User upload the excel.
@@ -76,3 +78,28 @@ It's recommended to separate between worker and API server because usually worke
 will use a lot of resources, so if workers down it wouldn't affect API Server.
 
 ![Advance Architecture](img/advance-recommended-architecture.png)
+
+# Export Data to Excel
+
+Here are some best practices when working with exporting data from database to
+excel.
+
+## Simple
+
+### When to use this technique?
+
+If the data to export is no more than 2000 rows.
+
+### How?
+
+This would required a minimal setup, here the guides:
+
+- User request excel report via API.
+- API Server received request then query the database.
+- Return excel report via api.
+
+## Advance
+
+### When to use this technique?
+
+If you have no idea how many rows it's gonna be or it will be more than 2000 rows.
