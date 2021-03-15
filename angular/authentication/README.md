@@ -50,11 +50,11 @@ export class MainComponent implements OnInit {
 ```
 
 ### (Optional) Refresh Token Before Call API
-If token time is very short. (For example, you have to implement for bank website which token is expire in 5 minutes), You must check token expiration time everytime before call request. 
+If token time is very short (Ex. Banking website which token is expired in 5 minutes), You must check token expiration time everytime before call request and refresh token if needed. See code below. 
 
 ```ts
 function refreshTokenIfExpired () {
-    // decode jwt token.
+    // decode jwt token. This is very technical, you can skip this part of code.
     let base64Url = localStorage.currentUser.split('.')[1];
     let base64 = base64Url.replace(/-/g, '+').replace(/_/g, '/');
     let jsonPayload = decodeURIComponent(atob(base64).split('').map(function(c) {
@@ -66,10 +66,11 @@ function refreshTokenIfExpired () {
 
     let refreshToken = false
     // check if token will be expired in 5 minutes (300000 = 5 minutes)
-    if (typeof decoded.exp !== 'undefined' && decoded.exp < now - 300000) {
+    let FIVE_MINUTES = 5 * 60 * 1000;
+    if (typeof decoded.exp !== 'undefined' && decoded.exp < now - FIVE_MINUTES) {
         refreshToken = true
     }
-    if (typeof decoded.nbf !== 'undefined' && decoded.nbf > now - 300000) {
+    if (typeof decoded.nbf !== 'undefined' && decoded.nbf > now - FIVE_MINUTES) {
         refreshToken = true
     }
 
@@ -78,4 +79,37 @@ function refreshTokenIfExpired () {
         this.authService.refreshToken( ... )
     }
 };
+```
+
+# Auth Guard
+In routing module, you should implement AuthGuard to check permission to each route
+```ts
+const routes: Routes = [
+  {
+    path: 'my-path',
+    component: MyComponent,
+    // use canActivate to protect 'my-path' routes.
+    canActivate: [AuthGuard],
+  }
+]
+```
+If your routes have subpath, you should use `canActivateChild` to protect sub-path.
+```ts
+const routes: Routes = [
+  {
+    path: 'my-path',
+    component: MyComponent,
+
+    // use canActivate, canActivateChild to protect 'my-path' routes and it's sub-path.
+    canActivate: [AuthGuard],
+    canActivateChild: [AuthGuard],
+
+    children: [
+      {
+        path: 'my-child',
+        ...
+      },
+    ]
+  }
+]
 ```
