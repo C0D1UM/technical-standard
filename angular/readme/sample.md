@@ -1,4 +1,40 @@
 
+# Documentation
+
+## Mock-up
+
+https://xd.adobe.com/view/something
+
+## API Documentation
+
+### Local Access
+
+http://localhost:8000/swagger
+
+### Internal Access
+
+https://dev.project.heroapp.dev/swagger
+
+(Use CODIUM network to access)
+
+# Application URLs
+
+## Local
+
+http://localhost:4200
+
+## Development Server
+
+https://dev.project.heroapp.dev
+
+## Staging Server
+
+https://staging.project.heroapp.dev
+
+## Production Server
+
+https://project.heroapp.dev
+
 # Requirements
 
 * Docker version >= 17.12.0-ce
@@ -7,82 +43,35 @@
 
 # Setup Project (First time only)
 
-## For Mac
-
 ```sh
-make reset-init-db
+make setup-nvm
 ```
-
-## For Ubuntu
-
- 1. Open terminal and run command below, make sure you are in project root directory
-
-    ```sh
-    nvm install 9.10.1
-    nvm install 8.10.0
-    make -s ubuntu-setup-project
-    ```
-
- 1. Setup docker ip
-
-    ```sh
-    sudo bash manage-host.sh addhost host.docker.internal 127.0.0.1
-    ```
 
 # Run Project
 
 ```sh
-make run-django
+make run-angular
 ```
 
 # Accounts
 
-## API
-
-* url: `http://localhost:8000/`
-  * admin
-    * username:admin
-    * password:P@ssword
-  * user
-    * username:test_user
-    * password:P@assword
-
-## DB
-
-* url: `localhost:5432`
-* database: my_db
-* username: postgres
-* password: postgres
+* admin
+  * username:admin
+  * password:P@ssword
+* user
+  * username:test_user
+  * password:P@assword
 
 # Miscellaneous Tools
 
-## Clean Project
+## Linting Project
 
 ```sh
-make clean-project
+make lint-angular
 ```
 
-command above will clean docker container/images, reset db and run django
-
-## Reset DB
+## Testing Project
 
 ```sh
-make reset-init-db
+make test-angular
 ```
-
-## Dump DB
-
-```sh
-make dump-local-db
-```
-
-You will see file `mydump` in current directory.
-
-## Restore DB
-
- 1. Copy `mydump` file to `<project root>/django` folder
- 1. run command
-
-    ```sh
-    make restore-local-db
-    ```
