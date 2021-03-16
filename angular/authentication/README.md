@@ -16,7 +16,7 @@ this.tokenService
         (user: any) => {
             // save token and user information to local storage.
             localStorage.setItem('currentUser', data)
-            // you may save more user information as you want ....
+            // you may save more user information as you want (Ex. roles, name, address )....
         },
         (error) => {
             // display error message to user as you want ...
@@ -49,8 +49,8 @@ export class MainComponent implements OnInit {
 }
 ```
 
-### (Optional) Refresh Token Before Call API
-If token time is very short (Ex. Banking website which token is expired in 5 minutes), You must check token expiration time everytime before call request and refresh token if needed. See code below. 
+### (Optional) Short Expiration Time
+If token time is very short (Ex. Banking website which token is expired in 5 minutes), You must check token expiration time before call request and refresh token if needed. See code below. 
 
 ```ts
 function refreshTokenIfExpired () {
