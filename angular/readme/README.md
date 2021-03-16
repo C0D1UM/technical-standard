@@ -1,4 +1,4 @@
-# Django README Instructions
+# Angular README Instructions
 
 This page will give you recommendations on how to write `README.md` file for your Angular project.
 
