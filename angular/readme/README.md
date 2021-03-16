@@ -1,11 +1,21 @@
 # Django README Instructions
 
-This page will give you recommendations on how to write `README.md` file for your Django project.
+This page will give you recommendations on how to write `README.md` file for your Angular project.
 
 ## Topics
 
 <pre>
     README.md
+    ├── Documentation
+    │   ├── Wireframe/Mock-up
+    │   │   # or any design for the project
+    │   │
+    │   └── API Documentation
+    │       # such as how to access it, credential (if any)
+    │
+    ├── Application URLs
+    │   # URLs for local development, development server, staging (if any) server, and production server.
+    │
     ├── Requirements
     │   # requirement version of Docker, Docker-Compose, etc.
     │
@@ -15,27 +25,18 @@ This page will give you recommendations on how to write `README.md` file for you
     ├── Run Project
     │   # Steps for running project after developer have already setup the project.
     │
-    ├── Account
-    │   ├── API
-    │   │    # Account for login to localhost API for admin and regular user
-    │   └── DB
-    │        # Account for access localhost DB.
+    ├── Accounts
+    │   # Account for login to application for admin and regular user.
     │
     ├── Miscellaneous Tools
-    │   ├── Clean Project
-    │   │   # Steps for cleaning project (clear project docker image/containers, reset db)
+    │   ├── Linting Project
+    │   │   # Steps for linting project
     │   │
-    │   ├── Reset DB
-    │   │    # Steps for reset DB
-    │   │
-    │   ├── Dump DB
-    │   │    # Steps for dump localhost DB
-    │   │
-    │   └── Restore DB
-    │        # Steps for restore localhost DB
+    │   └── Testing Project
+    │       # Steps for testing project
     │
     └── Other topics
-         # For example, custom config Celery/RabbitMQ, setup some complex data, etc.
+         # For example, troubleshooting, feature flags, monitoring systems, etc.
 </pre>
 
 ## Example
