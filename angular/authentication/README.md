@@ -1,6 +1,7 @@
 # Authentication Guidelines
 
 ## Login
+
 ```ts
 // before call login API, you should clear all authentications in local storage
 localStorage.clear();
@@ -25,7 +26,9 @@ this.tokenService
 ```
 
 ## Refresh Token
+
 ### Main Component
+
 By default, backend will set default token expiration time = 1 month. So, On frontend, The easiest way is just refreshing token every time when user refresh website. You can do by add code below in your `main.component.ts`
 
 ```ts
@@ -50,7 +53,8 @@ export class MainComponent implements OnInit {
 ```
 
 ### (Optional) Short Expiration Time
-If token time is very short (Ex. Banking website which token is expired in 5 minutes), You must check token expiration time before call request and refresh token if needed. See code below. 
+
+If token time is very short (Ex. Banking website which token is expired in 5 minutes), You must check token expiration time before call request and refresh token if needed. See code below.
 
 ```ts
 function refreshTokenIfExpired () {
@@ -82,7 +86,9 @@ function refreshTokenIfExpired () {
 ```
 
 # Auth Guard
+
 In routing module, you should implement AuthGuard to check permission to each route
+
 ```ts
 const routes: Routes = [
   {
@@ -93,7 +99,9 @@ const routes: Routes = [
   }
 ]
 ```
+
 If your routes have subpath, you should use `canActivateChild` to protect sub-path.
+
 ```ts
 const routes: Routes = [
   {
