@@ -103,3 +103,38 @@ This would required a minimal setup, here the guides:
 ### When to use this technique?
 
 If you have no idea how many rows it's gonna be or it will be more than 2000 rows.
+
+### How?
+
+This would required more setup because we will need background workers (Celery),
+here are some guides:
+
+- User request excel file via API.
+- API server received the request, then send this job to background worker,
+finally response 203 status code meaning the job is successfully accepted.
+- In worker, when query data from database it's recommend to split it chunks.
+Says 2000 rows per query, you can use SQL `LIMIT` and `OFFSET` to achieve this.
+This prevent database from crashing when requesting too much data at once.
+- (Optional) Use more than one work, so we can export data in parallels.
+
+*Note: Using `OFFSET` might cause performance problem later on, but this method
+providing easier to implement. If that the case, you can sort the data and use
+`WHERE` instead.*
+
+Example:
+
+```sql
+select *
+from tbl_name
+order by id
+where id < 2000
+limit 2000
+```
+
+# Progressing (Optional)
+
+For a better UX, we should displaying the progress of importing data to the
+system to user. There are multiple ways of doing this:
+
+- Provide an API Endpoint for frontend to call every, says 5 seconds, and frontend display progress to user. API response payload should contain progress value.
+- Using Web Socket that wait for push event from backend.
