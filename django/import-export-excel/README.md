@@ -16,12 +16,12 @@ Here are some best practices when working with importing data from excel.
 
 ## Data Validation
 
-It is important to import correct data to our system, and we won't be able to
-trust if user only fill the correct data. So before import data to the system,
-each row and column must be validated the type. Doing this manually would take
+It is important to import correct data to our system, and we're not able to
+trust if user only fill the correct data. So before importing data to the system,
+each row and column must be validated. Doing this manually would take
 too much time, so I would recommend using [Django Excel Tools](https://github.com/NorakGithub/django-excel-tools) for data validation.
 
-## Simple
+## Simple Technique
 
 ### When to use this technique?
 
@@ -45,7 +45,7 @@ Overall process should not take any longer than 30 seconds.
 
 ![Simple Architecture](img/simple-architecture.jpeg)
 
-## Advance
+## Advance Technique
 
 ### When to use this technique?
 
@@ -98,6 +98,10 @@ This would required a minimal setup, here the guides:
 - API Server received request then query the database.
 - Return excel report via api.
 
+### Architecture
+
+![Simple Architecture](img/simple-architecture.jpeg)
+
 ## Advance
 
 ### When to use this technique?
@@ -131,10 +135,26 @@ where id < 2000
 limit 2000
 ```
 
-# Progressing (Optional)
+### Architecture
 
-For a better UX, we should displaying the progress of importing data to the
-system to user. There are multiple ways of doing this:
+#### Minimum
 
-- Provide an API Endpoint for frontend to call every, says 5 seconds, and frontend display progress to user. API response payload should contain progress value.
-- Using Web Socket that wait for push event from backend.
+![Advance Architecture](img/advance-minimum-architecture.png)
+
+#### Recommended
+
+It's recommended to separate between worker and API server because usually workers
+will use a lot of resources, so if workers down it wouldn't affect API Server.
+
+![Advance Architecture](img/advance-recommended-architecture.png)
+
+# Progress
+
+For a better UX, we should displaying the progress of import/export data to user.
+There are multiple ways of doing this:
+
+- Provide an API Endpoint for frontend to call every, says 5 seconds, and frontend display progress to user.
+API response payload should contain progress value. This is easy to implement, but kinda
+bad for the performance and resource usage.
+- Using Web Socket that wait for push event from backend. This is not easy to implement, but better in term
+of performance and resource usage.
