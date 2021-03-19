@@ -2,7 +2,7 @@
 
 ## Environment
 
-- Define `baseUrl` in file `environment.ts` 
+- Define `baseUrl` in file `environment.ts`
 
 Example
 
@@ -37,8 +37,7 @@ const BaseUrl = environment.baseUrl + '/api';
 ## API Function
 
 - You should define returned type for your Api function and set function name start with Http method
-    - In general, Http methods will return type as observable that you can use by subscribe
-    
+  - In general, Http methods will return type as observable that you can use by subscribe
 - If you want to send api by using id then send as parameter of Api function before connecting id to Api Url
 
 Example
@@ -50,4 +49,3 @@ postData(id: number, data): Observable<ResponseType> {
   return this.http.post<ResponseType>(ApiUrl.endpoint + id + '/', data);
 }
 ```
-
