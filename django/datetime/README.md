@@ -50,6 +50,7 @@ now = datetime.datetime.now() # get current Naive datetime
 import datetime
 
 import pytz
+
 # Yes
 now = datetime.datetime.now() # current Naive datetime
 
