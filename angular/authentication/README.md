@@ -1,30 +1,5 @@
 # Authentication Guidelines
 
-## Login
-
-```ts
-// before call login API, you should clear all authentications in local storage
-localStorage.clear();
-
-// then, call login API request
-this.tokenService
-    .login({
-        // username should convert to lowercase and trim spaces.
-        username: this.username.toLocaleLowerCase().trim(),
-        password: this.password,
-    })
-    .subscribe(
-        (user: any) => {
-            // save token and user information to local storage.
-            localStorage.setItem('currentUser', data)
-            // you may save more user information as you want (Ex. roles, name, address )....
-        },
-        (error) => {
-            // display error message to user as you want ...
-        }
-    );
-```
-
 ## Refresh Token
 
 ### Main Component
@@ -85,39 +60,36 @@ function refreshTokenIfExpired () {
 };
 ```
 
-# Auth Guard
 
-In routing module, you should implement AuthGuard to check permission to each route
+# LocalStorage
+LocalStorage size is limited to about 5MB. Make sure that you don't save large files (Ex. profile pictures). You should download file from backend server instead.
 
-```ts
-const routes: Routes = [
-  {
-    path: 'my-path',
-    component: MyComponent,
-    // use canActivate to protect 'my-path' routes.
-    canActivate: [AuthGuard],
-  }
-]
+```
+# Bad. Do not save files data into localstorage. Size limit is about 5 MB.
+let bytes = .... 
+localStorage.setItem('file', bytes)
 ```
 
-If your routes have subpath, you should use `canActivateChild` to protect sub-path.
 
-```ts
-const routes: Routes = [
-  {
-    path: 'my-path',
-    component: MyComponent,
+## LocalStorage VS SessionStorage
+You should not save user profile into SessionStorage. Different between LocalStorage and SessionStorage is below.
 
-    // use canActivate, canActivateChild to protect 'my-path' routes and it's sub-path.
-    canActivate: [AuthGuard],
-    canActivateChild: [AuthGuard],
+* LocalStorage will save data and share that data when user open 2 tabs.
+* SessionStorage will not share data when across tabs.
+* SessionStorage will automatically deleted when user close tab, but does not delete when user refresh website.
 
-    children: [
-      {
-        path: 'my-child',
-        ...
-      },
-    ]
-  }
-]
-```
+Here is what happen if you use sessionStorage to save user token/profiles.
+* If user open 2 tabs of the same website and user profile changes, it does not changes on other tab. 
+* If user logout first tabs, second tab is still logged in.
+* user have to login again when close tab and open a new one.
+
+
+## LocalStorage VS Cookie
+You should not save user profile and authentication token into cookies because it can be hacked by 'CSRF' method. More info on this [link](https://hydrasky.com/network-security/cross-site-request-forgery-csrf/)
+
+
+# Prevent Authentication Hacking
+* use https all the time.
+* You should use LocalStorage to save user profile/authentication token (not cookie. see topic above)
+* when user refresh website. Frontend should refresh user profile (see topic "Refresh Token" above).
+
