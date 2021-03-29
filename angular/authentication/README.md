@@ -61,7 +61,77 @@ function refreshTokenIfExpired () {
 ```
 
 
+# Authentication Token Interceptor
+
+Authentication token interceptor which will add token to request.
+
+
+```ts
+import {Injectable} from '@angular/core';
+import {HttpEvent, HttpHandler, HttpInterceptor, HttpRequest} from '@angular/common/http';
+import {Observable} from 'rxjs';
+
+import {environment} from '../../../environments/environment';
+
+@Injectable()
+export class JwtInterceptor implements HttpInterceptor {
+  constructor(private authenticationService: AuthenticationService) {
+  }
+
+  intercept(request: HttpRequest<any>, next: HttpHandler): Observable<HttpEvent<any>> {
+    // add auth header with jwt if user is logged in and request is to the api url
+    const currentUser = localStorage.currentUser;
+    const isApiUrl = request.url.startsWith(environment.baseUrl);
+
+    if (currentUser && isApiUrl) {
+      request = request.clone({
+        setHeaders: {
+          Authorization: `Bearer ${currentUser}`
+        }
+      });
+    }
+
+    return next.handle(request);
+  }
+}
+```
+
+# Authentication Error Interceptor
+
+Error interceptor will force logout if return status = 401 - Unauthorized.
+
+
+```ts
+import {Injectable} from '@angular/core';
+import {HttpEvent, HttpHandler, HttpInterceptor, HttpRequest} from '@angular/common/http';
+import {Observable, throwError} from 'rxjs';
+import {catchError} from 'rxjs/operators';
+
+import {ApiUrl} from '../http/api.constant';
+
+@Injectable()
+export class ErrorInterceptor implements HttpInterceptor {
+  constructor(private authenticationService: AuthenticationService) {
+  }
+
+  intercept(request: HttpRequest<any>, next: HttpHandler): Observable<HttpEvent<any>> {
+    return next.handle(request).pipe(catchError(err => {
+      if (err.status === 401 && request.url !== ApiUrl.login) {
+        // auto logout if 401 response returned from api
+        localStorage.clear();
+        location.reload();
+      }
+
+      const error = err.error.message || err.statusText;
+      return throwError(error);
+    }));
+  }
+}
+
+```
+
 # LocalStorage
+
 LocalStorage size is limited to about 5MB. Make sure that you don't save large files (Ex. profile pictures). You should download file from backend server instead.
 
 ```
@@ -72,6 +142,7 @@ localStorage.setItem('file', bytes)
 
 
 ## LocalStorage VS SessionStorage
+
 You should not save user profile into SessionStorage. Different between LocalStorage and SessionStorage is below.
 
 * LocalStorage will save data and share that data when user open 2 tabs.
@@ -79,17 +150,21 @@ You should not save user profile into SessionStorage. Different between LocalSto
 * SessionStorage will automatically deleted when user close tab, but does not delete when user refresh website.
 
 Here is what happen if you use sessionStorage to save user token/profiles.
+
 * If user open 2 tabs of the same website and user profile changes, it does not changes on other tab. 
 * If user logout first tabs, second tab is still logged in.
 * user have to login again when close tab and open a new one.
 
 
 ## LocalStorage VS Cookie
+
 You should not save user profile and authentication token into cookies because it can be hacked by 'CSRF' method. More info on this [link](https://hydrasky.com/network-security/cross-site-request-forgery-csrf/)
 
 
 # Prevent Authentication Hacking
+
 * use https all the time.
 * You should use LocalStorage to save user profile/authentication token (not cookie. see topic above)
 * when user refresh website. Frontend should refresh user profile (see topic "Refresh Token" above).
+* You should not send password or sensitive information in GET method. Even though GET param is encrypted in https but it may logged in nginx or django.
 
