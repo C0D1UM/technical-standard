@@ -5,7 +5,7 @@
 | ![Bootstrap](https://camo.githubusercontent.com/bec2c92468d081617cb3145a8f3d8103e268bca400f6169c3a68dc66e05c971e/68747470733a2f2f76352e676574626f6f7473747261702e636f6d2f646f63732f352e302f6173736574732f6272616e642f626f6f7473747261702d6c6f676f2d736861646f772e706e67) | ![Tailwind CSS](https://symbols.getvecta.com/stencil_97/3_tailwind-css-icon.43c02f69bf.png) |
 | :---: | :---: |
 | _Bootstrap_ | _Tailwind CSS_ |
-| https://getbootstrap.com | https://tailwindcss.com |
+| [https://getbootstrap.com](https://getbootstrap.com) | [https://tailwindcss.com](https://tailwindcss.com) |
 
 ### When to use?
 
@@ -26,7 +26,7 @@ _Bootstrap_ should be your choice.
 | ![NG Bootstrap](https://ng-bootstrap.github.io/img/logo-stack.png) | ![PrimeNG](https://i0.wp.com/www.primefaces.org/wp-content/uploads/2016/10/primeng.png?resize=450%2C450&ssl=1) |
 | :---: | :---: |
 | _NG Bootstrap_ <sup>[2]</sup> | _PrimeNG_ |
-| https://ng-bootstrap.github.io | https://www.primefaces.org/primeng |
+| [https://ng-bootstrap.github.io](https://ng-bootstrap.github.io) | [https://www.primefaces.org/primeng](https://www.primefaces.org/primeng) |
 
 <small><sup>[2]</sup> Please note that its _npm_ package name is `@ng-bootstrap/ng-bootstrap`, not [`ngx-bootstrap`](https://github.com/valor-software/ngx-bootstrap) which is another framework.</small>
 
