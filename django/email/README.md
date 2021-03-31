@@ -32,6 +32,24 @@ to specific email address.
 ```python
 # settings.py
 ALLOW_EMAIL_DOMAINS = env.list('ALLOW_EMAIL_DOMAINS', default=['codium.co'])
+
+# send_email.py
+receivers = [
+    'a@codium.co',
+    'b@gmail.com',
+    'c@sale.com',
+]
+
+allowed_receivers = []
+# Do the filtering
+
+from django.core.mail import send_mail
+send_mail(
+    'Subject',
+    'Message',
+    allowed_receivers,
+    fail_silently=False
+)
 ```
 
 So before send email, you can filter for only email address which domain name in
