@@ -21,8 +21,8 @@ that unsubscribe user from newsletter.
 
 There might be time that you would like to debug or fix email sending bug, and
 you dump data from the production to reproduce. There are high chances that you
-accidentally send actual customer since you are using production database. Below
-are some best practices handling this problem:
+accidentally send email to actual customer since you are using production
+database. Below are some best practices handling this problem:
 
 ### Domain Name Filtering
 
@@ -53,13 +53,12 @@ send_mail(
 )
 ```
 
-So before send email, you can filter for only email address which domain name in
-setting list.
+So before sending email, you can filter for only domain name in allowed list.
 
 ### Log Email to Console
 
 The second solution is when running local environment you can use Django console
-email backend, when define this in `settings.py` it will only log email to
+email backend. When define this in `settings.py` it will only log email to
 console instead of actually connecting to SMTP server and send email.
 
 ```python
@@ -81,6 +80,6 @@ recommend using SendGrid API instead of SMTP.
 
 Use dedicate ip feature when ever possible (this is a pay feature). By using a
 dedicated IP, allow us to not use the shared IP from SendGrid. Since shared IP
-address is free, so people try to use it for bad purposes and this cause those
-IP to be banned from some email server like HotMail, GMail etc., so if you wonder
-why email is not received by customer this could be the reason.
+address is free, people try to use it for bad purposes and this cause those
+shared IP to be banned from some email server like HotMail, GMail etc., so if
+you wonder why email is not received by customer, this could be the reason.
