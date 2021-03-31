@@ -11,7 +11,7 @@ Providing best practices from our own experiences.
 ## Who is this for?
 
 This document is for beginner to advance software developer, who is using similar
-to CODIUM technology stack (Django, Angular).
+to CODIUM technology stack.
 
 ## Contributing
 
