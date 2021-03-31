@@ -117,13 +117,13 @@ here are some guides:
 - API server received the request, then send this job to background worker,
 finally response 203 status code meaning the job is successfully accepted.
 - In worker, when query data from database it's recommend to split it chunks.
-Says 2000 rows per query, you can use SQL `LIMIT` and `OFFSET` to achieve this.
+Says 2000 rows per query, you can use SQL `LIMIT` and `OFFSET` (using [Django](https://docs.djangoproject.com/en/3.1/topics/db/queries/#limiting-querysets)) to achieve this.
 This prevent database from crashing when requesting too much data at once.
 - (Optional) Use more than one work, so we can export data in parallels.
 
 *Note: Using `OFFSET` might cause performance problem later on, but this method
 providing easier to implement. If that the case, you can sort the data and use
-`WHERE` instead.*
+`WHERE` instead (you can also achieve this with Django).*
 
 Example:
 
