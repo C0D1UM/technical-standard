@@ -119,7 +119,7 @@ finally response 203 status code meaning the job is successfully accepted.
 - In worker, when query data from database it's recommend to split it chunks.
 Says 2000 rows per query, you can use SQL `LIMIT` and `OFFSET` to achieve this.
 This prevent database from crashing when requesting too much data at once.
-- (Optional) Use more than one work, so we can export data in parallels.
+- (Optional) Use more than one worker, so we can export data in parallels.
 
 *Note: Using `OFFSET` might cause performance problem later on, but this method
 providing easier to implement. If that the case, you can sort the data and use
