@@ -42,6 +42,7 @@ receivers = [
 
 allowed_receivers = []
 # Do the filtering
+# After filtered, allowed_receivers should has only ['a@codium.co']
 
 from django.core.mail import send_mail
 send_mail(
