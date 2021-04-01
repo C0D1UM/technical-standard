@@ -133,5 +133,25 @@ For the configuration in vscode, go to Setting -> Extensions and choose the exte
   - `Prettier: Arrow Parent` = `always`
   - `HTML Whitespace Sensitivity` = `strict`
 
-### For Pycharm
+### For WebStorm
 
+For WebStorm, go to Preference. In sidebar, choose Editor -> Code Style and select programing language to configure.
+
+- #### HTML
+
+  When enter to HTML configuration page. You can set configuration following below.
+
+  - In _Tabs and Indents_ tab, set `indent` = `4`.
+  - In _Other_ tab, set `Wrap attributes` = `Wrap always`.
+
+- #### Typescript
+
+  In _Punctuation_ tab, you will see three line. set them like below.
+
+  - `Use` semicolon to terminate statements `always`
+  - Use `single` quotes `always`
+  - Trailing comma: `Add when multiline`
+
+### EditorConfig
+
+If the setting configuration in your editor has no effect. Please check the existence of `.editorconfig` file in your project where the configuration can be overridden.
