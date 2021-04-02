@@ -98,7 +98,7 @@ export class JwtInterceptor implements HttpInterceptor {
 
 LocalStorage size is limited to about 5MB. Make sure that you don't save large files (Ex. profile pictures). You should download file from backend server instead.
 
-```
+```ts
 # Bad. Do not save files data into localstorage. Size limit is about 5 MB.
 let bytes = .... 
 localStorage.setItem('file', bytes)
@@ -114,7 +114,7 @@ You should not save user profile into SessionStorage. Different between LocalSto
 
 Here is what happen if you use sessionStorage to save user token/profiles.
 
-* If user open 2 tabs of the same website and user profile changes, it does not changes on other tab. 
+* If user open 2 tabs of the same website and user profile changes, it does not changes on other tab.
 * If user logout first tabs, second tab is still logged in.
 * user have to login again when close tab and open a new one.
 
@@ -128,4 +128,3 @@ You should not save user profile and authentication token into cookies because i
 * You should use LocalStorage to save user profile/authentication token (not cookie. see topic above)
 * when user refresh website. Frontend should refresh user profile (see topic "Refresh Token" above).
 * You should not send password or sensitive information in GET method. Even though GET param is encrypted in https but it may logged in nginx or django.
-
