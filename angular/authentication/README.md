@@ -60,11 +60,9 @@ function refreshTokenIfExpired () {
 };
 ```
 
-
 # Authentication Token Interceptor
 
 Authentication token interceptor which will add token to request.
-
 
 ```ts
 import {Injectable} from '@angular/core';
@@ -96,40 +94,6 @@ export class JwtInterceptor implements HttpInterceptor {
 }
 ```
 
-# Authentication Error Interceptor
-
-Error interceptor will force logout if return status = 401 - Unauthorized.
-
-
-```ts
-import {Injectable} from '@angular/core';
-import {HttpEvent, HttpHandler, HttpInterceptor, HttpRequest} from '@angular/common/http';
-import {Observable, throwError} from 'rxjs';
-import {catchError} from 'rxjs/operators';
-
-import {ApiUrl} from '../http/api.constant';
-
-@Injectable()
-export class ErrorInterceptor implements HttpInterceptor {
-  constructor(private authenticationService: AuthenticationService) {
-  }
-
-  intercept(request: HttpRequest<any>, next: HttpHandler): Observable<HttpEvent<any>> {
-    return next.handle(request).pipe(catchError(err => {
-      if (err.status === 401 && request.url !== ApiUrl.login) {
-        // auto logout if 401 response returned from api
-        localStorage.clear();
-        location.reload();
-      }
-
-      const error = err.error.message || err.statusText;
-      return throwError(error);
-    }));
-  }
-}
-
-```
-
 # LocalStorage
 
 LocalStorage size is limited to about 5MB. Make sure that you don't save large files (Ex. profile pictures). You should download file from backend server instead.
@@ -139,7 +103,6 @@ LocalStorage size is limited to about 5MB. Make sure that you don't save large f
 let bytes = .... 
 localStorage.setItem('file', bytes)
 ```
-
 
 ## LocalStorage VS SessionStorage
 
@@ -155,11 +118,9 @@ Here is what happen if you use sessionStorage to save user token/profiles.
 * If user logout first tabs, second tab is still logged in.
 * user have to login again when close tab and open a new one.
 
-
 ## LocalStorage VS Cookie
 
 You should not save user profile and authentication token into cookies because it can be hacked by 'CSRF' method. More info on this [link](https://hydrasky.com/network-security/cross-site-request-forgery-csrf/)
-
 
 # Prevent Authentication Hacking
 
