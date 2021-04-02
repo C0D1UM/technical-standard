@@ -3,9 +3,8 @@
 ## Environment
 
 - Define `baseUrl` in `environment.ts` file in order to use in `api.constant.ts` file
-<br/>
 
-**Example** ( *In case of using same base URL* )
+Example *( In case of using same base URL )*
 
 ```typescript
 // environment.ts
@@ -19,9 +18,8 @@ export const environment = {
   ...
 };
 ```
-<br/>
 
-**Example** ( *In case of using different base URL* )
+Example *( In case of using different base URL )*
 
 ```typescript
 // environment.ts
@@ -40,7 +38,7 @@ export const environment = {
 - Collect all API endpoints in file follow to `src/app/core/http/api.constant.ts` if there is no this file in repository, so you need to create this file first
 - Set `BaseApiUrl` constant in `api.constant.ts` and define your endpoints in `ApiUrl` constant
 
-**Example**
+Example
 
 ```typescript
 // api.constant.ts
@@ -60,7 +58,7 @@ export const ApiUrl = {
   - In general, HTTP methods will return type as observable that you can use by subscribe
 - If you want to send API by using id then send as parameter of API function before connecting id to API URL
 
-**Example**
+Example
 
 ```typescript
 // example.service.ts
