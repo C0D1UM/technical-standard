@@ -2,9 +2,10 @@
 
 ## Environment
 
-- Define `baseUrl` in file `environment.ts`
+- Define `baseUrl` in `environment.ts` file in order to use in `api.constant.ts` file
+<br/>
 
-Example
+**Example** ( *In case of using same base URL* )
 
 ```typescript
 // environment.ts
@@ -18,29 +19,48 @@ export const environment = {
   ...
 };
 ```
+<br/>
+
+**Example** ( *In case of using different base URL* )
+
+```typescript
+// environment.ts
+
+const url = window.location.href;
+
+export const environment = {
+  ...
+  baseUrl: < base URL of your API >,
+  ...
+};
+```
 
 ## API Constant
 
-- Create file `api.constant.ts` for keep all Api endpoints
-- Set `BaseUrl` constant in `api.constant.ts`
+- Collect all API endpoints in file follow to `src/app/core/http/api.constant.ts` if there is no this file in repository, so you need to create this file first
+- Set `BaseApiUrl` constant in `api.constant.ts` and define your endpoints in `ApiUrl` constant
 
-Example
+**Example**
 
 ```typescript
 // api.constant.ts
 
-import { environment } from '../../../environments/environment';
+import { environment } from '../environments/environment';
 
-const BaseUrl = environment.baseUrl + '/api';
+const BaseApiUrl = environment.baseUrl + '/api';
+
+export const ApiUrl = {
+  example: BaseApiUrl + '/masterdata/company-groups/',
+}
 ```
 
 ## API Function
 
-- You should define returned type for your Api function and set function name start with Http method
-  - In general, Http methods will return type as observable that you can use by subscribe
-- If you want to send api by using id then send as parameter of Api function before connecting id to Api Url
+- You should define returned type for your API function and set function name start with HTTP method
+  - In general, HTTP methods will return type as observable that you can use by subscribe
+- If you want to send API by using id then send as parameter of API function before connecting id to API URL
 
-Example
+**Example**
 
 ```typescript
 // example.service.ts
