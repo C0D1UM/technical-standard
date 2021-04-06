@@ -9,11 +9,9 @@
 
 ### When to use?
 
-| Bootstrap | Tailwind CSS |
-| :-------: | :------: |
-| Lots of interactive | Less or zero interactive <sup>[1]</sup> |
-| Less UI customization | Lots of UI customization |
-| Simple, flexible mock-up | Strict, complicated mock-up |
+| ![When to use?](https://www.plantuml.com/plantuml/proxy?src=https://raw.githubusercontent.com/C0D1UM/technical-standard/main/angular/ui-framework/when-to-use-css-framework.plantuml) |
+| :--: |
+| _When to use?_ |
 
 <small><sup>[1]</sup> Because currently, _Tailwind CSS_ does not have much integration with our front-end framework, Angular. Developing interactive form with _Tailwind CSS_ would generate a lot of work to do.</small>
 
