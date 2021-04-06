@@ -39,4 +39,6 @@ It depends on which framework your code base was using. The important rule is **
 - _NG Bootstrap_ has slightly more stars and download count than _PrimeNG_ <sup>[3]</sup>
 - _PrimeNG_ components are more customizable
 
+You can use another framework as well. But you need to consult and get approval from Tech Council about your selected framework first.
+
 <small><sup>[3]</sup> Reference: [npm trends](https://www.npmtrends.com/primeng-vs-@ng-bootstrap/ng-bootstrap)</small>
