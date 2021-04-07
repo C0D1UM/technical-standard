@@ -12,7 +12,7 @@
 
 ### Base Style Guide
 
-The main programing language in Angular framework included with TypeScript, HTML, SCSS. We follow
+The main programing language in Angular framework included TypeScript, HTML, SCSS. We follow
 
 - [Google style guide for HTML/CSS](https://google.github.io/styleguide/htmlcssguide.html), [TypeScript](https://google.github.io/styleguide/tsguide.html)
 - [Kitty Giraudel style guide for SCSS](https://sass-guidelin.es/)
@@ -24,19 +24,19 @@ The rest of the document describes additions and clarifications below.
 
 #### Indentation
 
-For the indentation in TypeScript we use 2 spaces for every new line. we don't tabs or mix tabs.
+For the indentation in TypeScript, we use **2 spaces** for every new line. Do not use tabs or spaces mixed with tabs.
 
 #### Return Type
 
-We recommend to assign ***return type*** of method for precision and simple to read the surface of them. Some lint configuration as eslint will have warning with highlight.
+Let's make it mandatory for return type of method for precision and simple to read the surface of them. Some lint configuration as eslint will have warning with highlight.
 
 ```typescript
-/** without return type */
+/** No */
 isAdmin(role: string) {
   return role === 'admin';
 }
 
-/** recommend */
+/** Yes */
 isAdmin(role: string): boolean {
   return role === 'admin';
 }
@@ -44,7 +44,7 @@ isAdmin(role: string): boolean {
 
 #### Trailing Commas
 
-If the an array or object literal has written in many line. The last field should be ended with comma.
+If an array or object literal is written in many lines, the last object should be ended with comma.
 
 ```typescript
 /** Yes */
@@ -66,7 +66,7 @@ const obj = {
 
 #### Indentation
 
-The indentation in HTML, we use 2 spaces for inside element. we don't tabs or mix tabs.
+For the indentation in HTML, we use **2 spaces** for elements. Do not use tabs or spaces mixed with tabs.
 
 ```html
 <div id="div-1">
@@ -79,7 +79,7 @@ The indentation in HTML, we use 2 spaces for inside element. we don't tabs or mi
 
 #### Line-Wrapping (Optional)
 
-For wrapping the attribute of element, In base styles there is no recommendation. You may consider by readability. However, we suggest to wrap them with 4 spaces for the attribute indentation.
+For wrapping the attribute of elements, we wrap them with 4 spaces for the attribute indentation.
 
 ```html
 <!-- not recommend - wrapping somewhere long line -->
@@ -101,9 +101,9 @@ For wrapping the attribute of element, In base styles there is no recommendation
 
 ## Linter
 
-You should use [`eslint`](https://eslint.org/) instead of [`tslint`](https://palantir.github.io/tslint/) that is deprecated. The `eslint` is available to plug-ins which we suggest to use [`Angular ESLint`](https://github.com/angular-eslint/angular-eslint#migrating-an-angular-cli-project-from-codelyzer-and-tslint).
+You should use [`eslint`](https://eslint.org/) instead of [`tslint`](https://palantir.github.io/tslint/) is deprecated. `eslint` is available as a plug-in and we suggest you to use [`Angular ESLint`](https://github.com/angular-eslint/angular-eslint#migrating-an-angular-cli-project-from-codelyzer-and-tslint).
 
-After you install `eslint` with Angular plug-in. You may have to  valid some configuration following the style guild.
+After you install `eslint` with Angular plug-in. You may have to valid some configuration following the style guide.
 
 ## Formatter
 
@@ -115,7 +115,7 @@ For the configuration in vscode, go to Setting -> Extensions and choose the exte
 
 - #### HTML
 
-  These is the configuration that consistent with style guild.
+  These is the configuration that consistent with style guide.
 
   | Title | Value |
   |--------|----------------|
@@ -139,14 +139,14 @@ For WebStorm, go to Preference. In sidebar, choose Editor -> Code Style and sele
 
 - #### HTML
 
-  When enter to HTML configuration page. You can set configuration following below.
+  When entering to HTML configuration page. You can set the configuration following below.
 
   - In _Tabs and Indents_ tab, set `indent` = `4`.
   - In _Other_ tab, set `Wrap attributes` = `Wrap always`.
 
 - #### TypeScript
 
-  In _Punctuation_ tab, you will see three line. set them like below.
+  In _Punctuation_ tab, you will see three lines. Set them like below.
 
   - `Use` semicolon to terminate statements `always`
   - Use `single` quotes `always`
