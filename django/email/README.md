@@ -69,6 +69,26 @@ EMAIL_BACKEND = env(
 )
 ```
 
+### MailHog
+
+Using MailHog allowed you to actually send email via SMTP without delivering
+to the client email server. It also provided a simple web interface, so we able
+to check the sent email. Here the simplest setup using `docker-compose`:
+
+```yml
+version: '3'
+services:
+    mail:
+        image: mailhog/mailhog
+        port:
+            - 1025:1025 # SMTP Server
+            - 1080:1080 # Web UI
+```
+
+**Note:** MailHog purposes is only for testing small amount of emails, when
+sent large amount of email to MailHog, it will show some performance issue like
+mail is missing or slow loading.
+
 ## Using SendGrid
 
 ### REST API vs SMTP
