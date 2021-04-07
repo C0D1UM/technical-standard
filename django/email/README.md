@@ -9,7 +9,7 @@ Read more [https://docs.djangoproject.com/en/3.1/topics/email/](https://docs.dja
 ## Email Body Best Practices
 
 Some email client like GMail scan the email body before notify user so here some
-best practices preventing email not receiving by customer immediately.
+best practices preventing email not received by customer immediately.
 
 - Use plain-text email if possible
 - When include url always display it to user, do not hide it. Client like GMail
@@ -79,7 +79,8 @@ recommend using SendGrid API instead of SMTP.
 ### Dedicate IP Address
 
 Use dedicate ip feature when ever possible (this is a pay feature). By using a
-dedicated IP, allow us to not use the shared IP from SendGrid. Since shared IP
-address is free, people try to use it for bad purposes and this cause those
-shared IP to be banned from some email server like HotMail, GMail etc., so if
-you wonder why email is not received by customer, this could be the reason.
+dedicated IP, allow us to not use the shared IP from SendGrid. Since the
+shared IP address is free, people try to use it for bad purposes and this
+cause those shared IP to be banned from some email server like HotMail, Gmail,
+etc., so if you wonder why email is not received by the customer,
+this could be the reason.
