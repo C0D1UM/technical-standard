@@ -12,19 +12,19 @@
 
 ### Base Style Guide
 
-The main programing language in Angular framework included with Typescript, HTML, SCSS. We follow
+The main programing language in Angular framework included with TypeScript, HTML, SCSS. We follow
 
-- [Google style guide for HTML/CSS](https://google.github.io/styleguide/htmlcssguide.html), [Typescript](https://google.github.io/styleguide/tsguide.html)
+- [Google style guide for HTML/CSS](https://google.github.io/styleguide/htmlcssguide.html), [TypeScript](https://google.github.io/styleguide/tsguide.html)
 - [Kitty Giraudel style guide for SCSS](https://sass-guidelin.es/)
 - [Angular Official for Angular](https://angular.io/guide/styleguide).
 
 The rest of the document describes additions and clarifications below.
 
-### Typescript
+### TypeScript
 
 #### Indentation
 
-The indentation in typescript we use 2 spaces for every new line. we don't tabs or mix tabs.
+For the indentation in TypeScript we use 2 spaces for every new line. we don't tabs or mix tabs.
 
 #### Return Type
 
@@ -122,9 +122,9 @@ For the configuration in vscode, go to Setting -> Extensions and choose the exte
   | `Format: Wrap Attributes` |  `force`  |
   | `Format: Wrap Attributes Indent Size` | `4` |
 
-- #### Typescript
+- #### TypeScript
 
-  For typescript, we just set `TypeScript > Preferences: Quote Style` to `single`.
+  For TypeScript, we just set `TypeScript > Preferences: Quote Style` to `single`.
 
   We suggest to use `Prettier` extension to enhance formatting.
 
@@ -144,7 +144,7 @@ For WebStorm, go to Preference. In sidebar, choose Editor -> Code Style and sele
   - In _Tabs and Indents_ tab, set `indent` = `4`.
   - In _Other_ tab, set `Wrap attributes` = `Wrap always`.
 
-- #### Typescript
+- #### TypeScript
 
   In _Punctuation_ tab, you will see three line. set them like below.
 
