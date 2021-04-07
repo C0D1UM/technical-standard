@@ -55,6 +55,8 @@ send_mail(
 
 So before sending email, you can filter for only domain name in allowed list.
 
+**Note:** SendGrid is not allow duplicated receiver addresses.
+
 ### Log Email to Console
 
 The second solution is when running local environment you can use Django console
