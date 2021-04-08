@@ -280,7 +280,7 @@ Use HttpResponseStatus instead of status number
 from rest_framework import status
 class UserViewSet(views.APIView):
     def get(self, request):
-        return Response(data={}, status=status.HTTP_200_OK)
+        return Response(data={}) # Defaults to 200
 
 # Bad
 class UserViewSet(views.APIView):
