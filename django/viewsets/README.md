@@ -279,12 +279,14 @@ Use HttpResponseStatus instead of status number
 # Good
 from rest_framework import status
 class UserViewSet(views.APIView):
-    def get(self, request):
-        return Response(data={}) # A status code for the response. Defaults to 200.
+    def post(self, request):
+        return Response(data={}, status=status.HTTP_201_CREATED)
 
 # Bad
 class UserViewSet(views.APIView):
-    def get(self, request):
-        return Response(data={}, status=200)
+    def post(self, request):
+        return Response(data={}, status=201)
 
 ```
+
+> If you want to use status 200 it not necessary to write because it is status code defaults for the response.
