@@ -28,8 +28,8 @@ Here's how you choose a Git Flow for your project:
 | Topic | Centralized Workflow | Feature Branching | Gitflow Workflow | Trunk-based Development |
 | ----- | -------------------- | ----------------- | ---------------- | ----------------------- |
 | **Development** |
-| Number of branch(es) | 1 | 1 | 2 | 1 |
-| Branching | - | By feature | By feature | By feature |
+| Number of branch(es) | 1 | 1 | 2 | 2 |
+| Branching | - | By feature | By feature | By feature and release |
 | Feature branch live | - | Long-lived | N/A | Short-lived |
 | When to merge? | - | When feature is done | When feature is done | Depends but every often<br>(everyday, every 2 days, etc.) |
 | Code review | No | Possible | Possible | Recommended |
@@ -97,9 +97,41 @@ Here's how you choose a Git Flow for your project:
 
 - [Atlassian: Feature Branch Workflow](https://www.atlassian.com/git/tutorials/comparing-workflows/feature-branch-workflow)
 
+## Gitflow Workflow
+
+| <img src="https://wac-cdn.atlassian.com/dam/jcr:b5259cce-6245-49f2-b89b-9871f9ee3fa4/03%20(2).svg?cdnVersion=1548" width="450"> |
+| :--: |
+| _Gitflow Workflow_ |
+
+### Concepts
+
+Similar as [Feature Branching](#feature-branching) but
+
+- There is a _development branch_ (usually called `dev`). It is an active branch which replaced the _main branch_. Developers usually work on this branch by create a new feature branch from this branch.
+- Feature branch should frequently merges _development branch_ into its branch
+- The _main branch_ will be the branch to prepare for release
+- Hotfix will be merged in the _main branch_ and it needs to be merged back into _development branch_
+- When everything is ready, merge _development branch_ to _main branch_ for release preparation.
+
+### Deployment
+
+- **Development:** Deploy when pushed into _development branch_
+- **Staging _(if any)_:** Deploy when pushed into _main branch_
+- **Production:** Deploy when pushed tag created from _main branch_
+
+### When do you want?
+
+- Your project is SaaS or product development such as standard project
+- Features are implementing along side with bug fixes
+- Team has senior developers enough to review the code for every other developers
+
+### References
+
+- [Atlassian: Gitflow Workflow](https://www.atlassian.com/git/tutorials/comparing-workflows/gitflow-workflow)
+
 ## Trunk-based Development (with Feature Flag)
 
-| ![Trunk-based Branching](https://trunkbaseddevelopment.com/trunk1c.png) |
+| ![Trunk-based Development](https://trunkbaseddevelopment.com/trunk1c.png) |
 | :--: |
 | _Trunk-based Development_ |
 
