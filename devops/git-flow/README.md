@@ -35,7 +35,7 @@ Here's how you choose a Git Flow for your project:
 | Code review | No | Possible | Possible | Recommended |
 | Maximum number of developers | 2 | N/A | N/A | N/A |
 | **Deployment** |
-| Development Server | On pushed to _main branch_ | On pushed to _main branch_ | On pushed to development branch_ | | On pushed to _main branch_ |
+| Development Server | On pushed to _main branch_ | On pushed to _main branch_ | On pushed to _development branch_ | On pushed to _main branch_ |
 | Staging Server (if any) | Manually deploy from _main branch_ | Manually deploy from _main branch_ | On pushed to _main branch_ | On pushed to _release branch_ |
 | Production Server | On tag pushed from _main branch_ | On tag pushed from _main branch_ | On tag pushed from _main branch_ | On tag pushed from _release branch_ |
 
