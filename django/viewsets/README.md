@@ -289,4 +289,4 @@ class UserViewSet(views.APIView):
 
 ```
 
-> If you want to use status 200 it not necessary to write because it is status code defaults for the response.
+> If you want to use status 200 (OK), it is not necessary to write because it is the default status code for the response.
