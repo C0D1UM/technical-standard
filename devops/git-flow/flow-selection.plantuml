@@ -1,23 +1,35 @@
 @startuml Flow Selection
 start
 
-if (Already go live?) then (Yes)
-    if (Still have\nfeatures left?) then (Yes)
-        :**Trunk-based**\n**Development**;
-        note left: With **Feature Flag**
+if (SaaS or standard project?) then (No)
+    if (Already go live?) then (Yes)
+        if (Still have\nfeatures left?) then (Yes)
+            :**Trunk-based**\n**Development**;
+            note left: With **Feature Flag**
+        else (No)
+            :**Feature**\n**Branching**;
+        endif
+        stop
     else (No)
-        :**Feature**\n**Branching**;
+    endif
+else (Yes)
+endif
+
+if (Has < 3 developers?) then (Yes)
+    if (Are developers advanced?) then (Yes)
+        if (Want to\nspeed up\nprocess?) then (Yes)
+            :**Centralized**\n**Workflow**;
+            stop
+        else (No)
+        endif
+    else (No)
     endif
 else (No)
-    if (Has < 3 developers?) then (Yes)
-        if (Are developers advanced?) then (Yes)
-            if (Want to\nspeed up\nprocess?) then (Yes)
-                :**Centralized**\n**Workflow**;
-                stop
-            endif
-        endif
-    endif
-    ->No;
+endif
+
+if (SaaS or standard project?) then (Yes)
+    :**Gitflow Workflow**;
+else (No)
     :**Feature**\n**Branching**;
 endif
 
