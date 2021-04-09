@@ -18,7 +18,7 @@ There are three flows we suggested you in this standard:
 
 Here's how you choose a Git Flow for your project:
 
-| ![Flow Selection](Flow%20Selection.png) |
+| ![Flow Selection](https://www.plantuml.com/plantuml/proxy?src=https://raw.githubusercontent.com/C0D1UM/technical-standard/main/devops/git-flow/flow-selection.plantuml) |
 | :--: |
 | _Flow Selection_ |
 
