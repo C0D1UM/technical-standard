@@ -10,9 +10,10 @@ Before we start, one thing that's constant is we will use only _one branch_ as a
 
 There are three flows we suggested you in this standard:
 
-1. **Centralized Workflow:** only master branch and all changes are committed into master.
-1. **Feature Branching:** have master and feature branch(es).
-1. **Trunk-based Development**: it is like _Feature Branching_ but feature branch is very short-lived and will be merged into master as fast as possible. Project should also implement [feature flags](#feature-flag) to turn on/off feature as well.
+1. **Centralized Workflow:** only _main branch_ and all changes are committed into _main branch_.
+1. **Feature Branching:** have _main branch_ and feature branch(es).
+1. **Gitflow Workflow:** have two branches such as _main branch_ and _development branch_
+1. **Trunk-based Development**: it is like _Feature Branching_ but feature branch is very short-lived and will be merged into _main branch_ as fast as possible. Project should also implement [feature flags](#feature-flag) to turn on/off feature as well.
 
 ### Flow Selection
 
@@ -24,19 +25,19 @@ Here's how you choose a Git Flow for your project:
 
 ### Comparison
 
-| Topic | Centralized Workflow | Feature Branching | Trunk-based Development |
-| ----- | -------------------- | ----------------- | ----------------------- |
+| Topic | Centralized Workflow | Feature Branching | Gitflow Workflow | Trunk-based Development |
+| ----- | -------------------- | ----------------- | ---------------- | ----------------------- |
 | **Development** |
-| Number of branch | 1 | 1 | 1 |
-| Branching | - | By feature | By feature |
-| Branch live | - | Long-lived | Short-lived |
-| When to merge? | - | When feature is done | Depends but every often<br>(everyday, every 2 days, etc.) |
-| Code review | No | Possible | Recommended |
-| Maximum number of developers | 2 | N/A | N/A |
+| Number of branch(es) | 1 | 1 | 2 | 1 |
+| Branching | - | By feature | By feature | By feature |
+| Feature branch live | - | Long-lived | N/A | Short-lived |
+| When to merge? | - | When feature is done | When feature is done | Depends but every often<br>(everyday, every 2 days, etc.) |
+| Code review | No | Possible | Possible | Recommended |
+| Maximum number of developers | 2 | N/A | N/A | N/A |
 | **Deployment** |
-| Development Server | On pushed to _main branch_ | On pushed to _main branch_ | On pushed to _main branch_ |
-| Staging Server (if any) | Manually deploy from _main branch_ | Manually deploy from _main branch_ | On pushed to _release branch_ |
-| Production Server | On tag pushed from _main branch_ | On tag pushed from _main branch_ | On tag pushed from _release branch_ |
+| Development Server | On pushed to _main branch_ | On pushed to _main branch_ | On pushed to development branch_ | | On pushed to _main branch_ |
+| Staging Server (if any) | Manually deploy from _main branch_ | Manually deploy from _main branch_ | On pushed to _main branch_ | On pushed to _release branch_ |
+| Production Server | On tag pushed from _main branch_ | On tag pushed from _main branch_ | On tag pushed from _main branch_ | On tag pushed from _release branch_ |
 
 ## Centralized Workflow
 
