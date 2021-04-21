@@ -29,8 +29,15 @@ from all at once, keep your requirements growing.
 - [Rest Framework](https://www.django-rest-framework.org): API Endpoint.
 - [Simple JWT](https://django-rest-framework-simplejwt.readthedocs.io/en/latest/): authentication with JSON Web Token.
 - [CORS Header](https://github.com/adamchainz/django-cors-headers): browser CORS header.
+- [API Key](https://florimondmanca.github.io/djangorestframework-api-key/) implementing API Key authorization.
 - [Filter](https://django-filter.readthedocs.io/en/stable/): filter data from URL parameters.
 - [Model Controller](https://github.com/NorakGithub/django-model-controller): keeping track of database record.
+- [Sequences](https://pypi.org/project/django-sequences/): sequence generator.
+- [Redis](https://pypi.org/project/redis/): connecting to redis server.
+
+### Background Worker
+
+- [Celery](https://docs.celeryproject.org/en/stable/django/first-steps-with-django.html) background worker.
 
 ### Excel
 
@@ -46,6 +53,7 @@ from all at once, keep your requirements growing.
 - [Debug Toolbar](https://django-debug-toolbar.readthedocs.io/en/latest/): optimizing API performance.
 - [Environ](https://django-environ.readthedocs.io/en/latest/): helper when using environment variable.
 - [ipdb](https://github.com/gotcha/ipdb): extended from pdb for code completion and more.
+- [DRF Spectacular](https://github.com/tfranzel/drf-spectacular): generating API Doc for Django REST Framework.
 
 ### Unit Test
 
