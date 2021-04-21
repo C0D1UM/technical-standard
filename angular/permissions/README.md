@@ -8,40 +8,104 @@ For handling permission, we can use service, guard to help allowance in componen
 
 ## Service
 
-The permission service help you about finding role and getting permission from data is stored.
+The permission service help you about finding role and getting permission from the stored user data.
+
+First, you should define the model of permission that is got from backend. For example,
 
 ```typescript
+// permission.model.ts
+
+export interface UserPermission {
+  id: number;
+  codename: string;
+  app_label: string;
+}
+```
+
+In permission service there are two important method about permission is `findPermission` and `hasPermission`.
+
+```typescript
+// permission.service.ts
+
 export class PermissionService {
   ...
-  hasPermission(codeName: string): boolean {
-    ...
+
+  findPermission(codeName: string): UserPermission {
+    if (!codeName) {
+      throw new Error('No argument code name at hasPermission');
+    }
+    const userPermission = this.authService.currentUser;
+    if (userPermission) {
+      return userPermission.find(
+        permission => permission.codename === codeName
+      );
+    } else {
+      throw new Error('Missing user permission');
+    }
+  }
+
+  hasPermission(codeName: string, actionType?: string): boolean {
+    const permission = actionType ? actionType + '_' + codeName : codeName;
+    try {
+      return !!this.findPermission(permission);
+    } catch (error) {
+      return false;
+    }
   }
 }
 ```
 
-For some checking permission is often used as admin. We will make getter for checking them only.
+Some accession maybe used checking the role of user such as `admin`. For convenience, you may use getter for checking role from the stored data.
 
 ```typescript
 export class PermissionService {
   ...
   get isAdmin(): boolean {
-    ...
+    return localStorage
   }
 }
 ```
 
 ## Guard
 
-For protecting user from unwanted route, we use guard. You might make a guard for some purpose.
+Guard is used for protecting url route from unwanted user to access them. You might make a guard for some purpose.
+
+For example, This guard check the user the `admin` role and the `view_memo` permission. The `true` of returning will allow the page accession and if it isn't we will navigate to default route.
 
 ```typescript
+// memo.guard.ts
 
+@Injectable({
+  providedIn: 'root',
+})
+export class MemoGuard implements CanActivateChild {
+  constructor(private router: Router) {}
+
+  canActivateChild(
+    next: ActivatedRouteSnapshot,
+    state: RouterStateSnapshot
+  ): boolean {
+    if (
+      localStorage.getItem('currentUser') &&
+      localStorage.getItem('role_name') === 'admin'
+    ) {
+      return true;
+    }
+    this.router.navigate(['']);
+    return false;
+  }
+}
 ```
 
-Add the custom guard to terminal in routes.
+Add the guard to terminal in routes.
 
 ```typescript
-
+export const routes: Routes = [
+  {
+    path: 'memo',
+    canActivateChild: [MemoGuard],
+  },
+];
 ```
 
 ## Component
