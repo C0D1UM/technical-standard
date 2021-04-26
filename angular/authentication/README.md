@@ -4,7 +4,7 @@
 
 ### Main Component
 
-By default, backend will set default token expiration time = 1 month. So, On frontend, The easiest way is just refreshing token every time when user refresh website. You can do by add code below in your `main.component.ts`
+By default, backend will set default token expiration time = 1 month. So, on frontend, the easiest way is just refreshing token every time when user refresh website. You can do by adding code below in your `main.component.ts`
 
 ```ts
 export class MainComponent implements OnInit {
@@ -29,11 +29,11 @@ export class MainComponent implements OnInit {
 
 ### (Optional) Short Expiration Time
 
-If token time is very short (Ex. Banking website which token is expired in 5 minutes), You must check token expiration time before call request and refresh token if needed. See code below.
+If token time is very short (Ex. Banking website which token is expired in 5 minutes), you must check token expiration time before calling request and refresh token if needed. See code below.
 
 ```ts
 function refreshTokenIfExpired () {
-    // decode jwt token. This is very technical, you can skip this part of code.
+    // decode jwt token. This is very technical, you can skip this part if you don't understand.
     let base64Url = localStorage.currentUser.split('.')[1];
     let base64 = base64Url.replace(/-/g, '+').replace(/_/g, '/');
     let jsonPayload = decodeURIComponent(atob(base64).split('').map(function(c) {
@@ -62,7 +62,7 @@ function refreshTokenIfExpired () {
 
 # Authentication Token Interceptor
 
-Authentication token interceptor which will add token to request.
+Authentication token interceptor will add token to request.
 
 ```ts
 import {Injectable} from '@angular/core';
@@ -77,6 +77,12 @@ export class JwtInterceptor implements HttpInterceptor {
   }
 
   intercept(request: HttpRequest<any>, next: HttpHandler): Observable<HttpEvent<any>> {
+    // handle request that don't want to add authentication header.
+    // Sample Code: `this.http.get('https://somewebsite/', {headers:{skip:"true"})`
+    if (req.headers.get("skip")) {
+       return next.handle(req);
+    }
+
     // add auth header with jwt if user is logged in and request is to the api url
     const currentUser = localStorage.currentUser;
     const isApiUrl = request.url.startsWith(environment.baseUrl);
@@ -108,15 +114,15 @@ localStorage.setItem('file', bytes)
 
 You should not save user profile into SessionStorage. Different between LocalStorage and SessionStorage is below.
 
-* LocalStorage will save data and share that data when user open 2 tabs.
+* LocalStorage will save data and share that data when user open second tabs.
 * SessionStorage will not share data when across tabs.
 * SessionStorage will automatically deleted when user close tab, but does not delete when user refresh website.
 
-Here is what happen if you use sessionStorage to save user token/profiles.
+Here is what happen if you use SessionStorage to save user token/profiles.
 
-* If user open 2 tabs of the same website and user profile changes, it does not changes on other tab.
-* If user logout first tabs, second tab is still logged in.
-* user have to login again when close tab and open a new one.
+* If user open second tabs of the same website and user profile changes, it will not change on the first tab.
+* If user logout from the first tabs, second tab is still logged in.
+* User have to login again when close tab and open a new one.
 
 ## LocalStorage VS Cookie
 
@@ -124,7 +130,7 @@ You should not save user profile and authentication token into cookies because i
 
 # Prevent Authentication Hacking
 
-* use https all the time.
+* Use https all the time.
 * You should use LocalStorage to save user profile/authentication token (not cookie. see topic above)
-* when user refresh website. Frontend should refresh user profile (see topic "Refresh Token" above).
-* You should not send password or sensitive information in GET method. Even though GET param is encrypted in https but it may logged in nginx or django.
+* When user refresh website, frontend should refresh user profile (see topic "Refresh Token" above).
+* You should not send password or sensitive information in GET method. Even though GET param is encrypted in https but it may be logged in Nginx or Django.
