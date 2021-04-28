@@ -1,16 +1,12 @@
 # Permissions
 
-<!-- After you get user information from the data store.
-
-you should collect permission in the permission service.
-
-For handling permission, we can use service, guard to help allowance in component. -->
+After authentication, we will get the authority data from the server such as token, role, permission, etc., and collected them in the authentication service or local storage for authorization in router and component.
 
 ## Service
 
-The permission service help you about finding role and getting permission from the stored user data.
+The permission service helps you about finding permission and getting a role from the authority data stored.
 
-First, you should define the model of permission that is got from backend. For example,
+First, you should define the model of permission that is got from the backend. For example,
 
 ```typescript
 // permission.model.ts
@@ -22,13 +18,13 @@ export interface UserPermission {
 }
 ```
 
-In permission service there are two important method about permission is `findPermission` and `hasPermission`.
+In the permission service there are two important methods about permission is `findPermission` and `hasPermission`.
 
 ```typescript
 // permission.service.ts
 
 export class PermissionService {
-  ...
+  constructors(private authService: AuthenticationService) {}
 
   findPermission(codeName: string): UserPermission {
     if (!codeName) {
@@ -55,13 +51,18 @@ export class PermissionService {
 }
 ```
 
-Some accession maybe used checking the role of user such as `admin`. For convenience, you may use getter for checking role from the stored data.
+Some accession may be used to check the role of a user such as `admin`. For convenience, you may use getter for checking the specific role from the stored data.
 
 ```typescript
 export class PermissionService {
   ...
+
+  get role(): boolean {
+    return localStorage.getItem('role_name');
+  }
+
   get isAdmin(): boolean {
-    return localStorage
+    return this.roles() === 'admin';
   }
 }
 ```
@@ -106,7 +107,7 @@ export const routes: Routes = [
     canActivate: [AuthGuard],
     children: [
       {
-    path: 'memo',
+        path: 'memo',
         component: MemoComponent,
         canActivate: [MemoGuard],
       }
@@ -119,7 +120,7 @@ See detail in <https://angular.io/guide/router> and <https://angular.io/guide/ro
 
 ## Component
 
-To check permission you must inject `PermissionService` in your component and call it in `OnInit()` or depend on to use them.
+To check permission you must inject `PermissionService` in your component and call it in `ngOnInit()` or up to use them.
 
 ```typescript
 export class Component implement OnInit {
@@ -136,7 +137,7 @@ export class Component implement OnInit {
 Applied permission to your HTML.
 
 ```html
-<div class="">
+<div class="example">
   <button *ngIf="isApprove">Approve</button>
   <button *ngIf="!isAdmin">Edit</button>
 </div>
