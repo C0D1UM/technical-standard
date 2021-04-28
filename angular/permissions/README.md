@@ -68,9 +68,10 @@ export class PermissionService {
 
 ## Guard
 
-Guard is used for protecting url route from unwanted user to access them. You might make a guard for some purpose.
+Guard is used for protecting URL routes from unwanted users to access them. The main guard that is typically used is `AuthGuard` which verifies authentication (there is in Authentication). However, in some routes, you may want more than one guard.
 
-For example, This guard check the user the `admin` role and the `view_memo` permission. The `true` of returning will allow the page accession and if it isn't we will navigate to default route.
+For example, this guard checks the user who has the `admin` role and the `view_memo` permission.
+The `true` of returning will allow the page accession and if it isn't you can force to navigate to the default route by returning `URLTree`.
 
 ```typescript
 // memo.guard.ts
@@ -91,13 +92,10 @@ export class MemoGuard implements CanActivateChild {
     ) {
       return true;
     }
-    this.router.navigate(['']);
-    return false;
+    return this.router.parseUrl('/');
   }
 }
 ```
-
-Add the guard to terminal in routes.
 
 ```typescript
 // app-routing.module.ts
@@ -116,6 +114,8 @@ export const routes: Routes = [
   },
 ];
 ```
+
+See detail in <https://angular.io/guide/router> and <https://angular.io/guide/router-tutorial-toh>
 
 ## Component
 
