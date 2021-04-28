@@ -100,10 +100,19 @@ export class MemoGuard implements CanActivateChild {
 Add the guard to terminal in routes.
 
 ```typescript
+// app-routing.module.ts
 export const routes: Routes = [
   {
+    path: '',
+    component: MainComponent,
+    canActivate: [AuthGuard],
+    children: [
+      {
     path: 'memo',
-    canActivateChild: [MemoGuard],
+        component: MemoComponent,
+        canActivate: [MemoGuard],
+      }
+    ]
   },
 ];
 ```
