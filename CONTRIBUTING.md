@@ -17,15 +17,18 @@
 1. Create a new directory in root directory, named it in kebab-case.
 1. Create a file named `README.md` in newly created directory
 1. Add category information into newly created `README.md` file. Here is an example for _Django_:
-   ```
+
+   ```markdown
    ---
    title: Django
    has_sub_pages: true
    permalink: django
    ---
    ```
+
 1. Put created file's path into section `header_pages` in `_config.yml` file
-   ```
+
+   ```yml
    header_pages:
      ...
      - django/README.md
