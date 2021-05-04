@@ -15,10 +15,20 @@
 
 <sup>[1]</sup> [Angular - What is Angular?](https://angular.io/guide/what-is-angular)  
 <sup>[2]</sup> [Next.js - Wikipedia](https://en.wikipedia.org/wiki/Next.js)  
-<sup>[3]</sup> Currently, using _Next.js_ is subject approval.
+<sup>[3]</sup> Currently, using _Next.js_ is subject to approve.
 
 </small>
 
 ## Mobile
 
+- **Flutter** is Google's UI toolkit for building natively compiled applications for mobile, web, and desktop from a single codebase. <sup>[4]</sup>
+
+<small>
+
+<sup>[4]</sup> [Flutter](https://flutter.dev/)
+
+</small>
+
 ## Others
+
+\-
