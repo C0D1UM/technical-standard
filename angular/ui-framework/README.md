@@ -13,7 +13,7 @@
 | :--: |
 | _When to use?_ |
 
-<small><sup>[1]</sup> Because currently, _Tailwind CSS_ does not have much integration with our front-end framework, Angular. Developing interactive form with _Tailwind CSS_ would generate a lot of work to do.</small>
+<small><sup>[1]</sup> Because currently, _Tailwind CSS_ does not have much integration with our front-end framework, Angular. Developing interactive form with _Tailwind CSS_ would generate a lot of work to do. For example, a static website project could use _Tailwind CSS_ but a project with complicated forms such as invoice issuing and memorandum creation you might need _Bootstrap_ instead.</small>
 
 ### Still don't know what to use?
 
