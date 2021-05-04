@@ -15,18 +15,6 @@ if (SaaS or standard project?) then (No)
 else (Yes)
 endif
 
-if (Has < 3 developers?) then (Yes)
-    if (Are developers advanced?) then (Yes)
-        if (Want to\nspeed up\nprocess?) then (Yes)
-            :**Centralized**\n**Workflow**;
-            stop
-        else (No)
-        endif
-    else (No)
-    endif
-else (No)
-endif
-
 if (SaaS or standard project?) then (Yes)
     :**Gitflow Workflow**;
 else (No)

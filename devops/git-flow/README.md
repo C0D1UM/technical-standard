@@ -10,7 +10,6 @@ Before we start, one thing that's constant is we will use only _one branch_ as a
 
 There are three flows we suggested you in this standard:
 
-1. **Centralized Workflow:** only _main branch_ and all changes are committed into _main branch_.
 1. **Feature Branching:** have _main branch_ and feature branch(es).
 1. **Gitflow Workflow:** have two branches such as _main branch_ and _development branch_
 1. **Trunk-based Development**: it is like _Feature Branching_ but feature branch is very short-lived and will be merged into _main branch_ as fast as possible. Project should also implement [feature flags](#feature-flag) to turn on/off feature as well.
@@ -25,47 +24,18 @@ Here's how you choose a Git Flow for your project:
 
 ### Comparison
 
-| Topic | Centralized Workflow | Feature Branching | Gitflow Workflow | Trunk-based Development |
-| ----- | -------------------- | ----------------- | ---------------- | ----------------------- |
+| Topic | Feature Branching | Gitflow Workflow | Trunk-based Development |
+| ----- | ----------------- | ---------------- | ----------------------- |
 | **Development** |
-| Number of branch(es) | 1 | 1 | 2 | 2 |
-| Branching | - | By feature | By feature | By feature and release |
-| Feature branch live | - | Long-lived | N/A | Short-lived |
-| When to merge? | - | When feature is done | When feature is done | Depends but every often<br>(everyday, every 2 days, etc.) |
-| Code review | No | Possible | Possible | Recommended |
-| Maximum number of developers | 2 | N/A | N/A | N/A |
+| Number of branch(es) | 1 | 2 | 2 |
+| Branching | By feature | By feature | By feature and release |
+| Feature branch live | Long-lived | N/A | Short-lived |
+| When to merge? | When feature is done | When feature is done | Depends but every often<br>(everyday, every 2 days, etc.) |
+| Code review | Possible | Possible | Recommended |
 | **Deployment** |
-| Development Server | On pushed to _main branch_ | On pushed to _main branch_ | On pushed to _development branch_ | On pushed to _main branch_ |
-| Staging Server (if any) | Manually deploy from _main branch_ | Manually deploy from _main branch_ | On pushed to _main branch_ | On pushed to _release branch_ |
-| Production Server | On tag pushed from _main branch_ | On tag pushed from _main branch_ | On tag pushed from _main branch_ | On tag pushed from _release branch_ |
-
-## Centralized Workflow
-
-| <img src="https://wac-cdn.atlassian.com/dam/jcr:f03a0fbd-a880-477f-aa32-33340383ce07/02%20(3).svg?cdnVersion=1481" width="450"> |
-| :--: |
-| _Centralized Workflow_ |
-
-### Concepts
-
-- Developers work on a single branch (usually named `main`)
-- Developers push directly to main branch without any branching required
-
-### Deployment
-
-- **Development:** Deploy when pushed into _main branch_
-- **Staging _(if any)_:** Manually deploy from _main branch_
-- **Production:** Manually deploy by creating a tag from _main branch_
-
-### When do you want?
-
-- Project is in _starting or first phase_
-- Team has only a few developers in the team
-- Developers are advanced since there is no code review
-- Need to speed up the process
-
-### References
-
-- [Atlassian: Centralized Workflow](https://www.atlassian.com/git/tutorials/comparing-workflows#centralized-workflow)
+| Development Server | On pushed to _main branch_ | On pushed to _development branch_ | On pushed to _main branch_ |
+| Staging Server (if any) | Manually deploy from _main branch_ | On pushed to _main branch_ | On pushed to _release branch_ |
+| Production Server | On tag pushed from _main branch_ | On tag pushed from _main branch_ | On tag pushed from _release branch_ |
 
 ## Feature Branching
 
