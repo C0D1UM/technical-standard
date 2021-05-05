@@ -121,16 +121,16 @@ See detail in <https://angular.io/guide/router> and <https://angular.io/guide/ro
 
 ## Component
 
-To check permission, you must inject `PermissionService` in your component and call it in `ngOnInit()` or up to use them.
+To check permission, you must inject `PermissionService` in your component and create getter to use it.
 
 ```typescript
 export class Component implement OnInit {
-  isApprove = false;
-
   constructor(private permission: PermissionService) {}
 
-  ngOnInit() {
-    this.isApprove = this.permission.hasPermission('approver');
+  ...
+
+  isApprover(): boolean {
+    return this.permission.hasPermission('approver');
   }
 }
 ```
@@ -139,7 +139,7 @@ Applied permission to your template.
 
 ```html
 <div class="example">
-  <button *ngIf="isApprove">Approve</button>
-  <button *ngIf="!isAdmin">Edit</button>
+  <button *ngIf="isApprover">Approve</button>
+  <button *ngIf="isAdmin">Edit</button>
 </div>
 ```
