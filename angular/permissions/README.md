@@ -62,7 +62,7 @@ export class PermissionService {
   }
 
   get isAdmin(): boolean {
-    return this.roles() === 'admin';
+    return this.role === 'admin';
   }
 }
 ```
