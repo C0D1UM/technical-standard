@@ -81,16 +81,17 @@ The `true` of returning will allow the page accession and if it isn't you can fo
   providedIn: 'root',
 })
 export class MemoGuard implements CanActivateChild {
-  constructor(private router: Router) {}
+  constructor(
+    private authService: AuthenticationService,
+    private permission: PermissionService,
+    private router: Router
+  ) {}
 
   canActivateChild(
     next: ActivatedRouteSnapshot,
     state: RouterStateSnapshot
   ): boolean {
-    if (
-      localStorage.getItem('currentUser') &&
-      localStorage.getItem('role_name') === 'admin'
-    ) {
+    if (this.authService.currentUser && this.permission.isAdmin) {
       return true;
     }
     return this.router.parseUrl('/');
