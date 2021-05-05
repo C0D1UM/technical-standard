@@ -111,8 +111,8 @@ export const routes: Routes = [
         path: 'memo',
         component: MemoComponent,
         canActivate: [MemoGuard],
-      }
-    ]
+      },
+    ],
   },
 ];
 ```
