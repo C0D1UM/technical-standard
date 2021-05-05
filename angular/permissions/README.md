@@ -1,10 +1,10 @@
 # Permissions
 
-After authentication, we will get the authority data from the server such as token, role, permission, etc., and collected them in the authentication service or local storage for authorization in router and component.
+After authenticated, we will get the authorized data from the server such as token, role, permission, etc., and store them in the authentication service or local storage for authorization in router and component.
 
 ## Service
 
-The permission service helps you about finding permission and getting a role from the authority data stored.
+Permission service helps you getting permission and role from the authored data stored.
 
 First, you should define the model of permission that is got from the backend. For example,
 
@@ -18,7 +18,7 @@ export interface UserPermission {
 }
 ```
 
-In the permission service there are two important methods about permission is `findPermission` and `hasPermission`.
+In the permission service, there are two important methods `findPermission` and `hasPermission`.
 
 ```typescript
 // permission.service.ts
@@ -69,7 +69,7 @@ export class PermissionService {
 
 ## Guard
 
-Guard is used for protecting URL routes from unwanted users to access them. The main guard that is typically used is `AuthGuard` which verifies authentication (there is in Authentication). However, in some routes, you may want more than one guard.
+Guard is used for protecting URL routes from unauthorized user. The main guard that is typically used, is `AuthGuard` which verifies authentication (there is in Authentication). However, in some routes, you may want to have more than one guard.
 
 For example, this guard checks the user who has the `admin` role and the `view_memo` permission.
 The `true` of returning will allow the page accession and if it isn't you can force to navigate to the default route by returning `URLTree`.
@@ -120,7 +120,7 @@ See detail in <https://angular.io/guide/router> and <https://angular.io/guide/ro
 
 ## Component
 
-To check permission you must inject `PermissionService` in your component and call it in `ngOnInit()` or up to use them.
+To check permission, you must inject `PermissionService` in your component and call it in `ngOnInit()` or up to use them.
 
 ```typescript
 export class Component implement OnInit {
@@ -134,7 +134,7 @@ export class Component implement OnInit {
 }
 ```
 
-Applied permission to your HTML.
+Applied permission to your template.
 
 ```html
 <div class="example">
