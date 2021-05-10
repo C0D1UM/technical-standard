@@ -39,7 +39,7 @@ export class HighlightDirective {
 }
 ```
 
-2. add `HighlightDirective` class into `app.module.ts` (or any module file you want).
+1. add `HighlightDirective` class into `app.module.ts` (or any module file you want).
 
 ```ts
 @NgModule({
@@ -67,7 +67,7 @@ class myComponent {
 }
 ```
 
-2. Using with `field` format (without bracket). This will accept fixed value only.
+1. Using with `field` format (without bracket). This will accept fixed value only.
 
 ```html
 <div appHighlight="#FFA500"> my message </div>
