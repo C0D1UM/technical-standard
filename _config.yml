@@ -16,6 +16,7 @@ plugins:
   - jekyll-titles-from-headings
 
 header_pages:
+  - general/README.md
   - django/README.md
   - angular/README.md
   - devops/README.md
