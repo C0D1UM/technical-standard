@@ -7,7 +7,9 @@ Angular directives is custom field in HTML. It will add custom logic to HTML ele
 Step below will guide you by example.
 
 ### Goal
+
 You want to create custom field `appHighlight` which will add background color in the HTML element.
+
 ```html
 <div appHighlight="#FFA500"> my message </div>
 ```
@@ -48,14 +50,17 @@ export class HighlightDirective {
 ```
 
 ## Field Usage Format
+
 There are 2 formats on using Angular directives
 
 1. Using with `[field]` format which will accept component variable.
+
 ```html
 <div [appHighlight]="myColor"> my message </div>
 ```
 
 Then, declare variable name in the component.
+
 ```ts
 class myComponent {
   myColor: string = "#FFA500";
@@ -63,11 +68,10 @@ class myComponent {
 ```
 
 2. Using with `field` format (without bracket). This will accept fixed value only.
+
 ```html
 <div appHighlight="#FFA500"> my message </div>
 ```
-
-
 
 ## Event Listener
 
