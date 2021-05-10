@@ -1,11 +1,13 @@
 # Directives
 
-Angular directives is custom field in HTML. It will add custom logic to your element in HTML. For example, changing CSS or contents.
+Angular directives is custom field in HTML. It will add custom logic to HTML elements. For example, changing CSS or HTML contents.
 
 ## Creating Directives Manually
 
+Step below will guide you by sample.
+
 ### Goal
-You want to create custom field `appHighlight` which will add background color in your div.
+You want to create custom field `appHighlight` which will add background color in the HTML element.
 ```html
 <div appHighlight="#FFA500"> my message </div>
 ```
@@ -35,7 +37,7 @@ export class HighlightDirective {
 }
 ```
 
-2. add HighlightDirective class into app.module.ts (or any module file you want).
+2. add `HighlightDirective` class into `app.module.ts` (or any module file you want).
 
 ```ts
 @NgModule({
@@ -46,14 +48,14 @@ export class HighlightDirective {
 ```
 
 ## Field Usage Format
-There are 2 formats on using directives
+There are 2 formats on using Angular directives
 
 1. Using with `[field]` format which will accept component variable.
 ```html
 <div [appHighlight]="myColor"> my message </div>
 ```
 
-Then, declare variable name in your component.
+Then, declare variable name in the component.
 ```ts
 class myComponent {
   myColor: string = "#FFA500";
@@ -69,7 +71,7 @@ class myComponent {
 
 ## Event Listener
 
-You can setup your directive to listen element events. See sample code below. 
+You can setup Angular directives to listen element events. See sample code below.
 
 ```ts
 import { HostListener } from '@angular/core';
@@ -93,4 +95,3 @@ export class HighlightDirective {
     }
 }
 ```
-
