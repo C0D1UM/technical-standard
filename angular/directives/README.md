@@ -4,7 +4,7 @@ Angular directives is custom field in HTML. It will add custom logic to HTML ele
 
 ## Creating Directives Manually
 
-Step below will guide you by sample.
+Step below will guide you by example.
 
 ### Goal
 You want to create custom field `appHighlight` which will add background color in the HTML element.
