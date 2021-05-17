@@ -32,7 +32,7 @@ export class HighlightDirective {
 
   ngOnChanges(changes: SimpleChanges){
     // set background color.
-    if(changes.highlightColor){
+    if (changes.highlightColor){
         this.el.nativeElement.style.backgroundColor = this.highlightColor;
     }
   }
@@ -48,6 +48,9 @@ export class HighlightDirective {
     ...
   ],
 ```
+
+## Naming Directive
+Field name should be start with "app" and follow by **verb** or **noun**. For example, "appHighlight", "appToggleColor", "appFormatDate", "appFormatCurrency" etc.
 
 ## Field Usage Format
 
