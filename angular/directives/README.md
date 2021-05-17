@@ -50,6 +50,7 @@ export class HighlightDirective {
 ```
 
 ## Naming Directive
+
 Field name should be start with "app" and follow by **verb** or **noun**. For example, "appHighlight", "appToggleColor", "appFormatDate", "appFormatCurrency" etc.
 
 ## Field Usage Format
