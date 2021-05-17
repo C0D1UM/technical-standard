@@ -129,7 +129,7 @@ export class Component implement OnInit {
 
   ...
 
-  getter isApprover(): boolean {
+  get isApprover(): boolean {
     return this.permission.hasPermission('approver');
   }
 }
