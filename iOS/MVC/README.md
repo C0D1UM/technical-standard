@@ -13,7 +13,7 @@ The Controller mediates between the view and the model via the delegation patter
 
 ### Implementing the MVC
 So First of all you have to know that if the MVC Design pattern implements correctly it can help you code and debug faster . In MVC model shouldn't know about the Views and also the Views shouldn't know about the model this means for example : View expects a model to show (that's it!) and also for the Model it doesn't matter that the View design or how it's gonna show and etc. here are some things that you should consider and follow to have a maintainable code: 
-#### 1- The controller should not manage every things
+#### 1- The controller should be only a controller not more
 ##### 1.1- Your view controller shouldn't manage every things
 If your controller does everything such as managing the UI and fetching the model and objects of the model , your controller will become a `Massive View Controller!`.  Massive View Controllers usually are huge classes with hundreds lines of codes and it will be very hard to refactor them or even add new features to them. If your app has to play music you should have a player class which just expects a music to play and handling music settings such as speed , play , pause and other settings should be in that player class and your controller just calls that class to play that music .
 ##### 1.2- Everything that the user can see in each page doesn't mean that you have to implement all of them in the one view controller.
