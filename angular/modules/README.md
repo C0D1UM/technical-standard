@@ -65,6 +65,11 @@ imports: [
 ]
 ```
 
+#### Exception
+
+If you are 100% sure that a group of components will be used in every where in
+the project, you can follow this structure.
+
 ### Do This
 
 #### Structure
@@ -106,8 +111,3 @@ imports: [
     ButtonModule,
 ]
 ```
-
-## Exception
-
-If you are 100% sure that a group of components will be used in every where in
-the project, you can create a shared module.
