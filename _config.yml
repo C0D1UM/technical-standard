@@ -20,6 +20,7 @@ header_pages:
   - django/README.md
   - angular/README.md
   - devops/README.md
+  - flutter/README.md
 
 readme_index:
   remove_originals: true
