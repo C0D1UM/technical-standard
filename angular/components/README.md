@@ -45,7 +45,6 @@ export class MyComponent implements OnInit, OnDestroy {
 
 **Note** Angular will automatically clean up unsubscribe observable that created from `HttpClient`. More information [here](https://stackoverflow.com/questions/35042929/is-it-necessary-to-unsubscribe-from-observables-created-by-http-methods)
 
-
 ## Do not Set HTML to Element Directly
 
 To prevent XSS Injections. Angular provides method to set HTML content.
@@ -81,8 +80,7 @@ setTitle(title: string) {
 }
 ```
 
-
-## Beware Variable Changes Inside Component.
+## Beware Variable Changes Inside Component
 
 Sometimes when you get input variable from parent component and change values, the values will have effect to parent too.
 
@@ -96,7 +94,6 @@ class MyComponent {
     }
 }
 ```
-
 
 ## Use 'trackBy' to Prevent Re-Rendering Same Data
 
@@ -138,8 +135,7 @@ class myComponent {
 </div>
 ```
 
-
-# Use 'ng-container' with *ngIf to prevent nested html.
+# Use 'ng-container' with *ngIf to prevent nested html
 
 `ng-container` does not created real element in html. It can be used with `ngIf` or `ngFor`.
 
