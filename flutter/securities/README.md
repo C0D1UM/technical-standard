@@ -69,7 +69,7 @@ Some applications may include sensitive data. Please take the following steps to
 
 In **MainActivity.kt**, put this code.
 
-```kt
+```kotlin
 . . .
 
 import android.os.Bundle
