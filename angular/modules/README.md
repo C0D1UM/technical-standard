@@ -30,3 +30,84 @@ Read more [https://angular.io/cli/generate#module](https://angular.io/cli/genera
 ## Caution
 
 - Do not put everything into one module, this will cause any module that import this module become really big, and sometime wasted since some components are not used.
+
+### Do Not Do This
+
+#### Structure
+
+```text
+shared
+-- navbar/
+-- button/
+-- shared.module.ts
+views
+-- index/
+---- index.module.ts
+```
+
+#### Implementation
+
+```typescript
+// shared-module.ts
+...
+declaration: [
+    NavbarComponent,
+    ButtonComponent
+],
+exports: [
+    NavbarComponent,
+    ButtonComponent,
+]
+
+// index.module.ts
+imports: [
+    SharedModule,
+]
+```
+
+#### Exception
+
+If you are 100% sure that a group of components will be used in every where in
+the project, you can follow this structure.
+
+### Do This
+
+#### Structure
+
+```typescript
+shared
+-- navbar/
+---- navbar.module.ts
+-- button/
+---- button.module.ts
+views
+-- index/
+---- index.module.ts
+```
+
+#### Implementation
+
+```typescript
+// navbar.module.ts
+...
+declaration: [
+    NavbarComponent,
+],
+exports: [
+    NavbarComponent,
+]
+// button.module.ts
+...
+declaration: [
+    ButtonComponent,
+],
+exports: [
+    ButtonComponent,
+]
+
+// index.module.ts
+imports: [
+    NavbarModule,
+    ButtonModule,
+]
+```
