@@ -1,12 +1,4 @@
-# Python Style Guide (Optional)
-
-<br>
-<br>
-
-**this page is in draft mode. it is optional to follow guidelines on this page.**
-
-<br>
-<br>
+# Python Style Guide
 
 ## Base Style guide
 
@@ -14,7 +6,7 @@ We follow [Google style guide for Python](https://google.github.io/styleguide/py
 
 ## Linting
 
-* You can use `pylint` with this [pylintc](https://google.github.io/styleguide/pylintrc) to check if your code passed the standard.
+* You can use `pylint` with this [.pylintrc](.pylintrc) to check if your code passed the standard.
 
 ## Formatter
 
