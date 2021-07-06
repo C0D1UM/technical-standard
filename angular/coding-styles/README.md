@@ -1,12 +1,4 @@
-# Angular Style Guide (Optional)
-
-<br>
-<br>
-
-**this page is in draft mode. it is optional to follow guidelines on this page.**
-
-<br>
-<br>
+# Angular Style Guide
 
 ## Style Guide
 
@@ -77,13 +69,13 @@ For the indentation in HTML, we use **2 spaces** for elements. Do not use tabs o
 </div>
 ```
 
-#### Line-Wrapping (Optional)
+#### Line-Wrapping
 
 For wrapping the attribute of elements, we wrap them with 4 spaces for the attribute indentation.
 
 ```html
 <!-- not recommend - wrapping somewhere long line -->
-<app-example *ngIf="isOpen" class="text-red" id="example-1" [dropdown]="dropdown" 
+<app-example *ngIf="isOpen" class="text-red" id="example-1" [dropdown]="dropdown"
   (click)="onClick()" [(data)]="model">
   <button class="btn btn-primary">Hello World!</button>
 </app-example>
