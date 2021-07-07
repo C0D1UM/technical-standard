@@ -1,0 +1,6 @@
+@startuml Request Reply Communication
+skinparam Style strictuml
+skinparam SequenceMessageAlignment center
+UserService -> OrderService : Request Create Order
+UserService <- OrderService : Reply/Response Created Order ID
+@enduml
