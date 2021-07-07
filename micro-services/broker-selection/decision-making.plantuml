@@ -1,0 +1,30 @@
+@startuml Broker Selection
+start
+if(Do you want to send file through message broker?) then (Yes)
+    :**Choose gRPC**;
+    stop
+else (No)
+    if (Will your system on premise only?) then (Yes)
+        if (What is the communication of your services) then (Request/Reply)
+			:**Choose NATS**;
+			stop
+        else (Distributed)
+            :**Choose NATS JetStream **;
+            stop
+        endif
+    else (No)
+        if (What is the communication of your services) then (Request/Reply)
+			:**Choose NATS**;
+			stop
+        else (Distributed)
+            if (Can you maintain the server?) then (Yes)
+                :**Choose NATS JetStream **;
+                stop
+            else (No)
+                :**Choose AWS SQS **;
+                stop
+            endif
+        endif
+    endif
+endif
+@enduml
