@@ -19,26 +19,27 @@ export class MyComponent implements OnInit, OnDestroy {
 }
 ```
 
-You should remember your observable and call `unsubscribe` function when component destroyed.
+You should use [subsink](https://github.com/wardbell/subsink) to remember your observable and call `unsubscribe` function when component destroyed.
 
 ```ts
 @Component({...})
 export class MyComponent implements OnInit, OnDestroy {
-    subscriptions: Subscription[] = []
+    private subs = new SubSink();
 
     ngOnInit () {
         const source = interval(60000);
+        const source2 = interval(30000);
+        const source3 = interval(10000);
 
         // remember subscription 
-        let subscription = source.subscribe(...);
-
-        // add subscription into array.
-        this.subscriptions.push(subscription);
+        this.subs.sink = source.subscribe(...);
+        this.subs.sink = source2.subscribe(...);
+        this.subs.sink = source3.subscribe(...);
     }
 
     // unsubscribed all subscriptions when component is destroyed.
     ngOnDestroy() {
-        this.subscriptions.forEach((subscription) => subscription.unsubscribe());
+        this.subs.unsubscribe();
     }
 }
 ```
@@ -50,12 +51,12 @@ export class MyComponent implements OnInit, OnDestroy {
 To prevent XSS Injections. Angular provides method to set HTML content.
 
 ```ts
-// Bad
+// No
 setValue(html: string) {
     this.element.nativeElement.innerHTML = html;
 }
 
-// Good
+// Yes
 setValue(html: string) {
     this.renderer.setElementProperty(
         el.nativeElement, 
@@ -66,12 +67,12 @@ setValue(html: string) {
 ```
 
 ```ts
-// Bad
+// No
 setTitle(title: string) {
     document.title = title;
 }
 
-// Good
+// Yes
 import { Title } from '@angular/platform-browser';
 public constructor(private titleService: Title) { }
 
@@ -121,10 +122,10 @@ class myComponent {
 }
 ```
 
-# use '?' to prevent exception in HTML
+## Use '?' to prevent exception in HTML
 
 ```html
-// Good.
+// Yes
 <div>
     {{ employee?.address?.city?.state }}
 </div>
@@ -135,12 +136,12 @@ class myComponent {
 </div>
 ```
 
-# Use 'ng-container' with *ngIf to prevent nested html
+## Use 'ng-container' with *ngIf to prevent nested HTML
 
-`ng-container` does not created real element in html. It can be used with `ngIf` or `ngFor`.
+`ng-container` does not create a real element in HTML. It can be used with `ngIf` or `ngFor`.
 
 ```html
-// Good
+// Yes
 <ng-container *ngIf="...">
     <button> {{ 'LOGIN.SIGN-IN-ADFS' | translate }} </button>
 </ng-container>
