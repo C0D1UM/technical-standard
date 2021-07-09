@@ -6,7 +6,6 @@ This page will give you some practices and tips/tricks about Angular services.
 
 Components are designed for presentation of view. Business logic should be extracted into Service. Business logic is usually easier to unit test when extracted out to a Service, and can be reused too.
 
-
 # Limit Usage of Service Class
 
 If you want your Service to be available in whole project. You can use `providedIn: 'root'`
@@ -62,6 +61,7 @@ tsconfig.json can config alias path which can shorten your import statement.
 ```
 
 After that, you can shorten import of Services, Modules, Components, etc.
+
 ```ts
 // equal to '../../../loader/loader.service';
 import { LoaderService } from '@app/loader/loader.service';
