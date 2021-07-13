@@ -37,7 +37,7 @@ It is **recommended** to complete a Server Hardening process in a server.
 
 ### Firewall
 
-> :white_check_mark: Allow
+> :white_check_mark:  = Allow
 
 | Application (Default Port) / Source | Public | Internal <sup>[1]</sup> | CI Server <sup>[2]</sup> |
 | ------------- | ------ | ----------------------- | ------------------------ |
@@ -51,7 +51,7 @@ It is **recommended** to complete a Server Hardening process in a server.
 
 <sup>[1]</sup> For example, HQ and office IPs.  
 <sup>[2]</sup> For example, _GitLab Runner_ and _Buddy_.  
-<sup>[3]</sup> In case you're planning to debug its database. Default is _deny_.  
+<sup>[3]</sup> In case you're planning to debug Redis database. Recommendation is _deny_.  
 
 </small>
 
