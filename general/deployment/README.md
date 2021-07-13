@@ -1,6 +1,6 @@
 # Deployment Guideline
 
-This guideline will recommend you about best practice on deployment in various environments.
+This guideline will recommend you about best practice on deployment.
 
 ## Secret & Credentials
 
