@@ -67,15 +67,13 @@ It is **recommended** to complete a Server Hardening process in a server.
 
 It is **recommended** to set restart policy to `always` to make Docker containers automatically restart when something fail, or when VM restarts. Read more in [Start containers automatically](https://docs.docker.com/config/containers/start-containers-automatically/).
 
-## Framework-Specific
+## Django
 
-### Django
-
-#### Deployment Checklist
+### Deployment Checklist
 
 You can also check an official [deployment checklist](https://docs.djangoproject.com/en/3.2/howto/deployment/checklist/) from _Django_.
 
-#### Gunicorn Max Requests
+### Gunicorn Max Requests
 
 **Always** set max requests for _Gunicorn_.
 
