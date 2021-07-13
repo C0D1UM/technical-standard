@@ -2,17 +2,40 @@
 
 This guideline will recommend you about best practice on deployment in various environments.
 
-## Django Deployment Checklist
+## Secret & Credentials
 
-First thing that you have to do is checking official [Deployment checklist](https://docs.djangoproject.com/en/3.2/howto/deployment/checklist/) from _Django_.
+### Strong Password
 
-## Port Mapping
+Strong password makes the application more difficult to be hacked.
+**Do not** use any common passwords which can be guessed.
+Read more in [What is strong password?](https://searchenterprisedesktop.techtarget.com/definition/strong-password).
 
-- **Do not** map out Django port (8000, in most case) to host since there is no need to connect directly to Django (nginx is connected to Django within local Docker network)
-- It is **not recommended** to map out Redis port if you're not planning to debug its database
+### Storing Password
+
+`SHA-128` or more is required for password hashing in database. Django will handles this automatically by default.
+
+### Credentials
+
+**Do not** store any passwords or credentials in source code (except passwords for local use and testing).
+Storing in GitLab CI variable or in a server is recommended.
+
+### Sensitive Information
+
+In order to prevent data leaking, every sensitive information (for example, first name, last name, birth date, credit card number, and etc) is recommended to be encrypted using _AES-256_ or more. Encryption key is also required to store safely.
+
+## Network & Security
+
+### Server Hardening
+
+It is **recommended** to complete a Server Hardening process in a server.
+
+### Port Expose
+
+- **Do not** expose Django port (8000, in most case) to host since there is no need to connect directly to Django (nginx is connected to Django within local Docker network)
+- It is **not recommended** to expose Redis port if you're not planning to debug its database
 - If your server contains multiple project instances, you also need to specify the outside ports of nginx to your project's dedicated IP.
 
-## Firewall
+### Firewall
 
 > :heavy_check_mark: = Allow, :white_check_mark: = Allow with condition
 
@@ -22,7 +45,7 @@ First thing that you have to do is checking official [Deployment checklist](http
 | HTTPS (443) | :heavy_check_mark: | :heavy_check_mark: | |
 | SSH/SFTP (22, 22222) | | :heavy_check_mark: | :heavy_check_mark: |
 | Postgres (5432) | | :heavy_check_mark: | |
-| Redis (6379) | | :white_check_mark:  <sup>[3]</sup> | |
+| Redis (6379) | | :white_check_mark: <sup>[3]</sup> | |
 
 <small>
 
@@ -31,3 +54,35 @@ First thing that you have to do is checking official [Deployment checklist](http
 <sup>[3]</sup> In case you're planning to debug its database. Default is _deny_.  
 
 </small>
+
+### HTTPS
+
+- **Always** use _HTTPS_ instead of _HTTP_
+- _Let's Encrypt_ certificate renewal automation has to be set up on a server
+- Turn off _TLS 1.0_, _TLS 1.1_ supports in nginx (`ssl_protocols`). (It is recommended to use _TLS 1.2_+)
+- Use _EECDH_ or _EDH_ for HTTPS encryption in nginx (`ssl_ciphers`)
+- **Do not** allow nginx access from plain server IP by specify `server_name` to your domain name instead of widely open (`_`)
+
+### Docker Restart Policy
+
+It is **recommended** to set restart policy to `always` to make Docker containers automatically restart when something fail, or when VM restarts. Read more in [Start containers automatically](https://docs.docker.com/config/containers/start-containers-automatically/).
+
+## Framework-Specific
+
+### Django
+
+#### Deployment Checklist
+
+You can also check an official [deployment checklist](https://docs.djangoproject.com/en/3.2/howto/deployment/checklist/) from _Django_.
+
+#### Gunicorn Max Requests
+
+**Always** set max requests for _Gunicorn_.
+
+```bash
+gunicorn --max-requests=1000
+```
+
+## References
+
+- CODIUM Production Readiness
