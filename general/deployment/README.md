@@ -10,18 +10,18 @@ Strong password makes the application more difficult to be hacked.
 **Do not** use any common passwords which can be guessed.
 Read more in [What is strong password?](https://searchenterprisedesktop.techtarget.com/definition/strong-password).
 
-### Storing Password
-
-`SHA-128` or more is required for password hashing in database. Django will handles this automatically by default.
-
 ### Credentials
 
 **Do not** store any passwords or credentials in source code (except passwords for local use and testing).
 Storing in GitLab CI variable or in a server is recommended.
 
+### Storing Password In Database
+
+`SHA-128` or more is required for password hashing in database. Django will handles this automatically by default.
+
 ### Sensitive Information
 
-In order to prevent data leaking, every sensitive information (for example, first name, last name, birth date, credit card number, and etc) is recommended to be encrypted using _AES-256_ or more. Encryption key is also required to store safely.
+In order to prevent data leaking, every sensitive information (for example, first name, last name, birth date, credit card number, and etc) is recommended to be encrypted using `AES-256` or more. Encryption key is also required to store safely.
 
 ## Network & Security
 
@@ -37,15 +37,15 @@ It is **recommended** to complete a Server Hardening process in a server.
 
 ### Firewall
 
-> :heavy_check_mark: = Allow, :white_check_mark: = Allow with condition
+> :white_check_mark: Allow
 
 | Application (Default Port) / Source | Public | Internal <sup>[1]</sup> | CI Server <sup>[2]</sup> |
 | ------------- | ------ | ----------------------- | ------------------------ |
-| HTTP (80) | :heavy_check_mark: | :heavy_check_mark: | |
-| HTTPS (443) | :heavy_check_mark: | :heavy_check_mark: | |
-| SSH/SFTP (22, 22222) | | :heavy_check_mark: | :heavy_check_mark: |
-| Postgres (5432) | | :heavy_check_mark: | |
-| Redis (6379) | | :white_check_mark: <sup>[3]</sup> | |
+| HTTP (80) | :white_check_mark: | :white_check_mark: | |
+| HTTPS (443) | :white_check_mark: | :white_check_mark: | |
+| SSH/SFTP (22, 22222) | | :white_check_mark: | :white_check_mark: |
+| Postgres (5432) | | :white_check_mark: | |
+| Redis (6379) | | :heavy_check_mark: <sup>[3]</sup> | |
 
 <small>
 
