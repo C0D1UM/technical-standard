@@ -81,6 +81,10 @@ You can also check an official [deployment checklist](https://docs.djangoproject
 gunicorn --max-requests=1000
 ```
 
+### Gunicorn Worker
+
+It is recommended to set Gunicorn worker number to `(N x 2) + 1` (where `N` is number of CPU core). Note that if your server contains more than one application instance, you may need to split the available worker number from the formula to each instance.
+
 ## References
 
 - CODIUM Production Readiness
