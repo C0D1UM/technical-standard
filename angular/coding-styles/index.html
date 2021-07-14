@@ -1,0 +1,228 @@
+<!DOCTYPE html>
+<html lang="en"><head>
+  <meta charset="utf-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="viewport" content="width=device-width, initial-scale=1"><!-- Begin Jekyll SEO tag v2.7.1 -->
+<title>Angular Style Guide | CODIUM Technical Standard</title>
+<meta name="generator" content="Jekyll v3.9.0" />
+<meta property="og:title" content="Angular Style Guide" />
+<meta property="og:locale" content="en_US" />
+<meta name="description" content="CODIUM Co., Ltd." />
+<meta property="og:description" content="CODIUM Co., Ltd." />
+<link rel="canonical" href="https://codium.co/technical-standard/angular/coding-styles/" />
+<meta property="og:url" content="https://codium.co/technical-standard/angular/coding-styles/" />
+<meta property="og:site_name" content="CODIUM Technical Standard" />
+<meta name="twitter:card" content="summary" />
+<meta property="twitter:title" content="Angular Style Guide" />
+<script type="application/ld+json">
+{"description":"CODIUM Co., Ltd.","url":"https://codium.co/technical-standard/angular/coding-styles/","@type":"WebPage","headline":"Angular Style Guide","@context":"https://schema.org"}</script>
+<!-- End Jekyll SEO tag -->
+<link rel="stylesheet" href="/technical-standard/assets/main.css"><link type="application/atom+xml" rel="alternate" href="https://codium.co/technical-standard/feed.xml" title="CODIUM Technical Standard" /></head>
+<body><header class="site-header">
+    <div class="wrapper"><a class="site-title" rel="author" href="/technical-standard/">CODIUM Technical Standard</a><nav class="site-nav">
+            <input type="checkbox" id="nav-trigger" class="nav-trigger" />
+            <label for="nav-trigger">
+                <span class="menu-icon">
+                    <svg viewBox="0 0 18 15" width="18px" height="15px">
+                        <path
+                            d="M18,1.484c0,0.82-0.665,1.484-1.484,1.484H1.484C0.665,2.969,0,2.304,0,1.484l0,0C0,0.665,0.665,0,1.484,0 h15.032C17.335,0,18,0.665,18,1.484L18,1.484z M18,7.516C18,8.335,17.335,9,16.516,9H1.484C0.665,9,0,8.335,0,7.516l0,0 c0-0.82,0.665-1.484,1.484-1.484h15.032C17.335,6.031,18,6.696,18,7.516L18,7.516z M18,13.516C18,14.335,17.335,15,16.516,15H1.484 C0.665,15,0,14.335,0,13.516l0,0c0-0.82,0.665-1.483,1.484-1.483h15.032C17.335,12.031,18,12.695,18,13.516L18,13.516z" />
+                    </svg>
+                </span>
+            </label>
+
+            <div class="trigger">
+                <form action="/technical-standard/search.html" method="get">
+    <label for="search-box">Search</label>
+    <input type="text" id="search-box" name="query">
+    <input type="submit" value="search">
+</form>
+
+            </div>
+        </nav></div>
+</header>
+<main class="page-content" aria-label="Content">
+      <div class="wrapper">
+        <h3><strong>Table of Contents</strong></h3>
+<ul><li><a href="#style-guide">Style Guide</a><ul><li><a href="#base-style-guide">Base Style Guide</a></li><li><a href="#typescript">TypeScript</a><ul><li><a href="#indentation">Indentation</a></li><li><a href="#return-type">Return Type</a></li><li><a href="#trailing-commas">Trailing Commas</a></li></ul></li><li><a href="#html">HTML</a><ul><li><a href="#indentation-1">Indentation</a></li><li><a href="#line-wrapping">Line-Wrapping</a></li></ul></li></ul></li><li><a href="#linter">Linter</a></li><li><a href="#formatter">Formatter</a><ul><li><a href="#for-visual-studio-code-vscode">For Visual Studio Code (vscode)</a><ul><li><a href="#html-1">HTML</a></li><li><a href="#typescript-1">TypeScript</a></li></ul></li><li><a href="#for-webstorm">For WebStorm</a><ul><li><a href="#html-2">HTML</a></li><li><a href="#typescript-2">TypeScript</a></li></ul></li><li><a href="#editorconfig">EditorConfig</a></li></ul></li></ul>
+
+          <hr><br><br>
+        
+
+        <article class="post">
+
+  <header class="post-header">
+    <h1 class="post-title">Angular Style Guide</h1>
+  </header>
+
+  <div class="post-content">
+    <h2 id="style-guide">Style Guide</h2>
+<h3 id="base-style-guide">Base Style Guide</h3>
+<p>The main programing language in Angular framework included TypeScript, HTML, SCSS. We follow</p>
+<ul>
+<li><a href="https://google.github.io/styleguide/htmlcssguide.html">Google style guide for HTML/CSS</a>, <a href="https://google.github.io/styleguide/tsguide.html">TypeScript</a></li>
+<li><a href="https://sass-guidelin.es/">Kitty Giraudel style guide for SCSS</a></li>
+<li><a href="https://angular.io/guide/styleguide">Angular Official for Angular</a>.</li>
+</ul>
+<p>The rest of the document describes additions and clarifications below.</p>
+<h3 id="typescript">TypeScript</h3>
+<h4 id="indentation">Indentation</h4>
+<p>For the indentation in TypeScript, we use <strong>2 spaces</strong> for every new line. Do not use tabs or spaces mixed with tabs.</p>
+<h4 id="return-type">Return Type</h4>
+<p>Let's make it mandatory for return type of method for precision and simple to read the surface of them. Some lint configuration as eslint will have warning with highlight.</p>
+<div class="language-typescript highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="cm">/** No */</span>
+<span class="nx">isAdmin</span><span class="p">(</span><span class="nx">role</span><span class="p">:</span> <span class="kr">string</span><span class="p">)</span> <span class="p">{</span>
+  <span class="k">return</span> <span class="nx">role</span> <span class="o">===</span> <span class="dl">'</span><span class="s1">admin</span><span class="dl">'</span><span class="p">;</span>
+<span class="p">}</span>
+
+<span class="cm">/** Yes */</span>
+<span class="nx">isAdmin</span><span class="p">(</span><span class="nx">role</span><span class="p">:</span> <span class="kr">string</span><span class="p">):</span> <span class="nx">boolean</span> <span class="p">{</span>
+  <span class="k">return</span> <span class="nx">role</span> <span class="o">===</span> <span class="dl">'</span><span class="s1">admin</span><span class="dl">'</span><span class="p">;</span>
+<span class="p">}</span>
+</code></pre></div></div>
+<h4 id="trailing-commas">Trailing Commas</h4>
+<p>If an array or object literal is written in many lines, the last object should be ended with comma.</p>
+<div class="language-typescript highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="cm">/** Yes */</span>
+<span class="kd">const</span> <span class="nx">obj</span> <span class="o">=</span> <span class="p">{</span>
+  <span class="na">a</span><span class="p">:</span> <span class="dl">'</span><span class="s1">value1</span><span class="dl">'</span><span class="p">,</span>
+  <span class="na">b</span><span class="p">:</span> <span class="dl">'</span><span class="s1">value1</span><span class="dl">'</span><span class="p">,</span>
+  <span class="na">c</span><span class="p">:</span> <span class="dl">'</span><span class="s1">value1</span><span class="dl">'</span><span class="p">,</span>
+<span class="p">}</span>
+
+<span class="cm">/** No */</span>
+<span class="kd">const</span> <span class="nx">obj</span> <span class="o">=</span> <span class="p">{</span>
+  <span class="na">a</span><span class="p">:</span> <span class="dl">'</span><span class="s1">value1</span><span class="dl">'</span><span class="p">,</span>
+  <span class="na">b</span><span class="p">:</span> <span class="dl">'</span><span class="s1">value1</span><span class="dl">'</span><span class="p">,</span>
+  <span class="na">c</span><span class="p">:</span> <span class="dl">'</span><span class="s1">value1</span><span class="dl">'</span>
+<span class="p">}</span>
+</code></pre></div></div>
+<h3 id="html">HTML</h3>
+<h4 id="indentation-1">Indentation</h4>
+<p>For the indentation in HTML, we use <strong>2 spaces</strong> for elements. Do not use tabs or spaces mixed with tabs.</p>
+<div class="language-html highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="nt">&lt;div</span> <span class="na">id=</span><span class="s">"div-1"</span><span class="nt">&gt;</span>
+  <span class="nt">&lt;div</span> <span class="na">id=</span><span class="s">"div-2"</span><span class="nt">&gt;</span>
+    <span class="nt">&lt;div</span> <span class="na">id=</span><span class="s">"div-3"</span><span class="nt">&gt;</span>
+    <span class="nt">&lt;/div&gt;</span>
+  <span class="nt">&lt;/div&gt;</span>
+<span class="nt">&lt;/div&gt;</span>
+</code></pre></div></div>
+<h4 id="line-wrapping">Line-Wrapping</h4>
+<p>For wrapping the attribute of elements, we wrap them with 4 spaces for the attribute indentation.</p>
+<div class="language-html highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="c">&lt;!-- not recommend - wrapping somewhere long line --&gt;</span>
+<span class="nt">&lt;app-example</span> <span class="na">*ngIf=</span><span class="s">"isOpen"</span> <span class="na">class=</span><span class="s">"text-red"</span> <span class="na">id=</span><span class="s">"example-1"</span> <span class="na">[dropdown]=</span><span class="s">"dropdown"</span>
+  <span class="na">(click)=</span><span class="s">"onClick()"</span> <span class="na">[(data)]=</span><span class="s">"model"</span><span class="nt">&gt;</span>
+  <span class="nt">&lt;button</span> <span class="na">class=</span><span class="s">"btn btn-primary"</span><span class="nt">&gt;</span>Hello World!<span class="nt">&lt;/button&gt;</span>
+<span class="nt">&lt;/app-example&gt;</span>
+
+<span class="c">&lt;!-- Recommend --&gt;</span>
+<span class="nt">&lt;app-example</span> <span class="na">*ngIf=</span><span class="s">"isOpen"</span>
+    <span class="na">class=</span><span class="s">"text-red"</span>
+    <span class="na">id=</span><span class="s">"example-1"</span>
+    <span class="na">[dropdown]=</span><span class="s">"dropdown"</span>
+    <span class="na">(click)=</span><span class="s">"onClick()"</span>
+    <span class="na">[(data)]=</span><span class="s">"model"</span><span class="nt">&gt;</span>
+  <span class="nt">&lt;button</span> <span class="na">class=</span><span class="s">"btn btn-primary"</span><span class="nt">&gt;</span>Hello World!<span class="nt">&lt;/button&gt;</span>
+<span class="nt">&lt;/app-example&gt;</span>
+</code></pre></div></div>
+<h2 id="linter">Linter</h2>
+<p>You should use <a href="https://eslint.org/"><code>eslint</code></a> instead of <a href="https://palantir.github.io/tslint/"><code>tslint</code></a> is deprecated. <code>eslint</code> is available as a plug-in and we suggest you to use <a href="https://github.com/angular-eslint/angular-eslint#migrating-an-angular-cli-project-from-codelyzer-and-tslint"><code>Angular ESLint</code></a>.</p>
+<p>After you install <code>eslint</code> with Angular plug-in. You may have to valid some configuration following the style guide.</p>
+<h2 id="formatter">Formatter</h2>
+<h3 id="for-visual-studio-code-vscode">For Visual Studio Code (vscode)</h3>
+<p>For the configuration in vscode, go to Setting -&gt; Extensions and choose the extension file that will configure.</p>
+<blockquote>
+<p>NOTE: By default, we can press short key to enter setting UI by <code>CMD</code> + <code>,</code> (MacOS).</p>
+</blockquote>
+<ul>
+<li>
+<h4 id="html-1">HTML</h4>
+<p>These is the configuration that consistent with style guide.</p>
+<table>
+<thead>
+<tr>
+<th>Title</th>
+<th>Value</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><code>Format: Wrap Attributes</code></td>
+<td><code>force</code></td>
+</tr>
+<tr>
+<td><code>Format: Wrap Attributes Indent Size</code></td>
+<td><code>4</code></td>
+</tr>
+</tbody>
+</table>
+</li>
+<li>
+<h4 id="typescript-1">TypeScript</h4>
+<p>For TypeScript, we just set <code>TypeScript &gt; Preferences: Quote Style</code> to <code>single</code>.</p>
+<p>We suggest to use <code>Prettier</code> extension to enhance formatting.</p>
+<p>If you use <code>Prettier</code>. There is the configuration following that.</p>
+<ul>
+<li><code>Prettier: Arrow Parent</code> = <code>always</code></li>
+<li><code>HTML Whitespace Sensitivity</code> = <code>strict</code></li>
+</ul>
+</li>
+</ul>
+<h3 id="for-webstorm">For WebStorm</h3>
+<p>For WebStorm, go to Preference. In sidebar, choose Editor -&gt; Code Style and select programing language to configure.</p>
+<ul>
+<li>
+<h4 id="html-2">HTML</h4>
+<p>When entering to HTML configuration page. You can set the configuration following below.</p>
+<ul>
+<li>In <em>Tabs and Indents</em> tab, set <code>indent</code> = <code>4</code>.</li>
+<li>In <em>Other</em> tab, set <code>Wrap attributes</code> = <code>Wrap always</code>.</li>
+</ul>
+</li>
+<li>
+<h4 id="typescript-2">TypeScript</h4>
+<p>In <em>Punctuation</em> tab, you will see three lines. Set them like below.</p>
+<ul>
+<li><code>Use</code> semicolon to terminate statements <code>always</code></li>
+<li>Use <code>single</code> quotes <code>always</code></li>
+<li>Trailing comma: <code>Add when multiline</code></li>
+</ul>
+</li>
+</ul>
+<h3 id="editorconfig">EditorConfig</h3>
+<p>If the setting configuration in your editor has no effect. Please check the existence of <code>.editorconfig</code> file in your project where the configuration can be overridden.</p>
+
+  </div>
+
+</article>
+
+
+        
+
+        
+      </div>
+    </main><footer class="site-footer h-card">
+  <data class="u-url" href="/technical-standard/"></data>
+
+  <div class="wrapper">
+
+    <h2 class="footer-heading">CODIUM Technical Standard</h2>
+
+    <div class="footer-col-wrapper">
+      <div class="footer-col footer-col-1">
+        <ul class="contact-list">
+          <li class="p-name">CODIUM Technical Standard</li><li><a class="u-email" href="mailto:contact@codium.co">contact@codium.co</a></li></ul>
+      </div>
+
+      <div class="footer-col footer-col-2"><ul class="social-media-list"><li><a href="https://github.com/c0d1um"><svg class="svg-icon"><use xlink:href="/technical-standard/assets/minima-social-icons.svg#github"></use></svg> <span class="username">c0d1um</span></a></li></ul>
+</div>
+
+      <div class="footer-col footer-col-3">
+        <p>CODIUM Co., Ltd.</p>
+      </div>
+    </div>
+
+  </div>
+
+</footer>
+</body>
+
+</html>

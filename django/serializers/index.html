@@ -1,0 +1,259 @@
+<!DOCTYPE html>
+<html lang="en"><head>
+  <meta charset="utf-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="viewport" content="width=device-width, initial-scale=1"><!-- Begin Jekyll SEO tag v2.7.1 -->
+<title>Serializers | CODIUM Technical Standard</title>
+<meta name="generator" content="Jekyll v3.9.0" />
+<meta property="og:title" content="Serializers" />
+<meta property="og:locale" content="en_US" />
+<meta name="description" content="CODIUM Co., Ltd." />
+<meta property="og:description" content="CODIUM Co., Ltd." />
+<link rel="canonical" href="https://codium.co/technical-standard/django/serializers/" />
+<meta property="og:url" content="https://codium.co/technical-standard/django/serializers/" />
+<meta property="og:site_name" content="CODIUM Technical Standard" />
+<meta name="twitter:card" content="summary" />
+<meta property="twitter:title" content="Serializers" />
+<script type="application/ld+json">
+{"description":"CODIUM Co., Ltd.","url":"https://codium.co/technical-standard/django/serializers/","@type":"WebPage","headline":"Serializers","@context":"https://schema.org"}</script>
+<!-- End Jekyll SEO tag -->
+<link rel="stylesheet" href="/technical-standard/assets/main.css"><link type="application/atom+xml" rel="alternate" href="https://codium.co/technical-standard/feed.xml" title="CODIUM Technical Standard" /></head>
+<body><header class="site-header">
+    <div class="wrapper"><a class="site-title" rel="author" href="/technical-standard/">CODIUM Technical Standard</a><nav class="site-nav">
+            <input type="checkbox" id="nav-trigger" class="nav-trigger" />
+            <label for="nav-trigger">
+                <span class="menu-icon">
+                    <svg viewBox="0 0 18 15" width="18px" height="15px">
+                        <path
+                            d="M18,1.484c0,0.82-0.665,1.484-1.484,1.484H1.484C0.665,2.969,0,2.304,0,1.484l0,0C0,0.665,0.665,0,1.484,0 h15.032C17.335,0,18,0.665,18,1.484L18,1.484z M18,7.516C18,8.335,17.335,9,16.516,9H1.484C0.665,9,0,8.335,0,7.516l0,0 c0-0.82,0.665-1.484,1.484-1.484h15.032C17.335,6.031,18,6.696,18,7.516L18,7.516z M18,13.516C18,14.335,17.335,15,16.516,15H1.484 C0.665,15,0,14.335,0,13.516l0,0c0-0.82,0.665-1.483,1.484-1.483h15.032C17.335,12.031,18,12.695,18,13.516L18,13.516z" />
+                    </svg>
+                </span>
+            </label>
+
+            <div class="trigger">
+                <form action="/technical-standard/search.html" method="get">
+    <label for="search-box">Search</label>
+    <input type="text" id="search-box" name="query">
+    <input type="submit" value="search">
+</form>
+
+            </div>
+        </nav></div>
+</header>
+<main class="page-content" aria-label="Content">
+      <div class="wrapper">
+        <h3><strong>Table of Contents</strong></h3>
+<ul><li><a href="#model-serializer">Model Serializer</a><ul><li><a href="#modelcontrollerserializer">ModelControllerSerializer</a></li></ul></li><li><a href="#fields">Fields</a><ul><li><a href="#serializermethodfield">SerializerMethodField</a></li><li><a href="#hiddenfield">HiddenField</a></li></ul></li><li><a href="#createonlydefault">CreateOnlyDefault</a></li><li><a href="#validation">Validation</a><ul><li><a href="#field-level-validation">Field level Validation</a></li><li><a href="#object-level-validation">Object level validation</a></li></ul></li></ul>
+
+          <hr><br><br>
+        
+
+        <article class="post">
+
+  <header class="post-header">
+    <h1 class="post-title">Serializers</h1>
+  </header>
+
+  <div class="post-content">
+    <h2 id="model-serializer">Model Serializer</h2>
+<p>Basic usage of ModelSerializer</p>
+<ul>
+<li>Need to provide one of the attributes <code>fields</code> or <code>exclude</code></li>
+<li>Prefer to use <a href="https://www.django-rest-framework.org/api-guide/serializers/#third-party-packages">Third party packages</a> instead of writing on your own</li>
+<li>Use <code>select_related</code> and <code>prefetch_related</code> to improve queries performance</li>
+</ul>
+<div class="language-python highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="c1"># serializers.py
+</span><span class="kn">from</span> <span class="nn">res_framework</span> <span class="kn">import</span> <span class="n">serializers</span>
+
+<span class="c1"># Yes
+</span><span class="k">class</span> <span class="nc">AccountSerializer</span><span class="p">(</span><span class="n">serializers</span><span class="p">.</span><span class="n">ModelSerializer</span><span class="p">):</span>
+    <span class="k">class</span> <span class="nc">Meta</span><span class="p">:</span>
+        <span class="n">model</span> <span class="o">=</span> <span class="n">Account</span>
+        <span class="n">fields</span> <span class="o">=</span> <span class="p">[</span><span class="s">'id'</span><span class="p">,</span> <span class="s">'account_name'</span><span class="p">,</span> <span class="s">'users'</span><span class="p">,</span> <span class="s">'created'</span><span class="p">]</span>
+
+<span class="c1"># Yes
+</span><span class="k">class</span> <span class="nc">AccountSerializer</span><span class="p">(</span><span class="n">serializers</span><span class="p">.</span><span class="n">ModelSerializer</span><span class="p">):</span>
+    <span class="k">class</span> <span class="nc">Meta</span><span class="p">:</span>
+        <span class="n">model</span> <span class="o">=</span> <span class="n">Account</span>
+        <span class="n">fields</span> <span class="o">=</span> <span class="s">'__all__'</span>
+
+<span class="c1"># Yes
+</span><span class="k">class</span> <span class="nc">AccountSerializer</span><span class="p">(</span><span class="n">serializers</span><span class="p">.</span><span class="n">ModelSerializer</span><span class="p">):</span>
+    <span class="k">class</span> <span class="nc">Meta</span><span class="p">:</span>
+        <span class="n">model</span> <span class="o">=</span> <span class="n">Account</span>
+        <span class="n">exclude</span> <span class="o">=</span> <span class="p">[</span><span class="s">'users'</span><span class="p">]</span>
+</code></pre></div></div>
+<h3 id="modelcontrollerserializer">ModelControllerSerializer</h3>
+<p>If your model extends from <code>AbstractModelController</code> use <code>ModelControllerSerializer</code></p>
+<div class="language-python highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="c1"># serializers.py
+</span><span class="kn">from</span> <span class="nn">model_controller</span> <span class="kn">import</span> <span class="n">serializers</span> <span class="k">as</span> <span class="n">mc_serializers</span>
+<span class="kn">from</span> <span class="nn">res_framework</span> <span class="kn">import</span> <span class="n">serializers</span>
+
+
+<span class="c1"># Yes 
+</span><span class="k">class</span> <span class="nc">AccountSerializer</span><span class="p">(</span><span class="n">mc_serializers</span><span class="p">.</span><span class="n">ModelControllerSerializer</span><span class="p">):</span>
+    <span class="k">pass</span>
+
+<span class="c1"># No
+</span><span class="k">class</span> <span class="nc">AccountSerializer</span><span class="p">(</span><span class="n">serializers</span><span class="p">.</span><span class="n">ModelSerializer</span><span class="p">):</span>
+    <span class="k">def</span> <span class="nf">create</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">validated_data</span><span class="p">):</span>
+        <span class="n">user</span> <span class="o">=</span> <span class="bp">self</span><span class="p">.</span><span class="n">context</span><span class="p">[</span><span class="s">'request'</span><span class="p">].</span><span class="n">user</span>
+
+        <span class="n">validated_data</span><span class="p">[</span><span class="s">'created_user'</span><span class="p">]</span> <span class="o">=</span> <span class="n">user</span>
+        <span class="n">validated_data</span><span class="p">[</span><span class="s">'updated_user'</span><span class="p">]</span> <span class="o">=</span> <span class="n">user</span>
+
+        <span class="k">return</span> <span class="nb">super</span><span class="p">().</span><span class="n">create</span><span class="p">(</span><span class="n">validated_data</span><span class="p">)</span>
+
+    <span class="k">def</span> <span class="nf">update</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">instance</span><span class="p">,</span> <span class="n">validated_data</span><span class="p">):</span>
+        <span class="n">user</span> <span class="o">=</span> <span class="bp">self</span><span class="p">.</span><span class="n">context</span><span class="p">[</span><span class="s">'request'</span><span class="p">].</span><span class="n">user</span>
+
+        <span class="n">validated_data</span><span class="p">[</span><span class="s">'updated_user'</span><span class="p">]</span> <span class="o">=</span> <span class="n">user</span>
+
+        <span class="k">return</span> <span class="nb">super</span><span class="p">().</span><span class="n">update</span><span class="p">(</span><span class="n">instance</span><span class="p">,</span> <span class="n">validated_data</span><span class="p">)</span>
+</code></pre></div></div>
+<h2 id="fields">Fields</h2>
+<h3 id="serializermethodfield">SerializerMethodField</h3>
+<p>If it's just a property of object you can use <code>source</code> instead</p>
+<div class="language-python highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="c1"># serializers.py
+</span><span class="kn">from</span> <span class="nn">rest_framework</span> <span class="kn">import</span> <span class="n">serializer</span>
+
+<span class="c1"># Yes
+</span><span class="k">class</span> <span class="nc">ProfileSerializer</span><span class="p">(</span><span class="n">serializers</span><span class="p">.</span><span class="n">ModelSerializer</span><span class="p">):</span>
+    <span class="n">username</span> <span class="o">=</span> <span class="n">serializers</span><span class="p">.</span><span class="n">CharField</span><span class="p">(</span><span class="n">source</span><span class="o">=</span><span class="s">'user.username'</span><span class="p">)</span>
+
+<span class="c1"># No
+</span><span class="k">class</span> <span class="nc">ProfileSerializer</span><span class="p">(</span><span class="n">serializers</span><span class="p">.</span><span class="n">ModelSerializer</span><span class="p">):</span>
+    <span class="n">username</span> <span class="o">=</span> <span class="n">serializers</span><span class="p">.</span><span class="n">SerializerMethodField</span><span class="p">()</span>
+
+    <span class="k">def</span> <span class="nf">get_username</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">obj</span><span class="p">):</span>
+        <span class="k">return</span> <span class="n">obj</span><span class="p">.</span><span class="n">username</span>
+
+</code></pre></div></div>
+<h3 id="hiddenfield">HiddenField</h3>
+<p>Use <a href="https://www.django-rest-framework.org/api-guide/fields/#hiddenfield">HiddenField</a> to provide a predefined value</p>
+<div class="language-python highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="kn">from</span> <span class="nn">django.utils</span> <span class="kn">import</span> <span class="n">timezone</span>
+<span class="kn">from</span> <span class="nn">rest_framework</span> <span class="kn">import</span> <span class="n">serializers</span>
+
+<span class="c1"># Yes
+</span><span class="k">class</span> <span class="nc">EmailSerializer</span><span class="p">(</span><span class="n">serializers</span><span class="p">.</span><span class="n">ModelSerializer</span><span class="p">):</span>
+    <span class="n">modified</span> <span class="o">=</span> <span class="n">serializers</span><span class="p">.</span><span class="n">HiddenField</span><span class="p">(</span><span class="n">default</span><span class="o">=</span><span class="n">timezone</span><span class="p">.</span><span class="n">now</span><span class="p">)</span>
+
+<span class="c1"># No
+</span><span class="k">class</span> <span class="nc">EmailSerializer</span><span class="p">(</span><span class="n">serializers</span><span class="p">.</span><span class="n">ModelSerializer</span><span class="p">):</span>
+    <span class="k">def</span> <span class="nf">create</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">validated_data</span><span class="p">):</span>
+        <span class="n">validated_data</span><span class="p">[</span><span class="s">'modified'</span><span class="p">]</span> <span class="o">=</span> <span class="n">timezone</span><span class="p">.</span><span class="n">now</span><span class="p">()</span>
+        <span class="k">return</span> <span class="nb">super</span><span class="p">().</span><span class="n">create</span><span class="p">(</span><span class="n">validated_data</span><span class="p">)</span>
+    
+    <span class="k">def</span> <span class="nf">update</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">instance</span><span class="p">,</span> <span class="n">validated_data</span><span class="p">):</span>
+        <span class="n">validated_data</span><span class="p">[</span><span class="s">'modified'</span><span class="p">]</span> <span class="o">=</span> <span class="n">timezone</span><span class="p">.</span><span class="n">now</span><span class="p">()</span>
+        <span class="k">return</span> <span class="nb">super</span><span class="p">().</span><span class="n">create</span><span class="p">(</span><span class="n">instance</span><span class="p">,</span> <span class="n">validated_data</span><span class="p">)</span> 
+
+</code></pre></div></div>
+<h2 id="createonlydefault">CreateOnlyDefault</h2>
+<p>Use <a href="https://www.django-rest-framework.org/api-guide/validators/#createonlydefault">CreateOnlyDefault</a> to set a default argument during create operations</p>
+<div class="language-python highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="kn">from</span> <span class="nn">rest_framework</span> <span class="kn">import</span> <span class="n">serializers</span>
+
+<span class="c1"># Yes
+</span><span class="k">class</span> <span class="nc">EmailSerializer</span><span class="p">(</span><span class="n">serializers</span><span class="p">.</span><span class="n">ModelSerializer</span><span class="p">):</span>
+    <span class="n">owner</span> <span class="o">=</span> <span class="n">serializers</span><span class="p">.</span><span class="n">CreateOnlyDefault</span><span class="p">(</span><span class="n">default</span><span class="o">=</span><span class="n">serializers</span><span class="p">.</span><span class="n">CurrentUserDefault</span><span class="p">())</span>
+
+<span class="c1"># No
+</span><span class="k">class</span> <span class="nc">EmailSerializer</span><span class="p">(</span><span class="n">serializers</span><span class="p">.</span><span class="n">ModelSerializer</span><span class="p">):</span>
+    <span class="k">def</span> <span class="nf">create</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">validated_data</span><span class="p">):</span>
+        <span class="n">owner</span> <span class="o">=</span> <span class="bp">self</span><span class="p">.</span><span class="n">context</span><span class="p">[</span><span class="s">'request'</span><span class="p">].</span><span class="n">user</span>
+        <span class="k">return</span> <span class="nb">super</span><span class="p">().</span><span class="n">create</span><span class="p">(</span><span class="n">validated_data</span><span class="p">))</span>
+
+</code></pre></div></div>
+<h2 id="validation">Validation</h2>
+<ul>
+<li>Prefer to use <a href="https://www.django-rest-framework.org/api-guide/validators/">DRF Validators</a> over custom validation functions</li>
+</ul>
+<h3 id="field-level-validation">Field level Validation</h3>
+<p>Your <code>validate_&lt;field_name&gt;</code> methods should return a validated value or raise <code>serializers.ValidationError</code></p>
+<div class="language-python highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="kn">from</span> <span class="nn">rest_framework</span> <span class="kn">import</span> <span class="n">serializers</span>
+
+<span class="c1"># Yes
+</span><span class="k">class</span> <span class="nc">BlogPostSerializer</span><span class="p">(</span><span class="n">serializers</span><span class="p">.</span><span class="n">Serializer</span><span class="p">):</span>
+    <span class="n">title</span> <span class="o">=</span> <span class="n">serializers</span><span class="p">.</span><span class="n">CharField</span><span class="p">(</span><span class="n">max_length</span><span class="o">=</span><span class="mi">100</span><span class="p">)</span>
+    <span class="n">content</span> <span class="o">=</span> <span class="n">serializers</span><span class="p">.</span><span class="n">CharField</span><span class="p">()</span>
+
+    <span class="k">def</span> <span class="nf">validate_title</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">value</span><span class="p">):</span>
+        <span class="k">if</span> <span class="s">'django'</span> <span class="ow">not</span> <span class="ow">in</span> <span class="n">value</span><span class="p">.</span><span class="n">lower</span><span class="p">():</span>
+            <span class="k">raise</span> <span class="n">serializers</span><span class="p">.</span><span class="n">ValidationError</span><span class="p">(</span><span class="s">"Blog post is not about Django"</span><span class="p">)</span>
+        <span class="k">return</span> <span class="n">value</span>
+
+
+<span class="c1"># No 
+</span><span class="k">class</span> <span class="nc">BlogPostSerializer</span><span class="p">(</span><span class="n">serializers</span><span class="p">.</span><span class="n">Serializer</span><span class="p">):</span>
+    <span class="n">title</span> <span class="o">=</span> <span class="n">serializers</span><span class="p">.</span><span class="n">CharField</span><span class="p">(</span><span class="n">max_length</span><span class="o">=</span><span class="mi">100</span><span class="p">)</span>
+    <span class="n">content</span> <span class="o">=</span> <span class="n">serializers</span><span class="p">.</span><span class="n">CharField</span><span class="p">()</span>
+
+    <span class="k">def</span> <span class="nf">validate_title</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">value</span><span class="p">):</span>
+        <span class="k">if</span> <span class="s">'django'</span> <span class="ow">not</span> <span class="ow">in</span> <span class="n">value</span><span class="p">.</span><span class="n">lower</span><span class="p">():</span>
+            <span class="k">raise</span> <span class="nb">ValueError</span><span class="p">(</span><span class="s">"Blog post is not about Django"</span><span class="p">)</span>
+        <span class="k">return</span> <span class="n">value</span>
+</code></pre></div></div>
+<h3 id="object-level-validation">Object level validation</h3>
+<p>Do not manipulate the data while doing object level validation</p>
+<div class="language-python highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="kn">from</span> <span class="nn">rest_framework</span> <span class="kn">import</span> <span class="n">serializers</span>
+
+<span class="c1"># Yes
+</span><span class="k">class</span> <span class="nc">EventSerializer</span><span class="p">(</span><span class="n">serializers</span><span class="p">.</span><span class="n">Serializer</span><span class="p">):</span>
+    <span class="n">description</span> <span class="o">=</span> <span class="n">serializers</span><span class="p">.</span><span class="n">CharField</span><span class="p">(</span><span class="n">max_length</span><span class="o">=</span><span class="mi">100</span><span class="p">)</span>
+    <span class="n">start</span> <span class="o">=</span> <span class="n">serializers</span><span class="p">.</span><span class="n">DateTimeField</span><span class="p">()</span>
+    <span class="n">finish</span> <span class="o">=</span> <span class="n">serializers</span><span class="p">.</span><span class="n">DateTimeField</span><span class="p">()</span>
+
+    <span class="k">def</span> <span class="nf">validate</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">data</span><span class="p">):</span>
+        <span class="k">if</span> <span class="n">data</span><span class="p">[</span><span class="s">'start'</span><span class="p">]</span> <span class="o">&gt;</span> <span class="n">data</span><span class="p">[</span><span class="s">'finish'</span><span class="p">]:</span>
+            <span class="k">raise</span> <span class="n">serializers</span><span class="p">.</span><span class="n">ValidationError</span><span class="p">(</span><span class="s">"finish must occur after start"</span><span class="p">)</span>
+        <span class="k">return</span> <span class="n">data</span>
+
+<span class="c1"># No
+</span><span class="k">class</span> <span class="nc">EventSerializer</span><span class="p">(</span><span class="n">serializers</span><span class="p">.</span><span class="n">Serializer</span><span class="p">):</span>
+    <span class="n">description</span> <span class="o">=</span> <span class="n">serializers</span><span class="p">.</span><span class="n">CharField</span><span class="p">(</span><span class="n">max_length</span><span class="o">=</span><span class="mi">100</span><span class="p">)</span>
+    <span class="n">start</span> <span class="o">=</span> <span class="n">serializers</span><span class="p">.</span><span class="n">DateTimeField</span><span class="p">()</span>
+    <span class="n">finish</span> <span class="o">=</span> <span class="n">serializers</span><span class="p">.</span><span class="n">DateTimeField</span><span class="p">()</span>
+
+    <span class="k">def</span> <span class="nf">validate</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">data</span><span class="p">):</span>
+        <span class="n">data</span><span class="p">[</span><span class="s">'description'</span><span class="p">]</span> <span class="o">=</span> <span class="s">'some description'</span>
+        <span class="k">if</span> <span class="n">data</span><span class="p">[</span><span class="s">'start'</span><span class="p">]</span> <span class="o">&gt;</span> <span class="n">data</span><span class="p">[</span><span class="s">'finish'</span><span class="p">]:</span>
+            <span class="k">raise</span> <span class="n">serializers</span><span class="p">.</span><span class="n">ValidationError</span><span class="p">(</span><span class="s">"finish must occur after start"</span><span class="p">)</span>
+        <span class="k">return</span> <span class="n">data</span>
+</code></pre></div></div>
+
+  </div>
+
+</article>
+
+
+        
+
+        
+      </div>
+    </main><footer class="site-footer h-card">
+  <data class="u-url" href="/technical-standard/"></data>
+
+  <div class="wrapper">
+
+    <h2 class="footer-heading">CODIUM Technical Standard</h2>
+
+    <div class="footer-col-wrapper">
+      <div class="footer-col footer-col-1">
+        <ul class="contact-list">
+          <li class="p-name">CODIUM Technical Standard</li><li><a class="u-email" href="mailto:contact@codium.co">contact@codium.co</a></li></ul>
+      </div>
+
+      <div class="footer-col footer-col-2"><ul class="social-media-list"><li><a href="https://github.com/c0d1um"><svg class="svg-icon"><use xlink:href="/technical-standard/assets/minima-social-icons.svg#github"></use></svg> <span class="username">c0d1um</span></a></li></ul>
+</div>
+
+      <div class="footer-col footer-col-3">
+        <p>CODIUM Co., Ltd.</p>
+      </div>
+    </div>
+
+  </div>
+
+</footer>
+</body>
+
+</html>

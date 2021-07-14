@@ -1,0 +1,157 @@
+<!DOCTYPE html>
+<html lang="en"><head>
+  <meta charset="utf-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="viewport" content="width=device-width, initial-scale=1"><!-- Begin Jekyll SEO tag v2.7.1 -->
+<title>Third-Party Library Guideline | CODIUM Technical Standard</title>
+<meta name="generator" content="Jekyll v3.9.0" />
+<meta property="og:title" content="Third-Party Library Guideline" />
+<meta property="og:locale" content="en_US" />
+<meta name="description" content="CODIUM Co., Ltd." />
+<meta property="og:description" content="CODIUM Co., Ltd." />
+<link rel="canonical" href="https://codium.co/technical-standard/django/third-party-library/" />
+<meta property="og:url" content="https://codium.co/technical-standard/django/third-party-library/" />
+<meta property="og:site_name" content="CODIUM Technical Standard" />
+<meta name="twitter:card" content="summary" />
+<meta property="twitter:title" content="Third-Party Library Guideline" />
+<script type="application/ld+json">
+{"description":"CODIUM Co., Ltd.","url":"https://codium.co/technical-standard/django/third-party-library/","@type":"WebPage","headline":"Third-Party Library Guideline","@context":"https://schema.org"}</script>
+<!-- End Jekyll SEO tag -->
+<link rel="stylesheet" href="/technical-standard/assets/main.css"><link type="application/atom+xml" rel="alternate" href="https://codium.co/technical-standard/feed.xml" title="CODIUM Technical Standard" /></head>
+<body><header class="site-header">
+    <div class="wrapper"><a class="site-title" rel="author" href="/technical-standard/">CODIUM Technical Standard</a><nav class="site-nav">
+            <input type="checkbox" id="nav-trigger" class="nav-trigger" />
+            <label for="nav-trigger">
+                <span class="menu-icon">
+                    <svg viewBox="0 0 18 15" width="18px" height="15px">
+                        <path
+                            d="M18,1.484c0,0.82-0.665,1.484-1.484,1.484H1.484C0.665,2.969,0,2.304,0,1.484l0,0C0,0.665,0.665,0,1.484,0 h15.032C17.335,0,18,0.665,18,1.484L18,1.484z M18,7.516C18,8.335,17.335,9,16.516,9H1.484C0.665,9,0,8.335,0,7.516l0,0 c0-0.82,0.665-1.484,1.484-1.484h15.032C17.335,6.031,18,6.696,18,7.516L18,7.516z M18,13.516C18,14.335,17.335,15,16.516,15H1.484 C0.665,15,0,14.335,0,13.516l0,0c0-0.82,0.665-1.483,1.484-1.483h15.032C17.335,12.031,18,12.695,18,13.516L18,13.516z" />
+                    </svg>
+                </span>
+            </label>
+
+            <div class="trigger">
+                <form action="/technical-standard/search.html" method="get">
+    <label for="search-box">Search</label>
+    <input type="text" id="search-box" name="query">
+    <input type="submit" value="search">
+</form>
+
+            </div>
+        </nav></div>
+</header>
+<main class="page-content" aria-label="Content">
+      <div class="wrapper">
+        <h3><strong>Table of Contents</strong></h3>
+<ul><li><a href="#how-to-choose-a-library">How to choose a library?</a></li><li><a href="#recommended-libraries">Recommended Libraries</a><ul><li><a href="#common">Common</a></li><li><a href="#background-worker">Background Worker</a></li><li><a href="#excel">Excel</a></li><li><a href="#pdf">PDF</a></li><li><a href="#development">Development</a></li><li><a href="#unit-test">Unit Test</a></li><li><a href="#monitoring">Monitoring</a></li></ul></li></ul>
+
+          <hr><br><br>
+        
+
+        <article class="post">
+
+  <header class="post-header">
+    <h1 class="post-title">Third-Party Library Guideline</h1>
+  </header>
+
+  <div class="post-content">
+    <p>Best practices for which library to use and how to choose.</p>
+<h2 id="how-to-choose-a-library">How to choose a library?</h2>
+<p>Here are some checklist when choosing a new library:</p>
+<ul>
+<li>Check the amount of star in GitHub, the more star the better.</li>
+<li>Check if documentation is available.</li>
+<li>Check how often library getting updates.</li>
+<li>Check when is the latest code update, if the latest update was years ago meaning
+the library probably not being maintained anymore.</li>
+<li>Check if there are unit tests, usually good code come with unit test.</li>
+<li>You can get more analytics from the <strong>Insights</strong> tab in GitHub, to see if
+the community with this library is good enough.</li>
+<li>Check security report in <strong>Security</strong> tab.</li>
+</ul>
+<h2 id="recommended-libraries">Recommended Libraries</h2>
+<p>These are the recommended library for each categories. This does not mean that
+every project must install all the libraries listed here. <strong>Only install what
+you need to use</strong>. Best practices is install when you need instead of install
+from all at once, keep your requirements growing.</p>
+<h3 id="common">Common</h3>
+<ul>
+<li><a href="https://www.djangoproject.com">Django</a>: web framework.</li>
+<li><a href="https://www.django-rest-framework.org">Rest Framework</a>: API Endpoint.</li>
+<li><a href="https://django-rest-framework-simplejwt.readthedocs.io/en/latest/">Simple JWT</a>: authentication with JSON Web Token.</li>
+<li><a href="https://github.com/adamchainz/django-cors-headers">CORS Header</a>: browser CORS header.</li>
+<li><a href="https://florimondmanca.github.io/djangorestframework-api-key/">API Key</a> implementing API Key authorization.</li>
+<li><a href="https://django-filter.readthedocs.io/en/stable/">Filter</a>: filter data from URL parameters.</li>
+<li><a href="https://github.com/NorakGithub/django-model-controller">Model Controller</a>: keeping track of database record.</li>
+<li><a href="https://pypi.org/project/django-sequences/">Sequences</a>: sequence generator.</li>
+<li><a href="https://pypi.org/project/redis/">Redis</a>: connecting to redis server.</li>
+</ul>
+<h3 id="background-worker">Background Worker</h3>
+<ul>
+<li><a href="https://docs.celeryproject.org/en/stable/django/first-steps-with-django.html">Celery</a> background worker.</li>
+</ul>
+<h3 id="excel">Excel</h3>
+<ul>
+<li><a href="https://openpyxl.readthedocs.io/en/stable/">OpenPyXL</a>: working with Excel</li>
+<li><a href="https://pypi.org/project/django-excel-tools/">Excel Tool</a>: validate data from excel</li>
+</ul>
+<h3 id="pdf">PDF</h3>
+<ul>
+<li><a href="https://weasyprint.readthedocs.io">WeasyPrint</a>: generate PDF from HTML</li>
+</ul>
+<h3 id="development">Development</h3>
+<ul>
+<li><a href="https://django-debug-toolbar.readthedocs.io/en/latest/">Debug Toolbar</a>: optimizing API performance.</li>
+<li><a href="https://django-environ.readthedocs.io/en/latest/">Environ</a>: helper when using environment variable.</li>
+<li><a href="https://github.com/gotcha/ipdb">ipdb</a>: extended from pdb for code completion and more.</li>
+<li><a href="https://github.com/tfranzel/drf-spectacular">DRF Spectacular</a>: generating API Doc for Django REST Framework.</li>
+</ul>
+<h3 id="unit-test">Unit Test</h3>
+<ul>
+<li><a href="https://pypi.org/project/django-test-without-migrations/">Test Without Migrations</a>: speed up testing without running database migration and playing around with model design.</li>
+<li><a href="https://factoryboy.readthedocs.io/en/stable/orms.html">Factory Boy</a>: mocking model data.</li>
+<li><a href="https://github.com/realpython/django-slow-tests">Slow Test</a>: reporting which unit test run too slow.</li>
+<li><a href="https://docs.djangoproject.com/en/3.1/topics/testing/advanced/#integration-with-coverage-py">Coverage</a>: reporting amount of code that covered by unit test.</li>
+<li><a href="https://github.com/spulec/freezegun">Freezegun</a>: freeze time for testing.</li>
+</ul>
+<h3 id="monitoring">Monitoring</h3>
+<ul>
+<li><a href="https://docs.sentry.io/platforms/python/guides/django/">Sentry-SDK</a>: unhandled exception report</li>
+</ul>
+
+  </div>
+
+</article>
+
+
+        
+
+        
+      </div>
+    </main><footer class="site-footer h-card">
+  <data class="u-url" href="/technical-standard/"></data>
+
+  <div class="wrapper">
+
+    <h2 class="footer-heading">CODIUM Technical Standard</h2>
+
+    <div class="footer-col-wrapper">
+      <div class="footer-col footer-col-1">
+        <ul class="contact-list">
+          <li class="p-name">CODIUM Technical Standard</li><li><a class="u-email" href="mailto:contact@codium.co">contact@codium.co</a></li></ul>
+      </div>
+
+      <div class="footer-col footer-col-2"><ul class="social-media-list"><li><a href="https://github.com/c0d1um"><svg class="svg-icon"><use xlink:href="/technical-standard/assets/minima-social-icons.svg#github"></use></svg> <span class="username">c0d1um</span></a></li></ul>
+</div>
+
+      <div class="footer-col footer-col-3">
+        <p>CODIUM Co., Ltd.</p>
+      </div>
+    </div>
+
+  </div>
+
+</footer>
+</body>
+
+</html>

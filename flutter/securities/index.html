@@ -1,0 +1,184 @@
+<!DOCTYPE html>
+<html lang="en"><head>
+  <meta charset="utf-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="viewport" content="width=device-width, initial-scale=1"><!-- Begin Jekyll SEO tag v2.7.1 -->
+<title>Security | CODIUM Technical Standard</title>
+<meta name="generator" content="Jekyll v3.9.0" />
+<meta property="og:title" content="Security" />
+<meta property="og:locale" content="en_US" />
+<meta name="description" content="CODIUM Co., Ltd." />
+<meta property="og:description" content="CODIUM Co., Ltd." />
+<link rel="canonical" href="https://codium.co/technical-standard/flutter/securities/" />
+<meta property="og:url" content="https://codium.co/technical-standard/flutter/securities/" />
+<meta property="og:site_name" content="CODIUM Technical Standard" />
+<meta name="twitter:card" content="summary" />
+<meta property="twitter:title" content="Security" />
+<script type="application/ld+json">
+{"description":"CODIUM Co., Ltd.","url":"https://codium.co/technical-standard/flutter/securities/","@type":"WebPage","headline":"Security","@context":"https://schema.org"}</script>
+<!-- End Jekyll SEO tag -->
+<link rel="stylesheet" href="/technical-standard/assets/main.css"><link type="application/atom+xml" rel="alternate" href="https://codium.co/technical-standard/feed.xml" title="CODIUM Technical Standard" /></head>
+<body><header class="site-header">
+    <div class="wrapper"><a class="site-title" rel="author" href="/technical-standard/">CODIUM Technical Standard</a><nav class="site-nav">
+            <input type="checkbox" id="nav-trigger" class="nav-trigger" />
+            <label for="nav-trigger">
+                <span class="menu-icon">
+                    <svg viewBox="0 0 18 15" width="18px" height="15px">
+                        <path
+                            d="M18,1.484c0,0.82-0.665,1.484-1.484,1.484H1.484C0.665,2.969,0,2.304,0,1.484l0,0C0,0.665,0.665,0,1.484,0 h15.032C17.335,0,18,0.665,18,1.484L18,1.484z M18,7.516C18,8.335,17.335,9,16.516,9H1.484C0.665,9,0,8.335,0,7.516l0,0 c0-0.82,0.665-1.484,1.484-1.484h15.032C17.335,6.031,18,6.696,18,7.516L18,7.516z M18,13.516C18,14.335,17.335,15,16.516,15H1.484 C0.665,15,0,14.335,0,13.516l0,0c0-0.82,0.665-1.483,1.484-1.483h15.032C17.335,12.031,18,12.695,18,13.516L18,13.516z" />
+                    </svg>
+                </span>
+            </label>
+
+            <div class="trigger">
+                <form action="/technical-standard/search.html" method="get">
+    <label for="search-box">Search</label>
+    <input type="text" id="search-box" name="query">
+    <input type="submit" value="search">
+</form>
+
+            </div>
+        </nav></div>
+</header>
+<main class="page-content" aria-label="Content">
+      <div class="wrapper">
+        <h3><strong>Table of Contents</strong></h3>
+<ul><li><a href="#android-broadcast-receiver">Android Broadcast Receiver</a></li><li><a href="#signed-with-v1-signature-scheme">Signed with v1 signature scheme</a></li><li><a href="#stack-smashing-protection">Stack Smashing Protection</a></li><li><a href="#adb-backup">ADB backup</a></li><li><a href="#app-content-protection">App Content Protection</a><ul><li><a href="#android">Android</a></li><li><a href="#ios">iOS</a></li></ul></li></ul>
+
+          <hr><br><br>
+        
+
+        <article class="post">
+
+  <header class="post-header">
+    <h1 class="post-title">Security</h1>
+  </header>
+
+  <div class="post-content">
+    <p>Flutter is a cross-platform development framework, to improve security for Flutter apps, sometimes we have to configure both native Android and iOS apps.</p>
+<h2 id="android-broadcast-receiver">Android Broadcast Receiver</h2>
+<p>It's possible that the receiver will accept broadcasts from unknown sources, putting the application at risk.</p>
+<p>To prevent Broadcast Receiver from being exported, please add the following code to <strong>AndroidManifest.xml</strong>.</p>
+<div class="language-xml highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="nt">&lt;application</span> <span class="err">.</span> <span class="err">.</span> <span class="err">.</span>
+      <span class="na">android:exported=</span><span class="s">"false"</span> <span class="nt">&gt;</span>
+    . . .
+<span class="nt">&lt;/application&gt;</span>
+</code></pre></div></div>
+<h2 id="signed-with-v1-signature-scheme">Signed with v1 signature scheme</h2>
+<p>According to an <a href="https://source.android.com/security/apksigning#v1">official</a></p>
+<blockquote>
+<p>v1 signatures do not protect some parts of the APK, such as ZIP metadata. The APK verifier needs to process lots of untrusted (not yet verified) data structures and then discard data not covered by the signatures. This offers a sizeable attack surface. Moreover, the APK verifier must uncompress all compressed entries, consuming more time and memory. To address these issues, Android 7.0 introduced APK Signature Scheme v2.</p>
+</blockquote>
+<p>To avoid v1 signatures, set minSdkVersion 24 (Android 7.0) or higher in <strong>build.gradle</strong>.</p>
+<blockquote>
+<p><strong><em>Note:</em></strong>  Devices with a lower SDK version will not be able to install the application.</p>
+</blockquote>
+<p>SDK versions can be found <a href="https://developer.android.com/studio/releases/platforms">here</a>.</p>
+<div class="language-gradle highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="c1">// Example: use SDK version 26 (Android 8.0) as minSdkVersion</span>
+<span class="n">android</span> <span class="o">{</span>
+    <span class="o">.</span> <span class="o">.</span> <span class="o">.</span>
+
+    <span class="n">defaultConfig</span> <span class="o">{</span>
+        <span class="o">.</span> <span class="o">.</span> <span class="o">.</span>
+        <span class="n">minSdkVersion</span> <span class="mi">26</span>
+    <span class="o">}</span>
+<span class="o">}</span>
+</code></pre></div></div>
+<h2 id="stack-smashing-protection">Stack Smashing Protection</h2>
+<p>When the stack of an application is forced to overflow, stack smashing occurs. This could lead to the app being subverted and crashing.</p>
+<p>To enable Stack Smashing Protection in an iOS app, follow these steps</p>
+<ol>
+<li>In Xcode, select your target in the &quot;Targets&quot; section, then click the &quot;Build Settings&quot; tab to view the target's settings.</li>
+<li>Make sure that the &quot;-fstack-protector-all&quot; option is selected in the &quot;Other C Flags&quot; section.</li>
+<li>Make sure that Position Independent Executables (PIE) support is enabled.</li>
+</ol>
+<h2 id="adb-backup">ADB backup</h2>
+<p>A malicious APK file can be injected into the backup archive by an attacker.</p>
+<p>To disable backup, put this code to <strong>AndroidManifest.xml</strong> .</p>
+<div class="language-xml highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="nt">&lt;application</span> <span class="err">.</span> <span class="err">.</span> <span class="err">.</span>
+      <span class="na">android:allowBackup=</span><span class="s">"false"</span> <span class="nt">&gt;</span>
+    . . .
+<span class="nt">&lt;/application&gt;</span>
+</code></pre></div></div>
+<h2 id="app-content-protection">App Content Protection</h2>
+<p>Some applications may include sensitive data. Please take the following steps to protect your data from screenshots, screensharing, and seeing what's going on while apps are running in the background.</p>
+<h3 id="android">Android</h3>
+<p>In <strong>MainActivity.kt</strong>, put this code.</p>
+<div class="language-kotlin highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="p">.</span> <span class="p">.</span> <span class="p">.</span>
+
+<span class="k">import</span> <span class="nn">android.os.Bundle</span>
+<span class="k">import</span> <span class="nn">android.view.WindowManager.LayoutParams</span>
+
+<span class="kd">class</span> <span class="nc">MainActivity</span><span class="p">:</span> <span class="nc">FlutterActivity</span><span class="p">()</span> <span class="p">{</span>
+    <span class="k">override</span> <span class="k">fun</span> <span class="nf">onCreate</span><span class="p">(</span><span class="n">savedInstanceState</span><span class="p">:</span> <span class="nc">Bundle</span><span class="p">?)</span> <span class="p">{</span>
+        <span class="p">.</span> <span class="p">.</span> <span class="p">.</span>
+
+        <span class="nf">getWindow</span><span class="p">().</span><span class="nf">addFlags</span><span class="p">(</span><span class="nc">LayoutParams</span><span class="p">.</span><span class="nc">FLAG_SECURE</span><span class="p">)</span>
+        <span class="k">super</span><span class="p">.</span><span class="nf">onCreate</span><span class="p">(</span><span class="n">savedInstanceState</span><span class="p">)</span>
+    <span class="p">}</span>
+
+    <span class="p">.</span> <span class="p">.</span> <span class="p">.</span>
+<span class="p">}</span>
+</code></pre></div></div>
+<h3 id="ios">iOS</h3>
+<p>In <strong>AppDelegate.swift</strong>, put this code.</p>
+<div class="language-swift highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="o">.</span> <span class="o">.</span> <span class="o">.</span>
+
+<span class="kd">@UIApplicationMain</span>
+<span class="kd">@objc</span> <span class="kd">class</span> <span class="kt">AppDelegate</span><span class="p">:</span> <span class="kt">FlutterAppDelegate</span> <span class="p">{</span>
+  <span class="o">.</span> <span class="o">.</span> <span class="o">.</span>
+    
+  <span class="k">override</span> <span class="kd">func</span> <span class="nf">applicationWillResignActive</span><span class="p">(</span>
+    <span class="n">_</span> <span class="nv">application</span><span class="p">:</span> <span class="kt">UIApplication</span>
+  <span class="p">)</span> <span class="p">{</span>
+    <span class="o">.</span> <span class="o">.</span> <span class="o">.</span>
+
+    <span class="k">self</span><span class="o">.</span><span class="n">window</span><span class="o">.</span><span class="n">isHidden</span> <span class="o">=</span> <span class="kc">true</span><span class="p">;</span>
+  <span class="p">}</span>
+  
+  <span class="k">override</span> <span class="kd">func</span> <span class="nf">applicationDidBecomeActive</span><span class="p">(</span>
+    <span class="n">_</span> <span class="nv">application</span><span class="p">:</span> <span class="kt">UIApplication</span>
+  <span class="p">)</span> <span class="p">{</span>
+    <span class="o">.</span> <span class="o">.</span> <span class="o">.</span>
+
+    <span class="k">self</span><span class="o">.</span><span class="n">window</span><span class="o">.</span><span class="n">isHidden</span> <span class="o">=</span> <span class="kc">false</span><span class="p">;</span>
+  <span class="p">}</span>
+<span class="p">}</span>
+</code></pre></div></div>
+
+  </div>
+
+</article>
+
+
+        
+
+        
+      </div>
+    </main><footer class="site-footer h-card">
+  <data class="u-url" href="/technical-standard/"></data>
+
+  <div class="wrapper">
+
+    <h2 class="footer-heading">CODIUM Technical Standard</h2>
+
+    <div class="footer-col-wrapper">
+      <div class="footer-col footer-col-1">
+        <ul class="contact-list">
+          <li class="p-name">CODIUM Technical Standard</li><li><a class="u-email" href="mailto:contact@codium.co">contact@codium.co</a></li></ul>
+      </div>
+
+      <div class="footer-col footer-col-2"><ul class="social-media-list"><li><a href="https://github.com/c0d1um"><svg class="svg-icon"><use xlink:href="/technical-standard/assets/minima-social-icons.svg#github"></use></svg> <span class="username">c0d1um</span></a></li></ul>
+</div>
+
+      <div class="footer-col footer-col-3">
+        <p>CODIUM Co., Ltd.</p>
+      </div>
+    </div>
+
+  </div>
+
+</footer>
+</body>
+
+</html>

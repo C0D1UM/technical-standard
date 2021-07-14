@@ -1,0 +1,11 @@
+version: "3"
+
+services:
+  jekyll:
+    image: technical-standard-jekyll
+    build: .
+    volumes:
+      - .:/usr/src
+    ports:
+      - 4000:4000
+    command: sh -c "bundle install && bundle exec jekyll serve --baseurl="" --host 0.0.0.0"

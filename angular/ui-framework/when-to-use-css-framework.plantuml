@@ -1,0 +1,16 @@
+@startuml When to use CSS framework
+start
+
+if ( Less or zero interactive? <sup>[1]</sup> ) then (yes)
+    if ( Strict, complicated mock-up? ) then (yes)
+        :**Tailwind CSS**;
+        end
+    else (no)
+    endif
+else (no)
+endif
+
+:**Bootstrap**;
+end
+
+@enduml
