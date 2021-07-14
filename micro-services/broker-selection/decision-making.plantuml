@@ -8,16 +8,21 @@ else (No)
 			:**Choose NATS**;
 			stop
     else (Distributing)
-        if(Does your system only run on premise?) then (Yes)
-            :**Choose NATS JetStream**;
+        if(You want to process message after received (Log Analysis)?) then (Yes)
+            :**Choose NATS JetStream with Logstash**;
             stop
         else (No)
-            if (Do you want to maintain the message broker service?) then (Yes)
+            if(Does your system only run on premise or you not okay for message to send over internet?) then (Yes)
                 :**Choose NATS JetStream**;
                 stop
             else (No)
-                :**Choose AWS SQS**;
-                stop
+                if (Do you want to maintain the message broker service?) then (Yes)
+                    :**Choose NATS JetStream**;
+                    stop
+                else (No)
+                    :**Choose AWS SQS**;
+                    stop
+            endif
         endif
     endif
 endif
