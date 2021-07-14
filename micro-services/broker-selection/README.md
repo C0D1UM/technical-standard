@@ -7,12 +7,12 @@ Before moving on, you should understand these two terms of communication:
 *Request/Reply* communication is when you expected the destination service
 reply immediately after processed. The simplest example is HTTP request.
 
-![Request Reply Communication](https://www.plantuml.com/plantuml/proxy?src=https://raw.githubusercontent.com/C0D1UM/technical-standard/main/micro-services/broker-selection/distributing-communication.plantuml)
+![Request Reply Communication](https://www.plantuml.com/plantuml/proxy?src=https://raw.githubusercontent.com/C0D1UM/technical-standard/main/micro-services/broker-selection/request-reply-communication.plantuml)
 
 *Distributing* communication is when you don't need reply from the
 destination service. Most of the time distributing communication is async.
 
-![Request Reply Communication](https://www.plantuml.com/plantuml/proxy?src=https://raw.githubusercontent.com/C0D1UM/technical-standard/main/micro-services/broker-selection/request-reply-communication.plantuml)
+![Distributing Communication](https://www.plantuml.com/plantuml/proxy?src=https://raw.githubusercontent.com/C0D1UM/technical-standard/main/micro-services/broker-selection/distributing-communication.plantuml)
 
 ## Decision Tree
 
