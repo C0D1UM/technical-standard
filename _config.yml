@@ -21,6 +21,7 @@ header_pages:
   - angular/README.md
   - devops/README.md
   - flutter/README.md
+  - micro-services/README.md
 
 readme_index:
   remove_originals: true
