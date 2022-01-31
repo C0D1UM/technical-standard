@@ -6,7 +6,7 @@ We follow [Google style guide for Python](https://google.github.io/styleguide/py
 
 ## Linting
 
-* You can use `pylint` with this [.pylintrc](.pylintrc) to check if your code passed the standard.
+* You can use `pylint` with this [.pylintrc](https://raw.githubusercontent.com/C0D1UM/technical-standard/main/django/python-style-guide/.pylintrc) to check if your code passed the standard.
 
 ## Formatter
 
