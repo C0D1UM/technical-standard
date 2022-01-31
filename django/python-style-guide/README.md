@@ -10,7 +10,7 @@ We follow [Google style guide for Python](https://google.github.io/styleguide/py
 
 ## Formatter
 
-* You can use [yapf](https://github.com/google/yapf/) to avoid arguing over formatting.
+* You can use [yapf](https://github.com/google/yapf/) with this [.style.yapf](https://raw.githubusercontent.com/C0D1UM/technical-standard/main/django/python-style-guide/.style.yapf) to avoid arguing over formatting.
 * For PyCharm users, you can configure `yapf` as an external tool, see [How to config Pycharm](#pycharm-configuration).
 * For VSCode users, in `setting.json` set `"python.formatting.provider": "yapf",`
 
