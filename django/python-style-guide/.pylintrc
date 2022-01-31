@@ -230,11 +230,14 @@ method-rgx=(?x)^(?:(?P<exempt>_[a-z0-9_]+__|runTest|setUp|tearDown|setUpTestCase
 
 # Regular expression which should only match function or class names that do
 # not require a docstring.
-no-docstring-rgx=(__.*__|main|test.*|.*test|.*Test)$
+no-docstring-rgx=(__.*__|main|test.*|.*test|.*Test|Meta)$
 
 # Minimum line length for functions/classes that require docstrings, shorter
 # ones are exempt.
 docstring-min-length=10
+
+# Ignore unused arguments
+ignored-argument-names=args|kwargs|sender
 
 
 [TYPECHECK]
@@ -268,7 +271,7 @@ generated-members=
 [FORMAT]
 
 # Maximum number of characters on a single line.
-max-line-length=120
+max-line-length=140
 
 # TODO(https://github.com/PyCQA/pylint/issues/3352): Direct pylint to exempt
 # lines made too long by directives to pytype.
