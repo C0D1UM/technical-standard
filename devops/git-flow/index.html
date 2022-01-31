@@ -1,0 +1,307 @@
+<!DOCTYPE html>
+<html lang="en"><head>
+  <meta charset="utf-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="viewport" content="width=device-width, initial-scale=1"><!-- Begin Jekyll SEO tag v2.7.1 -->
+<title>Git Flow | CODIUM Technical Standard</title>
+<meta name="generator" content="Jekyll v3.9.0" />
+<meta property="og:title" content="Git Flow" />
+<meta property="og:locale" content="en_US" />
+<meta name="description" content="CODIUM Co., Ltd." />
+<meta property="og:description" content="CODIUM Co., Ltd." />
+<link rel="canonical" href="https://codium.co/technical-standard/devops/git-flow/" />
+<meta property="og:url" content="https://codium.co/technical-standard/devops/git-flow/" />
+<meta property="og:site_name" content="CODIUM Technical Standard" />
+<meta name="twitter:card" content="summary" />
+<meta property="twitter:title" content="Git Flow" />
+<script type="application/ld+json">
+{"description":"CODIUM Co., Ltd.","url":"https://codium.co/technical-standard/devops/git-flow/","@type":"WebPage","headline":"Git Flow","@context":"https://schema.org"}</script>
+<!-- End Jekyll SEO tag -->
+<link rel="stylesheet" href="/technical-standard/assets/main.css"><link type="application/atom+xml" rel="alternate" href="https://codium.co/technical-standard/feed.xml" title="CODIUM Technical Standard" /></head>
+<body><header class="site-header">
+    <div class="wrapper"><a class="site-title" rel="author" href="/technical-standard/">CODIUM Technical Standard</a><nav class="site-nav">
+            <input type="checkbox" id="nav-trigger" class="nav-trigger" />
+            <label for="nav-trigger">
+                <span class="menu-icon">
+                    <svg viewBox="0 0 18 15" width="18px" height="15px">
+                        <path
+                            d="M18,1.484c0,0.82-0.665,1.484-1.484,1.484H1.484C0.665,2.969,0,2.304,0,1.484l0,0C0,0.665,0.665,0,1.484,0 h15.032C17.335,0,18,0.665,18,1.484L18,1.484z M18,7.516C18,8.335,17.335,9,16.516,9H1.484C0.665,9,0,8.335,0,7.516l0,0 c0-0.82,0.665-1.484,1.484-1.484h15.032C17.335,6.031,18,6.696,18,7.516L18,7.516z M18,13.516C18,14.335,17.335,15,16.516,15H1.484 C0.665,15,0,14.335,0,13.516l0,0c0-0.82,0.665-1.483,1.484-1.483h15.032C17.335,12.031,18,12.695,18,13.516L18,13.516z" />
+                    </svg>
+                </span>
+            </label>
+
+            <div class="trigger">
+                <form action="/technical-standard/search.html" method="get">
+    <label for="search-box">Search</label>
+    <input type="text" id="search-box" name="query">
+    <input type="submit" value="search">
+</form>
+
+            </div>
+        </nav></div>
+</header>
+<main class="page-content" aria-label="Content">
+      <div class="wrapper">
+        <h3><strong>Table of Contents</strong></h3>
+<ul><li><a href="#tldr">TL;DR</a><ul><li><a href="#flows">Flows</a></li><li><a href="#flow-selection">Flow Selection</a></li><li><a href="#comparison">Comparison</a></li></ul></li><li><a href="#feature-branching">Feature Branching</a><ul><li><a href="#concepts">Concepts</a></li><li><a href="#deployment">Deployment</a></li><li><a href="#when-do-you-want">When do you want?</a></li><li><a href="#references">References</a></li></ul></li><li><a href="#gitflow-workflow">Gitflow Workflow</a><ul><li><a href="#concepts-1">Concepts</a></li><li><a href="#deployment-1">Deployment</a></li><li><a href="#when-do-you-want-1">When do you want?</a></li><li><a href="#references-1">References</a></li></ul></li><li><a href="#trunk-based-development-with-feature-flag">Trunk-based Development (with Feature Flag)</a><ul><li><a href="#concepts-2">Concepts</a></li><li><a href="#feature-flag">Feature Flag</a></li><li><a href="#deployment-2">Deployment</a></li><li><a href="#when-do-you-want-2">When do you want?</a></li><li><a href="#references-2">References</a></li></ul></li></ul>
+
+          <hr><br><br>
+        
+
+        <article class="post">
+
+  <header class="post-header">
+    <h1 class="post-title">Git Flow</h1>
+  </header>
+
+  <div class="post-content">
+    <p>In this standard, we suggest you multiple implementations of Git Flow. Each flow is different. Some is better when you're developing, some is better when your project was already go live. This standard will help you pick the right one for your project.</p>
+<p>Before we start, one thing that's constant is we will use only <em>one branch</em> as a standard.</p>
+<h2 id="tldr">TL;DR</h2>
+<h3 id="flows">Flows</h3>
+<p>There are three flows we suggested you in this standard:</p>
+<ol>
+<li><strong>Feature Branching:</strong> have <em>main branch</em> and feature branch(es).</li>
+<li><strong>Gitflow Workflow:</strong> have two branches such as <em>main branch</em> and <em>development branch</em></li>
+<li><strong>Trunk-based Development</strong>: it is like <em>Feature Branching</em> but feature branch is very short-lived and will be merged into <em>main branch</em> as fast as possible. Project should also implement <a href="#feature-flag">feature flags</a> to turn on/off feature as well.</li>
+</ol>
+<h3 id="flow-selection">Flow Selection</h3>
+<p>Here's how you choose a Git Flow for your project:</p>
+<table>
+<thead>
+<tr>
+<th align="center"><img src="https://www.plantuml.com/plantuml/proxy?src=https://raw.githubusercontent.com/C0D1UM/technical-standard/main/devops/git-flow/flow-selection.plantuml" alt="Flow Selection" /></th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td align="center"><em>Flow Selection</em></td>
+</tr>
+</tbody>
+</table>
+<h3 id="comparison">Comparison</h3>
+<table>
+<thead>
+<tr>
+<th>Topic</th>
+<th>Feature Branching</th>
+<th>Gitflow Workflow</th>
+<th>Trunk-based Development</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><strong>Development</strong></td>
+<td></td>
+<td></td>
+<td></td>
+</tr>
+<tr>
+<td>Number of branch(es)</td>
+<td>1</td>
+<td>2</td>
+<td>2</td>
+</tr>
+<tr>
+<td>Branching</td>
+<td>By feature</td>
+<td>By feature</td>
+<td>By feature and release</td>
+</tr>
+<tr>
+<td>Feature branch live</td>
+<td>Long-lived</td>
+<td>N/A</td>
+<td>Short-lived</td>
+</tr>
+<tr>
+<td>When to merge?</td>
+<td>When feature is done</td>
+<td>When feature is done</td>
+<td>Depends but every often<br>(everyday, every 2 days, etc.)</td>
+</tr>
+<tr>
+<td>Code review</td>
+<td>Possible</td>
+<td>Possible</td>
+<td>Recommended</td>
+</tr>
+<tr>
+<td><strong>Deployment</strong></td>
+<td></td>
+<td></td>
+<td></td>
+</tr>
+<tr>
+<td>Development Server</td>
+<td>On pushed to <em>main branch</em></td>
+<td>On pushed to <em>development branch</em></td>
+<td>On pushed to <em>main branch</em></td>
+</tr>
+<tr>
+<td>Staging Server (if any)</td>
+<td>Manually deploy from <em>main branch</em></td>
+<td>On pushed to <em>main branch</em></td>
+<td>On pushed to <em>release branch</em></td>
+</tr>
+<tr>
+<td>Production Server</td>
+<td>On tag pushed from <em>main branch</em></td>
+<td>On tag pushed from <em>main branch</em></td>
+<td>On tag pushed from <em>release branch</em></td>
+</tr>
+</tbody>
+</table>
+<h2 id="feature-branching">Feature Branching</h2>
+<table>
+<thead>
+<tr>
+<th align="center"><img src="https://wac-cdn.atlassian.com/dam/jcr:09308632-38a3-4637-bba2-af2110629d56/07.svg?cdnVersion=1481" width="450"></th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td align="center"><em>Feature Branching</em></td>
+</tr>
+</tbody>
+</table>
+<h3 id="concepts">Concepts</h3>
+<ul>
+<li>A single <em>main branch</em> (usually named <code>main</code>)</li>
+<li>Branching is required to develop a new feature, enhancements, bug fixes, and etc.</li>
+<li>Frequently merge <em>main branch</em> to <em>feature branch</em></li>
+<li>When it is finished, code review (including pipelines) is required before merging into <em>main branch</em>.</li>
+<li>Delete <em>feature branch</em> immediately after it has been merged</li>
+</ul>
+<h3 id="deployment">Deployment</h3>
+<ul>
+<li><strong>Development:</strong> Deploy when pushed into <em>main branch</em></li>
+<li><strong>Staging <em>(if any)</em>:</strong> Manually deploy from <em>main branch</em></li>
+<li><strong>Production:</strong> Manually deploy by creating a tag from <em>main branch</em></li>
+</ul>
+<h3 id="when-do-you-want">When do you want?</h3>
+<ul>
+<li>Project is in <em>development phase</em> or <em>support phase</em></li>
+<li>Team has senior developers enough to review the code for every other developers</li>
+<li>There are many features or tasks to do and they need to be implemented at the same time</li>
+</ul>
+<h3 id="references">References</h3>
+<ul>
+<li><a href="https://www.atlassian.com/git/tutorials/comparing-workflows/feature-branch-workflow">Atlassian: Feature Branch Workflow</a></li>
+</ul>
+<h2 id="gitflow-workflow">Gitflow Workflow</h2>
+<table>
+<thead>
+<tr>
+<th align="center"><img src="https://wac-cdn.atlassian.com/dam/jcr:b5259cce-6245-49f2-b89b-9871f9ee3fa4/03%20(2).svg?cdnVersion=1548" width="450"></th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td align="center"><em>Gitflow Workflow</em></td>
+</tr>
+</tbody>
+</table>
+<h3 id="concepts-1">Concepts</h3>
+<p>Similar as <a href="#feature-branching">Feature Branching</a> but</p>
+<ul>
+<li>There is a <em>development branch</em> (usually called <code>dev</code>). It is an active branch which replaced the <em>main branch</em>. Developers usually work on this branch by create a new feature branch from this branch.</li>
+<li>Feature branch should frequently merges <em>development branch</em> into its branch</li>
+<li>The <em>main branch</em> will be the branch to prepare for release</li>
+<li>Hotfix will be merged in the <em>main branch</em> and it needs to be merged back into <em>development branch</em></li>
+<li>When everything is ready, merge <em>development branch</em> to <em>main branch</em> for release preparation.</li>
+</ul>
+<h3 id="deployment-1">Deployment</h3>
+<ul>
+<li><strong>Development:</strong> Deploy when pushed into <em>development branch</em></li>
+<li><strong>Staging <em>(if any)</em>:</strong> Deploy when pushed into <em>main branch</em></li>
+<li><strong>Production:</strong> Deploy when pushed tag created from <em>main branch</em></li>
+</ul>
+<h3 id="when-do-you-want-1">When do you want?</h3>
+<ul>
+<li>Your project is SaaS or product development such as standard project</li>
+<li>Features are implementing along side with bug fixes</li>
+<li>Team has senior developers enough to review the code for every other developers</li>
+</ul>
+<h3 id="references-1">References</h3>
+<ul>
+<li><a href="https://www.atlassian.com/git/tutorials/comparing-workflows/gitflow-workflow">Atlassian: Gitflow Workflow</a></li>
+</ul>
+<h2 id="trunk-based-development-with-feature-flag">Trunk-based Development (with Feature Flag)</h2>
+<table>
+<thead>
+<tr>
+<th align="center"><img src="https://trunkbaseddevelopment.com/trunk1c.png" alt="Trunk-based Development" /></th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td align="center"><em>Trunk-based Development</em></td>
+</tr>
+</tbody>
+</table>
+<h3 id="concepts-2">Concepts</h3>
+<p>Similar as <a href="#feature-branching">Feature Branching</a> but</p>
+<ul>
+<li>There is a separated branch called <code>release</code> to freeze the development in a certain time, preparing to deploy to staging (if any) or production.</li>
+<li>Feature branches are <em>short-lived</em></li>
+<li>Every point in <em>main branch</em> should be <em>production-ready</em>. Here comes the <a href="#feature-flag">Feature Flag</a>.</li>
+</ul>
+<h3 id="feature-flag">Feature Flag</h3>
+<p><strong>Feature Flag</strong><sup>[1]</sup> (aka. Feature Toggle) is the ability to turn on or turn off every particular feature without re-deploying which is a time-consumed task.</p>
+<p>Feature Flag also helps us to turn off a feature that we don't want to release as well. This will allow us to merge our code as fast as possible to <em>main branch</em> without considering that it will be released on production or not.</p>
+<h3 id="deployment-2">Deployment</h3>
+<ul>
+<li><strong>Development:</strong> Deploy when pushed into <em>main branch</em></li>
+<li><strong>Staging <em>(if any)</em>:</strong> Deploy when pushed into <em>release branch</em></li>
+<li><strong>Production:</strong> Deploy when pushed tag created from <em>release branch</em></li>
+</ul>
+<h3 id="when-do-you-want-2">When do you want?</h3>
+<ul>
+<li>Project is in <em>go-live phase</em> but there are features left to be implemented as well as fixing bugs in production server</li>
+<li>Release schedule is strictly</li>
+<li>Has enough senior developers to review everyone's code</li>
+<li>Already set-up CI/CD</li>
+</ul>
+<h3 id="references-2">References</h3>
+<ul>
+<li><a href="https://trunkbaseddevelopment.com/">Trunk Based Development</a></li>
+<li><sup>[1]</sup> <a href="https://launchdarkly.com/blog/what-are-feature-flags">Feature flags, what are they?</a></li>
+</ul>
+
+  </div>
+
+</article>
+
+
+        
+
+        
+      </div>
+    </main><footer class="site-footer h-card">
+  <data class="u-url" href="/technical-standard/"></data>
+
+  <div class="wrapper">
+
+    <h2 class="footer-heading">CODIUM Technical Standard</h2>
+
+    <div class="footer-col-wrapper">
+      <div class="footer-col footer-col-1">
+        <ul class="contact-list">
+          <li class="p-name">CODIUM Technical Standard</li><li><a class="u-email" href="mailto:contact@codium.co">contact@codium.co</a></li></ul>
+      </div>
+
+      <div class="footer-col footer-col-2"><ul class="social-media-list"><li><a href="https://github.com/c0d1um"><svg class="svg-icon"><use xlink:href="/technical-standard/assets/minima-social-icons.svg#github"></use></svg> <span class="username">c0d1um</span></a></li></ul>
+</div>
+
+      <div class="footer-col footer-col-3">
+        <p>CODIUM Co., Ltd.</p>
+      </div>
+    </div>
+
+  </div>
+
+</footer>
+</body>
+
+</html>

@@ -1,0 +1,249 @@
+<!DOCTYPE html>
+<html lang="en"><head>
+  <meta charset="utf-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="viewport" content="width=device-width, initial-scale=1"><!-- Begin Jekyll SEO tag v2.7.1 -->
+<title>Unit Test | CODIUM Technical Standard</title>
+<meta name="generator" content="Jekyll v3.9.0" />
+<meta property="og:title" content="Unit Test" />
+<meta property="og:locale" content="en_US" />
+<meta name="description" content="CODIUM Co., Ltd." />
+<meta property="og:description" content="CODIUM Co., Ltd." />
+<link rel="canonical" href="https://codium.co/technical-standard/django/unit-test/" />
+<meta property="og:url" content="https://codium.co/technical-standard/django/unit-test/" />
+<meta property="og:site_name" content="CODIUM Technical Standard" />
+<meta name="twitter:card" content="summary" />
+<meta property="twitter:title" content="Unit Test" />
+<script type="application/ld+json">
+{"description":"CODIUM Co., Ltd.","url":"https://codium.co/technical-standard/django/unit-test/","@type":"WebPage","headline":"Unit Test","@context":"https://schema.org"}</script>
+<!-- End Jekyll SEO tag -->
+<link rel="stylesheet" href="/technical-standard/assets/main.css"><link type="application/atom+xml" rel="alternate" href="https://codium.co/technical-standard/feed.xml" title="CODIUM Technical Standard" /></head>
+<body><header class="site-header">
+    <div class="wrapper"><a class="site-title" rel="author" href="/technical-standard/">CODIUM Technical Standard</a><nav class="site-nav">
+            <input type="checkbox" id="nav-trigger" class="nav-trigger" />
+            <label for="nav-trigger">
+                <span class="menu-icon">
+                    <svg viewBox="0 0 18 15" width="18px" height="15px">
+                        <path
+                            d="M18,1.484c0,0.82-0.665,1.484-1.484,1.484H1.484C0.665,2.969,0,2.304,0,1.484l0,0C0,0.665,0.665,0,1.484,0 h15.032C17.335,0,18,0.665,18,1.484L18,1.484z M18,7.516C18,8.335,17.335,9,16.516,9H1.484C0.665,9,0,8.335,0,7.516l0,0 c0-0.82,0.665-1.484,1.484-1.484h15.032C17.335,6.031,18,6.696,18,7.516L18,7.516z M18,13.516C18,14.335,17.335,15,16.516,15H1.484 C0.665,15,0,14.335,0,13.516l0,0c0-0.82,0.665-1.483,1.484-1.483h15.032C17.335,12.031,18,12.695,18,13.516L18,13.516z" />
+                    </svg>
+                </span>
+            </label>
+
+            <div class="trigger">
+                <form action="/technical-standard/search.html" method="get">
+    <label for="search-box">Search</label>
+    <input type="text" id="search-box" name="query">
+    <input type="submit" value="search">
+</form>
+
+            </div>
+        </nav></div>
+</header>
+<main class="page-content" aria-label="Content">
+      <div class="wrapper">
+        <h3><strong>Table of Contents</strong></h3>
+<ul><li><a href="#common-best-practices">Common Best Practices</a></li><li><a href="#fixtures">Fixtures</a><ul><li><a href="#introduction">Introduction</a></li><li><a href="#rules">Rules</a></li></ul></li><li><a href="#parallel-testing">Parallel Testing</a></li></ul>
+
+          <hr><br><br>
+        
+
+        <article class="post">
+
+  <header class="post-header">
+    <h1 class="post-title">Unit Test</h1>
+  </header>
+
+  <div class="post-content">
+    <h2 id="common-best-practices">Common Best Practices</h2>
+<ul>
+<li>If you don't know what are the unit test for your function should be, try not
+to use other testing tools like, Browser or Postman etc. The only tool to test
+if your code run correctly is unit test.</li>
+<li>If the test is for Django Model, Form or View etc, use <code>django.test.TestCase</code>.</li>
+<li>If the test is for Django REST, use <code>rest_framework.test.APITestCase</code>.</li>
+<li>Test must be isolated, it must not required other test case to pass.</li>
+<li>Test must not required to run in sequential.</li>
+<li>Test function name should tell what intended to do and the reason why it failed or passed.</li>
+</ul>
+<div class="language-python highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="c1"># Yes
+</span><span class="k">def</span> <span class="nf">test_create_person_should_fail_when_name_is_already_existed</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+    <span class="p">...</span>
+
+<span class="c1"># No
+</span><span class="k">def</span> <span class="nf">test_api</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+    <span class="p">...</span>
+</code></pre></div></div>
+<ul>
+<li>Show more information when assertion failed, easy for debugging.</li>
+</ul>
+<div class="language-python highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="c1"># Yes
+</span><span class="k">def</span> <span class="nf">test_create_person_should_success</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+    <span class="n">res</span> <span class="o">=</span> <span class="bp">self</span><span class="p">.</span><span class="n">client</span><span class="p">.</span><span class="n">post</span><span class="p">(</span><span class="n">url</span><span class="p">,</span> <span class="n">data</span><span class="p">)</span>
+    <span class="bp">self</span><span class="p">.</span><span class="n">assertEqual</span><span class="p">(</span><span class="n">res</span><span class="p">.</span><span class="n">status</span><span class="p">,</span> <span class="n">HTTP_201_CREATED</span><span class="p">,</span> <span class="n">res</span><span class="p">.</span><span class="n">json</span><span class="p">())</span>
+
+<span class="c1"># No
+</span><span class="k">def</span> <span class="nf">test_create_person_should_success</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+    <span class="n">res</span> <span class="o">=</span> <span class="bp">self</span><span class="p">.</span><span class="n">client</span><span class="p">.</span><span class="n">post</span><span class="p">(</span><span class="n">url</span><span class="p">,</span> <span class="n">data</span><span class="p">)</span>
+    <span class="bp">self</span><span class="p">.</span><span class="n">assertEqual</span><span class="p">(</span><span class="n">res</span><span class="p">.</span><span class="n">status</span><span class="p">,</span> <span class="n">HTTP_201_CREATED</span><span class="p">)</span>
+</code></pre></div></div>
+<ul>
+<li>Use <code>setUp</code> method to create a sharable data in the current test suite.</li>
+<li>Do not hardcoded url, use <code>reverse</code> instead.</li>
+</ul>
+<div class="language-python highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="k">class</span> <span class="nc">TestSimple</span><span class="p">(</span><span class="n">TestCase</span><span class="p">):</span>
+    <span class="k">def</span> <span class="nf">setUp</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="bp">self</span><span class="p">.</span><span class="n">user</span> <span class="o">=</span> <span class="n">User</span><span class="p">.</span><span class="n">objects</span><span class="p">.</span><span class="n">get</span><span class="p">(</span><span class="nb">id</span><span class="o">=</span><span class="mi">1</span><span class="p">)</span>
+        <span class="c1"># Yes
+</span>        <span class="bp">self</span><span class="p">.</span><span class="n">url</span> <span class="o">=</span> <span class="n">reverse</span><span class="p">(</span><span class="s">'api:person'</span><span class="p">)</span>
+        <span class="c1"># No
+</span>        <span class="bp">self</span><span class="p">.</span><span class="n">url</span> <span class="o">=</span> <span class="s">'/api/person/'</span>
+    
+    <span class="k">def</span> <span class="nf">test_something_should_be_succeed</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="bp">self</span><span class="p">.</span><span class="n">url</span> <span class="p">...</span>
+        <span class="bp">self</span><span class="p">.</span><span class="n">user</span> <span class="p">...</span>
+    
+    <span class="k">def</span> <span class="nf">test_something_should_be_failed</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="bp">self</span><span class="p">.</span><span class="n">url</span> <span class="p">...</span>
+        <span class="bp">self</span><span class="p">.</span><span class="n">user</span> <span class="p">...</span>
+</code></pre></div></div>
+<ul>
+<li>Use Django Build-in assertion instead of python assertion, because it provided
+more information when assertion failed.</li>
+</ul>
+<div class="language-python highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="k">class</span> <span class="nc">TestSimple</span><span class="p">(</span><span class="n">TestCase</span><span class="p">):</span>
+    <span class="k">def</span> <span class="nf">test_something_should_be_failed</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="c1"># Yes
+</span>        <span class="bp">self</span><span class="p">.</span><span class="n">assertIsNotNone</span><span class="p">(...)</span>
+        <span class="bp">self</span><span class="p">.</span><span class="n">assertIsNone</span><span class="p">(...)</span>
+        <span class="bp">self</span><span class="p">.</span><span class="n">assertTrue</span><span class="p">(...)</span>
+        <span class="bp">self</span><span class="p">.</span><span class="n">assertFalse</span><span class="p">(...)</span>
+        <span class="bp">self</span><span class="p">.</span><span class="n">assertEqual</span><span class="p">(...)</span>
+        <span class="c1"># No
+</span>        <span class="k">assert</span> <span class="n">a</span> <span class="ow">is</span> <span class="ow">not</span> <span class="bp">None</span>
+        <span class="k">assert</span> <span class="n">b</span> <span class="ow">is</span> <span class="bp">None</span>
+        <span class="k">assert</span> <span class="n">a</span> <span class="o">==</span> <span class="bp">True</span>
+        <span class="k">assert</span> <span class="n">b</span> <span class="o">==</span> <span class="bp">False</span>
+        <span class="k">assert</span> <span class="n">a</span> <span class="o">==</span> <span class="n">b</span>
+</code></pre></div></div>
+<ul>
+<li>You don't have to coverage 100% of unit test, but you must at least sure that
+your code work as intended.</li>
+<li>Do not write unit test for third-party packaged or framework you are using,
+because it should already have its own unit test.</li>
+</ul>
+<h2 id="fixtures">Fixtures</h2>
+<h3 id="introduction">Introduction</h3>
+<p>You should use fixtures if it's the kind of data that will be reusable. Example:</p>
+<ul>
+<li>Role</li>
+<li>Type</li>
+</ul>
+<h3 id="rules">Rules</h3>
+<p>Name of fixture should be noun in plural form.</p>
+<div class="language-python highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="c1"># Yes  
+</span><span class="n">users</span><span class="p">.</span><span class="n">json</span>  
+<span class="n">people</span><span class="p">.</span><span class="n">json</span>
+<span class="n">departments</span><span class="p">.</span><span class="n">json</span>
+
+<span class="c1"># No
+</span><span class="n">do_something</span><span class="p">.</span><span class="n">json</span>  <span class="c1"># Not Noun
+</span><span class="n">persons</span><span class="p">.</span><span class="n">json</span>  <span class="c1"># Incorrect grammar
+</span></code></pre></div></div>
+<p>One JSON fixture file for one model.</p>
+<div class="language-json highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="err">#</span><span class="w"> </span><span class="err">Yes</span><span class="w">
+</span><span class="p">[</span><span class="w">
+    </span><span class="p">{</span><span class="nl">"model"</span><span class="p">:</span><span class="w"> </span><span class="s2">"app.Model"</span><span class="p">,</span><span class="w"> </span><span class="nl">"pk"</span><span class="p">:</span><span class="w"> </span><span class="mi">1</span><span class="p">,</span><span class="w"> </span><span class="err">...</span><span class="p">},</span><span class="w">
+    </span><span class="p">{</span><span class="nl">"model"</span><span class="p">:</span><span class="w"> </span><span class="s2">"app.Model"</span><span class="p">,</span><span class="w"> </span><span class="nl">"pk"</span><span class="p">:</span><span class="w"> </span><span class="mi">2</span><span class="p">,</span><span class="w"> </span><span class="err">...</span><span class="p">}</span><span class="w">
+</span><span class="p">]</span><span class="w">
+
+</span><span class="err">#</span><span class="w"> </span><span class="err">No</span><span class="w">
+</span><span class="p">[</span><span class="w">
+    </span><span class="p">{</span><span class="nl">"model"</span><span class="p">:</span><span class="w"> </span><span class="s2">"app.Model1"</span><span class="p">,</span><span class="w"> </span><span class="nl">"pk"</span><span class="p">:</span><span class="w"> </span><span class="mi">1</span><span class="p">,</span><span class="w"> </span><span class="err">...</span><span class="p">},</span><span class="w">
+    </span><span class="p">{</span><span class="nl">"model"</span><span class="p">:</span><span class="w"> </span><span class="s2">"app.Model2"</span><span class="p">,</span><span class="w"> </span><span class="nl">"pk"</span><span class="p">:</span><span class="w"> </span><span class="mi">1</span><span class="p">,</span><span class="w"> </span><span class="err">...</span><span class="p">}</span><span class="w">
+</span><span class="p">]</span><span class="w">
+</span></code></pre></div></div>
+<p>Do not write your own fixtures, always generate from Django Admin command line.</p>
+<div class="language-shell highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="nv">$ </span>python manage.py dumpdata app.Model <span class="o">&gt;&gt;</span> path/app/fixtures/model.json
+</code></pre></div></div>
+<p>If you have a set of fixtures that can be reusable, consider creating a reusable constants.</p>
+<div class="language-python highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="c1"># Yes
+## fixture_templates.py
+</span><span class="n">USERS</span> <span class="o">=</span> <span class="p">[</span>
+    <span class="s">'users.json'</span><span class="p">,</span>
+<span class="p">]</span>
+
+<span class="n">PEOPLE</span> <span class="o">=</span> <span class="n">USERS</span> <span class="o">+</span> <span class="p">[</span>
+    <span class="s">'people.json'</span><span class="p">,</span>
+<span class="p">]</span>
+
+<span class="c1">## tests.py
+</span><span class="k">class</span> <span class="nc">UserTest</span><span class="p">(</span><span class="n">tests</span><span class="p">.</span><span class="n">TestCase</span><span class="p">):</span>
+    <span class="n">fixtures</span> <span class="o">=</span> <span class="n">fixture_templates</span><span class="p">.</span><span class="n">PEOPLE</span>
+
+<span class="k">class</span> <span class="nc">PersonTest</span><span class="p">(</span><span class="n">tests</span><span class="p">.</span><span class="n">TestCase</span><span class="p">):</span>
+    <span class="n">fixtures</span> <span class="o">=</span> <span class="n">fixture_templates</span><span class="p">.</span><span class="n">PEOPLE</span>
+
+<span class="c1"># No
+</span><span class="k">class</span> <span class="nc">UserTest</span><span class="p">(</span><span class="n">tests</span><span class="p">.</span><span class="n">TestCase</span><span class="p">):</span>
+    <span class="n">fixtures</span> <span class="o">=</span> <span class="p">[</span>
+        <span class="s">'users.json'</span><span class="p">,</span>
+        <span class="s">'people.json'</span><span class="p">,</span>
+    <span class="p">]</span>
+
+<span class="k">class</span> <span class="nc">PersonTest</span><span class="p">(</span><span class="n">tests</span><span class="p">.</span><span class="n">TestCase</span><span class="p">):</span>
+    <span class="n">fixtures</span> <span class="o">=</span> <span class="p">[</span>
+        <span class="s">'users.json'</span><span class="p">,</span>
+        <span class="s">'people.json'</span><span class="p">,</span>
+    <span class="p">]</span>
+</code></pre></div></div>
+<p><strong>Note:</strong> The <code>fixture_templates.py</code> file should be in <code>common</code> app directory.</p>
+<h2 id="parallel-testing">Parallel Testing</h2>
+<p>Running test in parallel could speed up your test suite. <a href="https://docs.djangoproject.com/en/3.1/ref/django-admin/#cmdoption-test-parallel">Read More</a></p>
+<p>Sample usage:</p>
+<div class="language-shell highlighter-rouge"><div class="highlight"><pre class="highlight"><code>python manage.py <span class="nb">test</span> <span class="nt">--parallel</span><span class="o">=</span>2
+<span class="c"># With docker-compose</span>
+docker-compose <span class="nb">exec </span>django python manage.py <span class="nb">test</span> <span class="nt">--parallel</span><span class="o">=</span>2
+</code></pre></div></div>
+<p>If you are using test coverage, make sure to run combine after run the coverage:</p>
+<div class="language-shell highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="nv">$ </span>coverage run
+<span class="nv">$ </span>coverage combine
+<span class="nv">$ </span>coverage report <span class="nt">-m</span>
+</code></pre></div></div>
+
+  </div>
+
+</article>
+
+
+        
+
+        
+      </div>
+    </main><footer class="site-footer h-card">
+  <data class="u-url" href="/technical-standard/"></data>
+
+  <div class="wrapper">
+
+    <h2 class="footer-heading">CODIUM Technical Standard</h2>
+
+    <div class="footer-col-wrapper">
+      <div class="footer-col footer-col-1">
+        <ul class="contact-list">
+          <li class="p-name">CODIUM Technical Standard</li><li><a class="u-email" href="mailto:contact@codium.co">contact@codium.co</a></li></ul>
+      </div>
+
+      <div class="footer-col footer-col-2"><ul class="social-media-list"><li><a href="https://github.com/c0d1um"><svg class="svg-icon"><use xlink:href="/technical-standard/assets/minima-social-icons.svg#github"></use></svg> <span class="username">c0d1um</span></a></li></ul>
+</div>
+
+      <div class="footer-col footer-col-3">
+        <p>CODIUM Co., Ltd.</p>
+      </div>
+    </div>
+
+  </div>
+
+</footer>
+</body>
+
+</html>

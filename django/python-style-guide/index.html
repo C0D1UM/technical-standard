@@ -1,0 +1,253 @@
+<!DOCTYPE html>
+<html lang="en"><head>
+  <meta charset="utf-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="viewport" content="width=device-width, initial-scale=1"><!-- Begin Jekyll SEO tag v2.7.1 -->
+<title>Python Style Guide | CODIUM Technical Standard</title>
+<meta name="generator" content="Jekyll v3.9.0" />
+<meta property="og:title" content="Python Style Guide" />
+<meta property="og:locale" content="en_US" />
+<meta name="description" content="CODIUM Co., Ltd." />
+<meta property="og:description" content="CODIUM Co., Ltd." />
+<link rel="canonical" href="https://codium.co/technical-standard/django/python-style-guide/" />
+<meta property="og:url" content="https://codium.co/technical-standard/django/python-style-guide/" />
+<meta property="og:site_name" content="CODIUM Technical Standard" />
+<meta name="twitter:card" content="summary" />
+<meta property="twitter:title" content="Python Style Guide" />
+<script type="application/ld+json">
+{"description":"CODIUM Co., Ltd.","url":"https://codium.co/technical-standard/django/python-style-guide/","@type":"WebPage","headline":"Python Style Guide","@context":"https://schema.org"}</script>
+<!-- End Jekyll SEO tag -->
+<link rel="stylesheet" href="/technical-standard/assets/main.css"><link type="application/atom+xml" rel="alternate" href="https://codium.co/technical-standard/feed.xml" title="CODIUM Technical Standard" /></head>
+<body><header class="site-header">
+    <div class="wrapper"><a class="site-title" rel="author" href="/technical-standard/">CODIUM Technical Standard</a><nav class="site-nav">
+            <input type="checkbox" id="nav-trigger" class="nav-trigger" />
+            <label for="nav-trigger">
+                <span class="menu-icon">
+                    <svg viewBox="0 0 18 15" width="18px" height="15px">
+                        <path
+                            d="M18,1.484c0,0.82-0.665,1.484-1.484,1.484H1.484C0.665,2.969,0,2.304,0,1.484l0,0C0,0.665,0.665,0,1.484,0 h15.032C17.335,0,18,0.665,18,1.484L18,1.484z M18,7.516C18,8.335,17.335,9,16.516,9H1.484C0.665,9,0,8.335,0,7.516l0,0 c0-0.82,0.665-1.484,1.484-1.484h15.032C17.335,6.031,18,6.696,18,7.516L18,7.516z M18,13.516C18,14.335,17.335,15,16.516,15H1.484 C0.665,15,0,14.335,0,13.516l0,0c0-0.82,0.665-1.483,1.484-1.483h15.032C17.335,12.031,18,12.695,18,13.516L18,13.516z" />
+                    </svg>
+                </span>
+            </label>
+
+            <div class="trigger">
+                <form action="/technical-standard/search.html" method="get">
+    <label for="search-box">Search</label>
+    <input type="text" id="search-box" name="query">
+    <input type="submit" value="search">
+</form>
+
+            </div>
+        </nav></div>
+</header>
+<main class="page-content" aria-label="Content">
+      <div class="wrapper">
+        <h3><strong>Table of Contents</strong></h3>
+<ul><li><a href="#base-style-guide">Base Style guide</a></li><li><a href="#linting">Linting</a></li><li><a href="#formatter">Formatter</a><ul><li><a href="#pycharm-configuration">PyCharm Configuration</a></li></ul></li><li><a href="#imports">Imports</a></li><li><a href="#none-checks">None checks</a></li><li><a href="#getting-current-time-in-django">Getting current time in Django</a></li><li><a href="#checking-if-sequence-is-empty">Checking if sequence is empty</a></li><li><a href="#trailing-commas">Trailing commas</a></li><li><a href="#joining-path">Joining Path</a></li><li><a href="#logging">Logging</a></li><li><a href="#with-statement">With statement</a></li><li><a href="#testing">Testing</a></li></ul>
+
+          <hr><br><br>
+        
+
+        <article class="post">
+
+  <header class="post-header">
+    <h1 class="post-title">Python Style Guide</h1>
+  </header>
+
+  <div class="post-content">
+    <h2 id="base-style-guide">Base Style guide</h2>
+<p>We follow <a href="https://google.github.io/styleguide/pyguide.html">Google style guide for Python</a>. The rest of the document describes additions and clarifications.</p>
+<h2 id="linting">Linting</h2>
+<ul>
+<li>You can use <code>pylint</code> with this <a href="https://raw.githubusercontent.com/C0D1UM/technical-standard/main/django/python-style-guide/.pylintrc">.pylintrc</a> to check if your code passed the standard.</li>
+</ul>
+<h2 id="formatter">Formatter</h2>
+<ul>
+<li>You can use <a href="https://github.com/google/yapf/">yapf</a> with this <a href="https://raw.githubusercontent.com/C0D1UM/technical-standard/main/django/python-style-guide/.style.yapf">.style.yapf</a> to avoid arguing over formatting.</li>
+<li>For PyCharm users, you can configure <code>yapf</code> as an external tool, see <a href="#pycharm-configuration">How to config Pycharm</a>.</li>
+<li>For VSCode users, in <code>setting.json</code> set <code>&quot;python.formatting.provider&quot;: &quot;yapf&quot;,</code></li>
+</ul>
+<h3 id="pycharm-configuration">PyCharm Configuration</h3>
+<p>YAPF can be configured as an “External Tool” inside PyCharm and run on a per-file basis. Go to File -&gt; Settings -&gt; Tools -&gt; External Tools and click +. In the dialog that opens enter the following details:</p>
+<ul>
+<li>Name: YAPF</li>
+<li>Description: Run Yapf formatter on current file</li>
+<li>Program: &lt;path to yapf&gt;</li>
+<li>Arguments: <code>-i $FilePath$</code></li>
+<li>Working directory: <code>$ProjectFileDir$</code></li>
+</ul>
+<p>&lt;path to yapf&gt; is the full path to the YAPF executable on your system:</p>
+<ul>
+<li>Linux/Mac: <code>/usr/bin/yapf</code> if installed with a package manager or <code>$HOME/.local/bin/yapf</code> if installed with pip</li>
+<li>Windows: <code>&lt;PythonPath&gt;\Scripts\yapf.exe</code></li>
+</ul>
+<p>A YAPF item should now appear in the Tools -&gt; External Tools menu. This can be bound to a shortcut key under File -&gt; Settings -&gt; Keymap -&gt; External Tools.</p>
+<h2 id="imports">Imports</h2>
+<p>Imports should be grouped in the following order</p>
+<ul>
+<li>standard libraries</li>
+<li>third party libraries</li>
+<li>local modules</li>
+</ul>
+<p>Each group should be sorted lexicographically, ignoring case, separate by an empty line, e.g.</p>
+<div class="language-python highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="kn">import</span> <span class="nn">collections</span>
+<span class="kn">import</span> <span class="nn">queue</span>
+<span class="kn">import</span> <span class="nn">sys</span>
+
+<span class="kn">from</span> <span class="nn">absl</span> <span class="kn">import</span> <span class="n">app</span>
+<span class="kn">from</span> <span class="nn">absl</span> <span class="kn">import</span> <span class="n">flags</span>
+<span class="kn">import</span> <span class="nn">bs4</span>
+<span class="kn">import</span> <span class="nn">cryptography</span>
+<span class="kn">import</span> <span class="nn">tensorflow</span> <span class="k">as</span> <span class="n">tf</span>
+
+<span class="kn">from</span> <span class="nn">book.genres</span> <span class="kn">import</span> <span class="n">scifi</span>
+<span class="kn">from</span> <span class="nn">myproject.backend</span> <span class="kn">import</span> <span class="n">huxley</span>
+<span class="kn">from</span> <span class="nn">myproject.backend.hgwells</span> <span class="kn">import</span> <span class="n">time_machine</span>
+<span class="kn">from</span> <span class="nn">myproject.backend.state_machine</span> <span class="kn">import</span> <span class="n">main_loop</span>
+<span class="kn">from</span> <span class="nn">otherproject.ai</span> <span class="kn">import</span> <span class="n">body</span>
+<span class="kn">from</span> <span class="nn">otherproject.ai</span> <span class="kn">import</span> <span class="n">mind</span>
+<span class="kn">from</span> <span class="nn">otherproject.ai</span> <span class="kn">import</span> <span class="n">soul</span>
+
+</code></pre></div></div>
+<p>Use import statements for packages and modules only, not for individual classes or functions. Note that there is an explicit exemption for imports from the typing module.</p>
+<h2 id="none-checks">None checks</h2>
+<p>Always use if foo is None: (or is not None) to check for a None</p>
+<div class="language-python highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="c1"># Yes
+</span><span class="k">if</span> <span class="n">foo</span> <span class="ow">is</span> <span class="ow">not</span> <span class="bp">None</span><span class="p">:</span>
+    <span class="k">pass</span>
+
+<span class="c1"># No
+</span><span class="k">if</span> <span class="n">foo</span><span class="p">:</span>
+    <span class="k">pass</span>
+</code></pre></div></div>
+<h2 id="getting-current-time-in-django">Getting current time in Django</h2>
+<p>Always use <code>timezone.now()</code> rather than <code>datetime.now()</code></p>
+<div class="language-python highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="kn">import</span> <span class="nn">datetime</span>
+
+<span class="kn">from</span> <span class="nn">django.utils</span> <span class="kn">import</span> <span class="n">timezone</span>
+
+<span class="c1"># Yes
+</span><span class="n">now</span> <span class="o">=</span> <span class="n">timezone</span><span class="p">.</span><span class="n">now</span><span class="p">()</span>
+
+<span class="c1"># No
+</span><span class="n">now</span> <span class="o">=</span> <span class="n">datetime</span><span class="p">.</span><span class="n">datetime</span><span class="p">.</span><span class="n">now</span><span class="p">()</span>
+</code></pre></div></div>
+<h2 id="checking-if-sequence-is-empty">Checking if sequence is empty</h2>
+<p>For sequences, (strings, lists, tuples), use the fact that empty sequences are false</p>
+<div class="language-python highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="c1"># Yes
+</span><span class="k">if</span> <span class="n">seq</span><span class="p">:</span>
+<span class="k">if</span> <span class="ow">not</span> <span class="n">seq</span><span class="p">:</span>
+
+<span class="c1"># No
+</span><span class="k">if</span> <span class="nb">len</span><span class="p">(</span><span class="n">seq</span><span class="p">):</span>
+<span class="k">if</span> <span class="nb">len</span><span class="p">(</span><span class="n">seq</span><span class="p">)</span> <span class="o">==</span> <span class="mi">0</span><span class="p">:</span>
+</code></pre></div></div>
+<h2 id="trailing-commas">Trailing commas</h2>
+<p>Trailing commas in sequences of items are recommended only when the closing container token ], ), or } does not appear on the same line as the final element. The presence of a trailing comma is also used as a hint to our Python code auto-formatter YAPF to direct it to auto-format the container of items to one item per line when the , after the final element is present.</p>
+<div class="language-python highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="c1"># Yes
+</span><span class="n">golomb3</span> <span class="o">=</span> <span class="p">[</span><span class="mi">0</span><span class="p">,</span> <span class="mi">1</span><span class="p">,</span> <span class="mi">3</span><span class="p">]</span>
+<span class="n">golomb4</span> <span class="o">=</span> <span class="p">[</span>
+    <span class="mi">0</span><span class="p">,</span>
+    <span class="mi">1</span><span class="p">,</span>
+    <span class="mi">4</span><span class="p">,</span>
+    <span class="mi">6</span><span class="p">,</span>
+<span class="p">]</span>
+
+<span class="c1"># No
+</span><span class="n">golomb4</span> <span class="o">=</span> <span class="p">[</span>
+    <span class="mi">0</span><span class="p">,</span>
+    <span class="mi">1</span><span class="p">,</span>
+    <span class="mi">4</span><span class="p">,</span>
+    <span class="mi">6</span>
+<span class="p">]</span>
+</code></pre></div></div>
+<h2 id="joining-path">Joining Path</h2>
+<div class="language-python highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="kn">import</span> <span class="nn">os</span>
+
+<span class="c1"># Yes
+</span><span class="n">data_path</span> <span class="o">=</span> <span class="n">os</span><span class="p">.</span><span class="n">path</span><span class="p">.</span><span class="n">join</span><span class="p">(</span><span class="n">data_folder</span><span class="p">,</span> <span class="s">"data.csv"</span><span class="p">)</span>
+
+<span class="c1"># No
+</span><span class="n">data_path</span> <span class="o">=</span> <span class="n">data_folder</span> <span class="o">+</span> <span class="s">"/data.csv"</span>
+</code></pre></div></div>
+<h2 id="logging">Logging</h2>
+<p>Prefer logging over print statement</p>
+<div class="language-python highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="kn">import</span> <span class="nn">logging</span>
+
+<span class="c1"># Yes
+</span><span class="n">logger</span> <span class="o">=</span> <span class="n">logging</span><span class="p">.</span><span class="n">getLogger</span><span class="p">(</span><span class="n">__name__</span><span class="p">)</span>
+
+<span class="k">if</span> <span class="n">bad_mojo</span><span class="p">:</span>
+    <span class="n">logger</span><span class="p">.</span><span class="n">error</span><span class="p">(</span><span class="s">'Something went wrong!'</span><span class="p">)</span>
+
+
+<span class="c1"># No
+</span><span class="k">if</span> <span class="n">bad_mojo</span><span class="p">:</span>
+    <span class="k">print</span><span class="p">(</span><span class="s">'Something went wrong!'</span><span class="p">)</span>
+</code></pre></div></div>
+<h2 id="with-statement">With statement</h2>
+<p>Always open file with context manager</p>
+<div class="language-python highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="c1"># Yes
+</span><span class="k">with</span> <span class="nb">open</span><span class="p">(</span><span class="s">'file.txt'</span><span class="p">)</span> <span class="k">as</span> <span class="nb">file</span><span class="p">:</span>
+    <span class="k">pass</span>
+
+<span class="c1"># No
+</span><span class="nb">file</span> <span class="o">=</span> <span class="nb">open</span><span class="p">(</span><span class="s">'file.txt'</span><span class="p">)</span>
+<span class="nb">file</span><span class="p">.</span><span class="n">close</span><span class="p">()</span>
+</code></pre></div></div>
+<p>For psycopg2 connection, you should use <a href="https://www.psycopg.org/docs/usage.html#with-statement">try catch over <code>with</code> statement</a>. <code>with</code> statement will help commit/rollback transaction, and <code>try catch</code> will help close connection.</p>
+<div class="language-python highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="n">conn</span> <span class="o">=</span> <span class="n">psycopg2</span><span class="p">.</span><span class="n">connect</span><span class="p">(</span><span class="n">DSN</span><span class="p">)</span>
+
+<span class="k">try</span><span class="p">:</span>
+    <span class="c1"># using with statement here, it will help commit/rollback transaction.
+</span>    <span class="k">with</span> <span class="n">conn</span><span class="p">:</span>
+        <span class="k">with</span> <span class="n">conn</span><span class="p">.</span><span class="n">cursor</span><span class="p">()</span> <span class="k">as</span> <span class="n">curs</span><span class="p">:</span>
+            <span class="n">curs</span><span class="p">.</span><span class="n">execute</span><span class="p">(...)</span>
+
+    <span class="c1"># put another transaction here.
+</span>    <span class="k">with</span> <span class="n">conn</span><span class="p">:</span>
+        <span class="k">with</span> <span class="n">conn</span><span class="p">.</span><span class="n">cursor</span><span class="p">()</span> <span class="k">as</span> <span class="n">curs</span><span class="p">:</span>
+            <span class="n">curs</span><span class="p">.</span><span class="n">execute</span><span class="p">(...)</span>
+<span class="k">finally</span><span class="p">:</span>
+    <span class="c1"># if you don't use connection anymore, close connection in finally block.
+</span>    <span class="n">conn</span><span class="p">.</span><span class="n">close</span><span class="p">()</span>
+</code></pre></div></div>
+<h2 id="testing">Testing</h2>
+<p>Always write unittest if you have enough time.</p>
+
+  </div>
+
+</article>
+
+
+        
+
+        
+      </div>
+    </main><footer class="site-footer h-card">
+  <data class="u-url" href="/technical-standard/"></data>
+
+  <div class="wrapper">
+
+    <h2 class="footer-heading">CODIUM Technical Standard</h2>
+
+    <div class="footer-col-wrapper">
+      <div class="footer-col footer-col-1">
+        <ul class="contact-list">
+          <li class="p-name">CODIUM Technical Standard</li><li><a class="u-email" href="mailto:contact@codium.co">contact@codium.co</a></li></ul>
+      </div>
+
+      <div class="footer-col footer-col-2"><ul class="social-media-list"><li><a href="https://github.com/c0d1um"><svg class="svg-icon"><use xlink:href="/technical-standard/assets/minima-social-icons.svg#github"></use></svg> <span class="username">c0d1um</span></a></li></ul>
+</div>
+
+      <div class="footer-col footer-col-3">
+        <p>CODIUM Co., Ltd.</p>
+      </div>
+    </div>
+
+  </div>
+
+</footer>
+</body>
+
+</html>

@@ -1,0 +1,215 @@
+<!DOCTYPE html>
+<html lang="en"><head>
+  <meta charset="utf-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="viewport" content="width=device-width, initial-scale=1"><!-- Begin Jekyll SEO tag v2.7.1 -->
+<title>Components | CODIUM Technical Standard</title>
+<meta name="generator" content="Jekyll v3.9.0" />
+<meta property="og:title" content="Components" />
+<meta property="og:locale" content="en_US" />
+<meta name="description" content="CODIUM Co., Ltd." />
+<meta property="og:description" content="CODIUM Co., Ltd." />
+<link rel="canonical" href="https://codium.co/technical-standard/angular/components/" />
+<meta property="og:url" content="https://codium.co/technical-standard/angular/components/" />
+<meta property="og:site_name" content="CODIUM Technical Standard" />
+<meta name="twitter:card" content="summary" />
+<meta property="twitter:title" content="Components" />
+<script type="application/ld+json">
+{"description":"CODIUM Co., Ltd.","url":"https://codium.co/technical-standard/angular/components/","@type":"WebPage","headline":"Components","@context":"https://schema.org"}</script>
+<!-- End Jekyll SEO tag -->
+<link rel="stylesheet" href="/technical-standard/assets/main.css"><link type="application/atom+xml" rel="alternate" href="https://codium.co/technical-standard/feed.xml" title="CODIUM Technical Standard" /></head>
+<body><header class="site-header">
+    <div class="wrapper"><a class="site-title" rel="author" href="/technical-standard/">CODIUM Technical Standard</a><nav class="site-nav">
+            <input type="checkbox" id="nav-trigger" class="nav-trigger" />
+            <label for="nav-trigger">
+                <span class="menu-icon">
+                    <svg viewBox="0 0 18 15" width="18px" height="15px">
+                        <path
+                            d="M18,1.484c0,0.82-0.665,1.484-1.484,1.484H1.484C0.665,2.969,0,2.304,0,1.484l0,0C0,0.665,0.665,0,1.484,0 h15.032C17.335,0,18,0.665,18,1.484L18,1.484z M18,7.516C18,8.335,17.335,9,16.516,9H1.484C0.665,9,0,8.335,0,7.516l0,0 c0-0.82,0.665-1.484,1.484-1.484h15.032C17.335,6.031,18,6.696,18,7.516L18,7.516z M18,13.516C18,14.335,17.335,15,16.516,15H1.484 C0.665,15,0,14.335,0,13.516l0,0c0-0.82,0.665-1.483,1.484-1.483h15.032C17.335,12.031,18,12.695,18,13.516L18,13.516z" />
+                    </svg>
+                </span>
+            </label>
+
+            <div class="trigger">
+                <form action="/technical-standard/search.html" method="get">
+    <label for="search-box">Search</label>
+    <input type="text" id="search-box" name="query">
+    <input type="submit" value="search">
+</form>
+
+            </div>
+        </nav></div>
+</header>
+<main class="page-content" aria-label="Content">
+      <div class="wrapper">
+        <h3><strong>Table of Contents</strong></h3>
+<ul><li><a href="#clean-up-component-to-prevent-memory-leak">Clean Up Component to Prevent Memory Leak</a></li><li><a href="#do-not-set-html-to-element-directly">Do not Set HTML to Element Directly</a></li><li><a href="#beware-variable-changes-inside-component">Beware Variable Changes Inside Component</a></li><li><a href="#use-trackby-to-prevent-re-rendering-same-data">Use 'trackBy' to Prevent Re-Rendering Same Data</a></li><li><a href="#use--to-prevent-exception-in-html">Use '?' to prevent exception in HTML</a></li><li><a href="#use-ng-container-with-ngif-to-prevent-nested-html">Use 'ng-container' with *ngIf to prevent nested HTML</a></li></ul>
+
+          <hr><br><br>
+        
+
+        <article class="post">
+
+  <header class="post-header">
+    <h1 class="post-title">Components</h1>
+  </header>
+
+  <div class="post-content">
+    <p>This page will give you some practices and tips/tricks about Angular components.</p>
+<h2 id="clean-up-component-to-prevent-memory-leak">Clean Up Component to Prevent Memory Leak</h2>
+<p>For example, when you create <code>interval</code> observable</p>
+<div class="language-ts highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="k">import</span> <span class="p">{</span> <span class="nx">interval</span><span class="p">,</span> <span class="nx">Subscription</span> <span class="p">}</span> <span class="k">from</span> <span class="dl">'</span><span class="s1">rxjs</span><span class="dl">'</span><span class="p">;</span>
+
+<span class="p">@</span><span class="nd">Component</span><span class="p">({...})</span>
+<span class="k">export</span> <span class="kd">class</span> <span class="nx">MyComponent</span> <span class="k">implements</span> <span class="nx">OnInit</span><span class="p">,</span> <span class="nx">OnDestroy</span> <span class="p">{</span>
+    <span class="nx">ngOnInit</span> <span class="p">()</span> <span class="p">{</span>
+        <span class="c1">// create interval observable</span>
+        <span class="kd">const</span> <span class="nx">source</span> <span class="o">=</span> <span class="nx">interval</span><span class="p">(</span><span class="mi">60000</span><span class="p">);</span>
+        <span class="nx">source</span><span class="p">.</span><span class="nx">subscribe</span><span class="p">(...);</span>
+    <span class="p">}</span>
+<span class="p">}</span>
+</code></pre></div></div>
+<p>You should use <a href="https://github.com/wardbell/subsink">subsink</a> to remember your observable and call <code>unsubscribe</code> function when component destroyed.</p>
+<div class="language-ts highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="p">@</span><span class="nd">Component</span><span class="p">({...})</span>
+<span class="k">export</span> <span class="kd">class</span> <span class="nx">MyComponent</span> <span class="k">implements</span> <span class="nx">OnInit</span><span class="p">,</span> <span class="nx">OnDestroy</span> <span class="p">{</span>
+    <span class="k">private</span> <span class="nx">subs</span> <span class="o">=</span> <span class="k">new</span> <span class="nx">SubSink</span><span class="p">();</span>
+
+    <span class="nx">ngOnInit</span> <span class="p">()</span> <span class="p">{</span>
+        <span class="kd">const</span> <span class="nx">source</span> <span class="o">=</span> <span class="nx">interval</span><span class="p">(</span><span class="mi">60000</span><span class="p">);</span>
+        <span class="kd">const</span> <span class="nx">source2</span> <span class="o">=</span> <span class="nx">interval</span><span class="p">(</span><span class="mi">30000</span><span class="p">);</span>
+        <span class="kd">const</span> <span class="nx">source3</span> <span class="o">=</span> <span class="nx">interval</span><span class="p">(</span><span class="mi">10000</span><span class="p">);</span>
+
+        <span class="c1">// remember subscription </span>
+        <span class="k">this</span><span class="p">.</span><span class="nx">subs</span><span class="p">.</span><span class="nx">sink</span> <span class="o">=</span> <span class="nx">source</span><span class="p">.</span><span class="nx">subscribe</span><span class="p">(...);</span>
+        <span class="k">this</span><span class="p">.</span><span class="nx">subs</span><span class="p">.</span><span class="nx">sink</span> <span class="o">=</span> <span class="nx">source2</span><span class="p">.</span><span class="nx">subscribe</span><span class="p">(...);</span>
+        <span class="k">this</span><span class="p">.</span><span class="nx">subs</span><span class="p">.</span><span class="nx">sink</span> <span class="o">=</span> <span class="nx">source3</span><span class="p">.</span><span class="nx">subscribe</span><span class="p">(...);</span>
+    <span class="p">}</span>
+
+    <span class="c1">// unsubscribed all subscriptions when component is destroyed.</span>
+    <span class="nx">ngOnDestroy</span><span class="p">()</span> <span class="p">{</span>
+        <span class="k">this</span><span class="p">.</span><span class="nx">subs</span><span class="p">.</span><span class="nx">unsubscribe</span><span class="p">();</span>
+    <span class="p">}</span>
+<span class="p">}</span>
+</code></pre></div></div>
+<p><strong>Note</strong> Angular will automatically clean up unsubscribe observable that created from <code>HttpClient</code>. More information <a href="https://stackoverflow.com/questions/35042929/is-it-necessary-to-unsubscribe-from-observables-created-by-http-methods">here</a></p>
+<h2 id="do-not-set-html-to-element-directly">Do not Set HTML to Element Directly</h2>
+<p>To prevent XSS Injections. Angular provides method to set HTML content.</p>
+<div class="language-ts highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="c1">// No</span>
+<span class="nx">setValue</span><span class="p">(</span><span class="nx">html</span><span class="p">:</span> <span class="kr">string</span><span class="p">)</span> <span class="p">{</span>
+    <span class="k">this</span><span class="p">.</span><span class="nx">element</span><span class="p">.</span><span class="nx">nativeElement</span><span class="p">.</span><span class="nx">innerHTML</span> <span class="o">=</span> <span class="nx">html</span><span class="p">;</span>
+<span class="p">}</span>
+
+<span class="c1">// Yes</span>
+<span class="nx">setValue</span><span class="p">(</span><span class="nx">html</span><span class="p">:</span> <span class="kr">string</span><span class="p">)</span> <span class="p">{</span>
+    <span class="k">this</span><span class="p">.</span><span class="nx">renderer</span><span class="p">.</span><span class="nx">setElementProperty</span><span class="p">(</span>
+        <span class="nx">el</span><span class="p">.</span><span class="nx">nativeElement</span><span class="p">,</span> 
+        <span class="dl">'</span><span class="s1">innerHTML</span><span class="dl">'</span><span class="p">,</span> 
+        <span class="nx">html</span>
+    <span class="p">);</span>
+<span class="p">}</span>
+</code></pre></div></div>
+<div class="language-ts highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="c1">// No</span>
+<span class="nx">setTitle</span><span class="p">(</span><span class="nx">title</span><span class="p">:</span> <span class="kr">string</span><span class="p">)</span> <span class="p">{</span>
+    <span class="nb">document</span><span class="p">.</span><span class="nx">title</span> <span class="o">=</span> <span class="nx">title</span><span class="p">;</span>
+<span class="p">}</span>
+
+<span class="c1">// Yes</span>
+<span class="k">import</span> <span class="p">{</span> <span class="nx">Title</span> <span class="p">}</span> <span class="k">from</span> <span class="dl">'</span><span class="s1">@angular/platform-browser</span><span class="dl">'</span><span class="p">;</span>
+<span class="k">public</span> <span class="kd">constructor</span><span class="p">(</span><span class="k">private</span> <span class="nx">titleService</span><span class="p">:</span> <span class="nx">Title</span><span class="p">)</span> <span class="p">{</span> <span class="p">}</span>
+
+<span class="nx">setTitle</span><span class="p">(</span><span class="nx">title</span><span class="p">:</span> <span class="kr">string</span><span class="p">)</span> <span class="p">{</span>
+    <span class="k">this</span><span class="p">.</span><span class="nx">titleService</span><span class="p">.</span><span class="nx">setTitle</span><span class="p">(</span><span class="nx">title</span><span class="p">);</span>
+<span class="p">}</span>
+</code></pre></div></div>
+<h2 id="beware-variable-changes-inside-component">Beware Variable Changes Inside Component</h2>
+<p>Sometimes when you get input variable from parent component and change values, the values will have effect to parent too.</p>
+<div class="language-ts highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="kd">class</span> <span class="nx">MyComponent</span> <span class="p">{</span>
+    <span class="p">@</span><span class="nd">Input</span><span class="p">()</span> <span class="nx">items</span><span class="p">:</span> <span class="nx">Int</span><span class="p">[];</span>
+
+    <span class="nx">someFunctions</span><span class="p">()</span> <span class="p">{</span>
+        <span class="c1">// beware that changes will have effect on parent component.</span>
+        <span class="k">this</span><span class="p">.</span><span class="nx">items</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span> <span class="o">=</span> <span class="mi">1</span><span class="p">;</span>
+    <span class="p">}</span>
+<span class="p">}</span>
+</code></pre></div></div>
+<h2 id="use-trackby-to-prevent-re-rendering-same-data">Use 'trackBy' to Prevent Re-Rendering Same Data</h2>
+<p><code>trackBy</code> is the keyword used with <code>ngFor</code> to tell angular to watch field in item. If that field changes, it will trigger Angular to re-render HTML.</p>
+<div class="language-html highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="nt">&lt;div</span> <span class="na">*ngFor=</span><span class="s">"let item of list; trackBy:myFunction"</span><span class="nt">&gt;</span>
+...
+<span class="nt">&lt;/div&gt;</span>
+</code></pre></div></div>
+<div class="language-ts highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="kd">class</span> <span class="nx">myComponent</span> <span class="p">{</span>
+
+    <span class="nx">ngOnInit</span> <span class="p">()</span> <span class="p">{</span>
+        <span class="k">this</span><span class="p">.</span><span class="nx">apiService</span><span class="p">.</span><span class="nx">getSomeData</span><span class="p">().</span><span class="nx">subscribe</span><span class="p">((</span><span class="nx">response</span><span class="p">:</span> <span class="kr">any</span><span class="p">)</span> <span class="o">=&gt;</span> <span class="p">{</span>
+            <span class="k">this</span><span class="p">.</span><span class="nx">list</span> <span class="o">=</span> <span class="nx">response</span><span class="p">.</span><span class="nx">data</span><span class="p">;</span>
+        <span class="p">});</span>
+    <span class="p">}</span>
+
+    <span class="nx">myFunction</span><span class="p">(</span><span class="nx">index</span><span class="p">,</span> <span class="nx">item</span><span class="p">){</span>
+        <span class="c1">// If item.id changed, angular will re-render item.</span>
+        <span class="k">return</span> <span class="nx">item</span><span class="p">.</span><span class="nx">id</span><span class="p">;</span>
+    <span class="p">}</span>
+<span class="p">}</span>
+</code></pre></div></div>
+<h2 id="use--to-prevent-exception-in-html">Use '?' to prevent exception in HTML</h2>
+<div class="language-html highlighter-rouge"><div class="highlight"><pre class="highlight"><code>// Yes
+<span class="nt">&lt;div&gt;</span>
+    
+<span class="nt">&lt;/div&gt;</span>
+
+// Okay. if you want to hide element when data is null.
+<span class="nt">&lt;div</span> <span class="na">*ngIf=</span><span class="s">"employee &amp;&amp; employee.address &amp;&amp; employee.address.city"</span><span class="nt">&gt;</span>
+    
+<span class="nt">&lt;/div&gt;</span>
+</code></pre></div></div>
+<h2 id="use-ng-container-with-ngif-to-prevent-nested-html">Use 'ng-container' with *ngIf to prevent nested HTML</h2>
+<p><code>ng-container</code> does not create a real element in HTML. It can be used with <code>ngIf</code> or <code>ngFor</code>.</p>
+<div class="language-html highlighter-rouge"><div class="highlight"><pre class="highlight"><code>// Yes
+<span class="nt">&lt;ng-container</span> <span class="na">*ngIf=</span><span class="s">"..."</span><span class="nt">&gt;</span>
+    <span class="nt">&lt;button&gt;</span> LOGIN.SIGN-IN-ADFS <span class="nt">&lt;/button&gt;</span>
+<span class="nt">&lt;/ng-container&gt;</span>
+
+// Okay. if you really want to create div in HTML.
+<span class="nt">&lt;div</span> <span class="na">*ngIf=</span><span class="s">"..."</span><span class="nt">&gt;</span>
+    <span class="nt">&lt;button&gt;</span> LOGIN.SIGN-IN-ADFS <span class="nt">&lt;/button&gt;</span>
+<span class="nt">&lt;/div&gt;</span>
+
+</code></pre></div></div>
+
+  </div>
+
+</article>
+
+
+        
+
+        
+      </div>
+    </main><footer class="site-footer h-card">
+  <data class="u-url" href="/technical-standard/"></data>
+
+  <div class="wrapper">
+
+    <h2 class="footer-heading">CODIUM Technical Standard</h2>
+
+    <div class="footer-col-wrapper">
+      <div class="footer-col footer-col-1">
+        <ul class="contact-list">
+          <li class="p-name">CODIUM Technical Standard</li><li><a class="u-email" href="mailto:contact@codium.co">contact@codium.co</a></li></ul>
+      </div>
+
+      <div class="footer-col footer-col-2"><ul class="social-media-list"><li><a href="https://github.com/c0d1um"><svg class="svg-icon"><use xlink:href="/technical-standard/assets/minima-social-icons.svg#github"></use></svg> <span class="username">c0d1um</span></a></li></ul>
+</div>
+
+      <div class="footer-col footer-col-3">
+        <p>CODIUM Co., Ltd.</p>
+      </div>
+    </div>
+
+  </div>
+
+</footer>
+</body>
+
+</html>

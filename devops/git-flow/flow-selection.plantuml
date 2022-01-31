@@ -1,0 +1,25 @@
+@startuml Flow Selection
+start
+
+if (SaaS or standard project?) then (No)
+    if (Already go live?) then (Yes)
+        if (Still have\nfeatures left?) then (Yes)
+            :**Trunk-based**\n**Development**;
+            note left: With **Feature Flag**
+        else (No)
+            :**Feature**\n**Branching**;
+        endif
+        stop
+    else (No)
+    endif
+else (Yes)
+endif
+
+if (SaaS or standard project?) then (Yes)
+    :**Gitflow Workflow**;
+else (No)
+    :**Feature**\n**Branching**;
+endif
+
+stop
+@enduml

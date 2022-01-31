@@ -1,0 +1,159 @@
+<!DOCTYPE html>
+<html lang="en"><head>
+  <meta charset="utf-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="viewport" content="width=device-width, initial-scale=1"><!-- Begin Jekyll SEO tag v2.7.1 -->
+<title>UI Framework Guideline | CODIUM Technical Standard</title>
+<meta name="generator" content="Jekyll v3.9.0" />
+<meta property="og:title" content="UI Framework Guideline" />
+<meta property="og:locale" content="en_US" />
+<meta name="description" content="CODIUM Co., Ltd." />
+<meta property="og:description" content="CODIUM Co., Ltd." />
+<link rel="canonical" href="https://codium.co/technical-standard/angular/ui-framework/" />
+<meta property="og:url" content="https://codium.co/technical-standard/angular/ui-framework/" />
+<meta property="og:site_name" content="CODIUM Technical Standard" />
+<meta name="twitter:card" content="summary" />
+<meta property="twitter:title" content="UI Framework Guideline" />
+<script type="application/ld+json">
+{"description":"CODIUM Co., Ltd.","url":"https://codium.co/technical-standard/angular/ui-framework/","@type":"WebPage","headline":"UI Framework Guideline","@context":"https://schema.org"}</script>
+<!-- End Jekyll SEO tag -->
+<link rel="stylesheet" href="/technical-standard/assets/main.css"><link type="application/atom+xml" rel="alternate" href="https://codium.co/technical-standard/feed.xml" title="CODIUM Technical Standard" /></head>
+<body><header class="site-header">
+    <div class="wrapper"><a class="site-title" rel="author" href="/technical-standard/">CODIUM Technical Standard</a><nav class="site-nav">
+            <input type="checkbox" id="nav-trigger" class="nav-trigger" />
+            <label for="nav-trigger">
+                <span class="menu-icon">
+                    <svg viewBox="0 0 18 15" width="18px" height="15px">
+                        <path
+                            d="M18,1.484c0,0.82-0.665,1.484-1.484,1.484H1.484C0.665,2.969,0,2.304,0,1.484l0,0C0,0.665,0.665,0,1.484,0 h15.032C17.335,0,18,0.665,18,1.484L18,1.484z M18,7.516C18,8.335,17.335,9,16.516,9H1.484C0.665,9,0,8.335,0,7.516l0,0 c0-0.82,0.665-1.484,1.484-1.484h15.032C17.335,6.031,18,6.696,18,7.516L18,7.516z M18,13.516C18,14.335,17.335,15,16.516,15H1.484 C0.665,15,0,14.335,0,13.516l0,0c0-0.82,0.665-1.483,1.484-1.483h15.032C17.335,12.031,18,12.695,18,13.516L18,13.516z" />
+                    </svg>
+                </span>
+            </label>
+
+            <div class="trigger">
+                <form action="/technical-standard/search.html" method="get">
+    <label for="search-box">Search</label>
+    <input type="text" id="search-box" name="query">
+    <input type="submit" value="search">
+</form>
+
+            </div>
+        </nav></div>
+</header>
+<main class="page-content" aria-label="Content">
+      <div class="wrapper">
+        <h3><strong>Table of Contents</strong></h3>
+<ul><li><a href="#css-framework">CSS Framework</a><ul><li><a href="#when-to-use">When to use?</a></li><li><a href="#still-dont-know-what-to-use">Still don't know what to use?</a></li></ul></li><li><a href="#ui-framework">UI Framework</a><ul><li><a href="#what-to-use">What to use?</a></li></ul></li></ul>
+
+          <hr><br><br>
+        
+
+        <article class="post">
+
+  <header class="post-header">
+    <h1 class="post-title">UI Framework Guideline</h1>
+  </header>
+
+  <div class="post-content">
+    <h2 id="css-framework">CSS Framework</h2>
+<table>
+<thead>
+<tr>
+<th align="center"><img src="https://camo.githubusercontent.com/bec2c92468d081617cb3145a8f3d8103e268bca400f6169c3a68dc66e05c971e/68747470733a2f2f76352e676574626f6f7473747261702e636f6d2f646f63732f352e302f6173736574732f6272616e642f626f6f7473747261702d6c6f676f2d736861646f772e706e67" alt="Bootstrap" /></th>
+<th align="center"><img src="https://symbols.getvecta.com/stencil_97/3_tailwind-css-icon.43c02f69bf.png" alt="Tailwind CSS" /></th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td align="center"><em>Bootstrap</em></td>
+<td align="center"><em>Tailwind CSS</em></td>
+</tr>
+<tr>
+<td align="center"><a href="https://getbootstrap.com">https://getbootstrap.com</a></td>
+<td align="center"><a href="https://tailwindcss.com">https://tailwindcss.com</a></td>
+</tr>
+</tbody>
+</table>
+<h3 id="when-to-use">When to use?</h3>
+<table>
+<thead>
+<tr>
+<th align="center"><img src="https://www.plantuml.com/plantuml/proxy?src=https://raw.githubusercontent.com/C0D1UM/technical-standard/main/angular/ui-framework/when-to-use-css-framework.plantuml" alt="When to use?" /></th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td align="center"><em>When to use?</em></td>
+</tr>
+</tbody>
+</table>
+<p><small><sup>[1]</sup> Because currently, <em>Tailwind CSS</em> does not have much integration with our front-end framework, Angular. Developing interactive form with <em>Tailwind CSS</em> would generate a lot of work to do. For example, a static website project could use <em>Tailwind CSS</em> but a project with complicated forms such as invoice issuing and memorandum creation you might need <em>Bootstrap</em> instead.</small></p>
+<h3 id="still-dont-know-what-to-use">Still don't know what to use?</h3>
+<p><em>Bootstrap</em> should be your choice.</p>
+<h2 id="ui-framework">UI Framework</h2>
+<table>
+<thead>
+<tr>
+<th align="center"><img src="https://ng-bootstrap.github.io/img/logo-stack.png" alt="NG Bootstrap" /></th>
+<th align="center"><img src="https://i0.wp.com/www.primefaces.org/wp-content/uploads/2016/10/primeng.png?resize=450%2C450&amp;ssl=1" alt="PrimeNG" /></th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td align="center"><em>NG Bootstrap</em> <sup>[2]</sup></td>
+<td align="center"><em>PrimeNG</em></td>
+</tr>
+<tr>
+<td align="center"><a href="https://ng-bootstrap.github.io">https://ng-bootstrap.github.io</a></td>
+<td align="center"><a href="https://www.primefaces.org/primeng">https://www.primefaces.org/primeng</a></td>
+</tr>
+</tbody>
+</table>
+<p><small><sup>[2]</sup> Please note that its <em>npm</em> package name is <code>@ng-bootstrap/ng-bootstrap</code>, not <a href="https://github.com/valor-software/ngx-bootstrap"><code>ngx-bootstrap</code></a> which is another framework.</small></p>
+<h3 id="what-to-use">What to use?</h3>
+<p>It depends on which framework your code base was using. The important rule is <strong>you need to use only one of them</strong>, not both. There are some difference for your consideration between these two such as:</p>
+<ul>
+<li><em>PrimeNG</em> has more components than <em>NG Bootstrap</em></li>
+<li><em>NG Bootstrap</em> has a better layout system from <em>Bootstrap</em></li>
+<li><em>NG Bootstrap</em> has slightly more stars and download count than <em>PrimeNG</em> <sup>[3]</sup></li>
+<li><em>PrimeNG</em> components are more customizable</li>
+</ul>
+<p>You can use another framework as well. But you need to consult and get approval from Tech Council about your selected framework first.</p>
+<p><small><sup>[3]</sup> Reference: <a href="https://www.npmtrends.com/primeng-vs-@ng-bootstrap/ng-bootstrap">npm trends</a></small></p>
+
+  </div>
+
+</article>
+
+
+        
+
+        
+      </div>
+    </main><footer class="site-footer h-card">
+  <data class="u-url" href="/technical-standard/"></data>
+
+  <div class="wrapper">
+
+    <h2 class="footer-heading">CODIUM Technical Standard</h2>
+
+    <div class="footer-col-wrapper">
+      <div class="footer-col footer-col-1">
+        <ul class="contact-list">
+          <li class="p-name">CODIUM Technical Standard</li><li><a class="u-email" href="mailto:contact@codium.co">contact@codium.co</a></li></ul>
+      </div>
+
+      <div class="footer-col footer-col-2"><ul class="social-media-list"><li><a href="https://github.com/c0d1um"><svg class="svg-icon"><use xlink:href="/technical-standard/assets/minima-social-icons.svg#github"></use></svg> <span class="username">c0d1um</span></a></li></ul>
+</div>
+
+      <div class="footer-col footer-col-3">
+        <p>CODIUM Co., Ltd.</p>
+      </div>
+    </div>
+
+  </div>
+
+</footer>
+</body>
+
+</html>

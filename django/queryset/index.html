@@ -1,0 +1,398 @@
+<!DOCTYPE html>
+<html lang="en"><head>
+  <meta charset="utf-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="viewport" content="width=device-width, initial-scale=1"><!-- Begin Jekyll SEO tag v2.7.1 -->
+<title>QuerySet | CODIUM Technical Standard</title>
+<meta name="generator" content="Jekyll v3.9.0" />
+<meta property="og:title" content="QuerySet" />
+<meta property="og:locale" content="en_US" />
+<meta name="description" content="CODIUM Co., Ltd." />
+<meta property="og:description" content="CODIUM Co., Ltd." />
+<link rel="canonical" href="https://codium.co/technical-standard/django/queryset/" />
+<meta property="og:url" content="https://codium.co/technical-standard/django/queryset/" />
+<meta property="og:site_name" content="CODIUM Technical Standard" />
+<meta name="twitter:card" content="summary" />
+<meta property="twitter:title" content="QuerySet" />
+<script type="application/ld+json">
+{"description":"CODIUM Co., Ltd.","url":"https://codium.co/technical-standard/django/queryset/","@type":"WebPage","headline":"QuerySet","@context":"https://schema.org"}</script>
+<!-- End Jekyll SEO tag -->
+<link rel="stylesheet" href="/technical-standard/assets/main.css"><link type="application/atom+xml" rel="alternate" href="https://codium.co/technical-standard/feed.xml" title="CODIUM Technical Standard" /></head>
+<body><header class="site-header">
+    <div class="wrapper"><a class="site-title" rel="author" href="/technical-standard/">CODIUM Technical Standard</a><nav class="site-nav">
+            <input type="checkbox" id="nav-trigger" class="nav-trigger" />
+            <label for="nav-trigger">
+                <span class="menu-icon">
+                    <svg viewBox="0 0 18 15" width="18px" height="15px">
+                        <path
+                            d="M18,1.484c0,0.82-0.665,1.484-1.484,1.484H1.484C0.665,2.969,0,2.304,0,1.484l0,0C0,0.665,0.665,0,1.484,0 h15.032C17.335,0,18,0.665,18,1.484L18,1.484z M18,7.516C18,8.335,17.335,9,16.516,9H1.484C0.665,9,0,8.335,0,7.516l0,0 c0-0.82,0.665-1.484,1.484-1.484h15.032C17.335,6.031,18,6.696,18,7.516L18,7.516z M18,13.516C18,14.335,17.335,15,16.516,15H1.484 C0.665,15,0,14.335,0,13.516l0,0c0-0.82,0.665-1.483,1.484-1.483h15.032C17.335,12.031,18,12.695,18,13.516L18,13.516z" />
+                    </svg>
+                </span>
+            </label>
+
+            <div class="trigger">
+                <form action="/technical-standard/search.html" method="get">
+    <label for="search-box">Search</label>
+    <input type="text" id="search-box" name="query">
+    <input type="submit" value="search">
+</form>
+
+            </div>
+        </nav></div>
+</header>
+<main class="page-content" aria-label="Content">
+      <div class="wrapper">
+        <h3><strong>Table of Contents</strong></h3>
+<ul><li><a href="#introduction">Introduction</a></li><li><a href="#filtering">Filtering</a><ul><li><a href="#joint-field-filtering">Joint Field Filtering</a></li><li><a href="#using-codecountcode-instead-of-codelencode">Using <code>.count()</code> instead of <code>len()</code></a></li><li><a href="#using-codeexistscode-to-check-if-any-data-exists">Using <code>.exists()</code> to check if any data exists</a></li><li><a href="#using-codefirstcode-instead-of-calling-codeexistscode-followed-by-codegetcode">Using <code>.first()</code> instead of calling <code>.exists()</code>, followed by <code>.get()</code></a></li><li><a href="#avoid-filtering-across-many-relationship">Avoid filtering across many relationship</a></li><li><a href="#no-need-to-use-codeallcode-before-codefiltercode">No need to use <code>.all()</code> before <code>.filter()</code></a></li><li><a href="#avoid-filtering-against-codejsonfieldcode">Avoid filtering against <code>JSONField</code></a></li><li><a href="#codeq--qcode-is-more-preferred-than-union-queryset"><code>Q() | Q()</code> is more preferred than union queryset</a></li></ul></li><li><a href="#manipulating-data">Manipulating Data</a><ul><li><a href="#codeupdatecode-is-more-preferred-than-looping-save-models"><code>.update()</code> is more preferred than looping save models</a></li><li><a href="#refresh-model-from-database">Refresh model from database</a></li></ul></li><li><a href="#related-models">Related Models</a><ul><li><a href="#using-codeselectrelatedcode-and-codeprefetchrelatedcode">Using <code>.select_related()</code> and <code>.prefetch_related()</code></a></li><li><a href="#selectprefetch-related-only-when-youre-using-those-values">Select/Prefetch related only when you're using those values</a></li><li><a href="#avoid-comparing-instance-if-not-selectprefetch-related">Avoid comparing instance if not select/prefetch related</a></li></ul></li><li><a href="#custom-manager">Custom Manager</a><ul><li><a href="#repeat-filtering-logics">Repeat filtering logics</a></li><li><a href="#override-default-queryset">Override default queryset</a></li></ul></li><li><a href="#other">Other</a><ul><li><a href="#using-codeonlycode-to-optimize-performance">Using <code>.only()</code> to optimize performance</a></li><li><a href="#difference-between-codeonlycode-and-codevaluescode">Difference between <code>.only()</code> and <code>.values()</code></a></li><li><a href="#no-raw-sql">No Raw SQL</a></li></ul></li><li><a href="#references">References</a></li></ul>
+
+          <hr><br><br>
+        
+
+        <article class="post">
+
+  <header class="post-header">
+    <h1 class="post-title">QuerySet</h1>
+  </header>
+
+  <div class="post-content">
+    <h2 id="introduction">Introduction</h2>
+<p>This guideline will base on these models:</p>
+<div class="language-python highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="k">class</span> <span class="nc">User</span><span class="p">(</span><span class="n">models</span><span class="p">.</span><span class="n">Model</span><span class="p">):</span>
+    <span class="n">username</span> <span class="o">=</span> <span class="n">models</span><span class="p">.</span><span class="n">CharField</span><span class="p">(</span><span class="n">max_length</span><span class="o">=</span><span class="mi">50</span><span class="p">)</span>
+
+
+<span class="k">class</span> <span class="nc">Person</span><span class="p">(</span><span class="n">models</span><span class="p">.</span><span class="n">Model</span><span class="p">):</span>
+    <span class="n">user</span> <span class="o">=</span> <span class="n">models</span><span class="p">.</span><span class="n">ForeignKey</span><span class="p">(</span>
+        <span class="s">'User'</span><span class="p">,</span>
+        <span class="n">on_delete</span><span class="o">=</span><span class="n">models</span><span class="p">.</span><span class="n">CASCADE</span><span class="p">,</span>
+        <span class="n">related_name</span><span class="o">=</span><span class="s">'people'</span><span class="p">,</span>
+    <span class="p">)</span>
+    <span class="n">first_name</span> <span class="o">=</span> <span class="n">models</span><span class="p">.</span><span class="n">CharField</span><span class="p">(</span><span class="n">max_length</span><span class="o">=</span><span class="mi">50</span><span class="p">)</span>
+    <span class="n">last_name</span> <span class="o">=</span> <span class="n">models</span><span class="p">.</span><span class="n">CharField</span><span class="p">(</span><span class="n">max_length</span><span class="o">=</span><span class="mi">150</span><span class="p">)</span>
+    <span class="n">employee_id</span> <span class="o">=</span> <span class="n">models</span><span class="p">.</span><span class="n">CharField</span><span class="p">(</span><span class="n">max_length</span><span class="o">=</span><span class="mi">15</span><span class="p">,</span> <span class="n">unique</span><span class="o">=</span><span class="bp">True</span><span class="p">)</span>
+    <span class="n">active</span> <span class="o">=</span> <span class="n">models</span><span class="p">.</span><span class="n">Boolean</span><span class="p">(</span><span class="n">default</span><span class="o">=</span><span class="bp">True</span><span class="p">,</span> <span class="n">blank</span><span class="o">=</span><span class="bp">True</span><span class="p">)</span>
+
+
+<span class="k">class</span> <span class="nc">Department</span><span class="p">(</span><span class="n">models</span><span class="p">.</span><span class="n">Model</span><span class="p">):</span>
+    <span class="n">name</span> <span class="o">=</span> <span class="n">models</span><span class="p">.</span><span class="n">CharField</span><span class="p">(</span><span class="n">max_length</span><span class="o">=</span><span class="mi">255</span><span class="p">)</span>
+
+    <span class="n">members</span> <span class="o">=</span> <span class="n">models</span><span class="p">.</span><span class="n">ManyToManyField</span><span class="p">(</span>
+        <span class="s">'Person'</span><span class="p">,</span>
+        <span class="n">related_name</span><span class="o">=</span><span class="s">'departments'</span><span class="p">,</span>
+    <span class="p">)</span>
+</code></pre></div></div>
+<h2 id="filtering">Filtering</h2>
+<h3 id="joint-field-filtering">Joint Field Filtering</h3>
+<div class="language-python highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="c1"># Yes
+</span><span class="k">def</span> <span class="nf">find_people_yes</span><span class="p">(</span><span class="n">query</span><span class="p">:</span> <span class="nb">str</span><span class="p">):</span>
+    <span class="k">return</span> <span class="n">Person</span><span class="p">.</span><span class="n">objects</span><span class="p">.</span><span class="n">annotate</span><span class="p">(</span>
+        <span class="n">full_name</span><span class="o">=</span><span class="n">Concat</span><span class="p">(</span><span class="s">'first_name'</span><span class="p">,</span> <span class="n">Value</span><span class="p">(</span><span class="s">' '</span><span class="p">),</span> <span class="s">'last_name'</span><span class="p">),</span>
+    <span class="p">).</span><span class="nb">filter</span><span class="p">(</span>
+        <span class="n">full_name__icontains</span><span class="o">=</span><span class="n">query</span><span class="p">,</span>
+    <span class="p">)</span>
+
+<span class="c1"># No
+</span><span class="k">def</span> <span class="nf">find_people_no</span><span class="p">(</span><span class="n">query</span><span class="p">:</span> <span class="nb">str</span><span class="p">):</span>
+    <span class="k">return</span> <span class="n">Person</span><span class="p">.</span><span class="n">objects</span><span class="p">.</span><span class="nb">filter</span><span class="p">(</span>
+        <span class="n">Q</span><span class="p">(</span><span class="n">first_name__icontains</span><span class="o">=</span><span class="n">query</span><span class="p">)</span>
+        <span class="o">|</span> <span class="n">Q</span><span class="p">(</span><span class="n">last_name__icontains</span><span class="o">=</span><span class="n">query</span><span class="p">)</span>
+    <span class="p">)</span>
+</code></pre></div></div>
+<p>First, we try to filter people with name <code>John</code>...</p>
+<div class="language-python highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="n">people</span> <span class="o">=</span> <span class="n">find_people_yes</span><span class="p">(</span><span class="n">query</span><span class="o">=</span><span class="s">'John'</span><span class="p">)</span>
+<span class="k">print</span><span class="p">(</span><span class="n">people</span><span class="p">)</span>
+<span class="c1"># &lt;QuerySet [&lt;Person: John Doe&gt;, &lt;Person: John Wick&gt;]&gt;
+</span>
+<span class="n">people</span> <span class="o">=</span> <span class="n">find_people_no</span><span class="p">(</span><span class="n">query</span><span class="o">=</span><span class="s">'John'</span><span class="p">)</span>
+<span class="k">print</span><span class="p">(</span><span class="n">people</span><span class="p">)</span>
+<span class="c1"># &lt;QuerySet [&lt;Person: John Doe&gt;, &lt;Person: John Wick&gt;]&gt;
+</span></code></pre></div></div>
+<p>Everything seems fine, right? Both techniques return the same results. But what about filtering person's name by <code>John Doe</code>?</p>
+<div class="language-python highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="n">people</span> <span class="o">=</span> <span class="n">find_people_yes</span><span class="p">(</span><span class="n">query</span><span class="o">=</span><span class="s">'John Doe'</span><span class="p">)</span>
+<span class="k">print</span><span class="p">(</span><span class="n">people</span><span class="p">)</span>
+<span class="c1"># &lt;QuerySet [&lt;Person: John Doe&gt;]&gt;
+</span>
+<span class="n">people</span> <span class="o">=</span> <span class="n">find_people_no</span><span class="p">(</span><span class="n">query</span><span class="o">=</span><span class="s">'John Doe'</span><span class="p">)</span>
+<span class="k">print</span><span class="p">(</span><span class="n">people</span><span class="p">)</span>
+<span class="c1"># &lt;QuerySet []&gt;
+</span></code></pre></div></div>
+<p>Now you see the difference? It's because the second method (<code>find_people_no</code>) does not support filtering across two fields.</p>
+<p>But in the other side, the second method give us a better performance if both fields are <code>db_index</code>'ed. The first method was using the annotated field which is not indexed.</p>
+<p>However, after considered those factors, we would suggest you to go with the first method.</p>
+<h3 id="using-codecountcode-instead-of-codelencode">Using <code>.count()</code> instead of <code>len()</code></h3>
+<div class="language-python highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="c1"># Yes
+</span><span class="n">Person</span><span class="p">.</span><span class="n">objects</span><span class="p">.</span><span class="n">count</span><span class="p">()</span>     <span class="c1"># SELECT COUNT(*) FROM person
+</span>
+<span class="c1"># No
+</span><span class="nb">len</span><span class="p">(</span><span class="n">Person</span><span class="p">.</span><span class="n">objects</span><span class="p">.</span><span class="nb">all</span><span class="p">())</span>  <span class="c1"># SELECT * FROM person
+</span></code></pre></div></div>
+<ul>
+<li>Calling <code>Person.objects.count()</code> will count directly inside the database</li>
+<li>But, calling <code>len(Person.objects.all())</code> will fetch all data from the database and count them in Python instead</li>
+</ul>
+<p>So, using an aggregate function from database always consume less time that getting every records.</p>
+<h3 id="using-codeexistscode-to-check-if-any-data-exists">Using <code>.exists()</code> to check if any data exists</h3>
+<div class="language-python highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="c1"># Yes
+</span><span class="k">if</span> <span class="n">Person</span><span class="p">.</span><span class="n">objects</span><span class="p">.</span><span class="nb">filter</span><span class="p">(</span><span class="n">first_name</span><span class="o">=</span><span class="s">'John'</span><span class="p">).</span><span class="n">exists</span><span class="p">():</span>
+    <span class="n">do_something</span><span class="p">()</span>
+
+<span class="c1"># No
+</span><span class="k">if</span> <span class="n">Person</span><span class="p">.</span><span class="n">objects</span><span class="p">.</span><span class="nb">filter</span><span class="p">(</span><span class="n">first_name</span><span class="o">=</span><span class="s">'John'</span><span class="p">):</span>
+    <span class="n">do_something</span><span class="p">()</span>
+</code></pre></div></div>
+<p>Using <code>.exists()</code> consume less resources than not using it.</p>
+<h3 id="using-codefirstcode-instead-of-calling-codeexistscode-followed-by-codegetcode">Using <code>.first()</code> instead of calling <code>.exists()</code>, followed by <code>.get()</code></h3>
+<div class="language-python highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="c1"># Yes
+</span><span class="n">matched_person</span> <span class="o">=</span> <span class="n">Person</span><span class="p">.</span><span class="n">objects</span><span class="p">.</span><span class="nb">filter</span><span class="p">(</span><span class="n">employee_id</span><span class="o">=</span><span class="s">'123'</span><span class="p">).</span><span class="n">first</span><span class="p">()</span>
+<span class="k">if</span> <span class="n">matched_person</span> <span class="ow">is</span> <span class="ow">not</span> <span class="bp">None</span><span class="p">:</span>
+    <span class="n">do_something</span><span class="p">(</span><span class="n">matched_person</span><span class="p">)</span>
+
+<span class="c1"># No
+</span><span class="k">if</span> <span class="n">Person</span><span class="p">.</span><span class="n">objects</span><span class="p">.</span><span class="nb">filter</span><span class="p">(</span><span class="n">employee_id</span><span class="o">=</span><span class="s">'123'</span><span class="p">).</span><span class="n">exists</span><span class="p">():</span>
+    <span class="n">matched_person</span> <span class="o">=</span> <span class="n">Person</span><span class="p">.</span><span class="n">objects</span><span class="p">.</span><span class="n">get</span><span class="p">(</span><span class="n">employee_id</span><span class="o">=</span><span class="s">'123'</span><span class="p">)</span>
+    <span class="n">do_something</span><span class="p">(</span><span class="n">matched_person</span><span class="p">)</span>
+</code></pre></div></div>
+<ul>
+<li>Calling <code>.first()</code> method will hit database only one time, and you will also get the object.</li>
+<li>Calling <code>.exists()</code> method hit database one time, then calling <code>.get()</code> hit database one more time.</li>
+</ul>
+<p>In this case, using <code>.first()</code> has better performance since it hit database only one.</p>
+<p>You can read more about <a href="https://docs.djangoproject.com/en/3.1/ref/models/querysets/#when-querysets-are-evaluated">When QuerySets are evaluated</a>.</p>
+<h3 id="avoid-filtering-across-many-relationship">Avoid filtering across many relationship</h3>
+<p>Filtering across <em>one-to-many</em> or <em>many-to-many</em> relationship can cause an unexpected result such as duplicated records.</p>
+<p>Suppose we have two departments</p>
+<div class="language-python highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="n">hr</span> <span class="o">=</span> <span class="n">Department</span><span class="p">.</span><span class="n">objects</span><span class="p">.</span><span class="n">create</span><span class="p">(</span><span class="n">name</span><span class="o">=</span><span class="s">'HRD'</span><span class="p">)</span>
+<span class="n">accounting</span> <span class="o">=</span> <span class="n">Department</span><span class="p">.</span><span class="n">objects</span><span class="p">.</span><span class="n">create</span><span class="p">(</span><span class="n">name</span><span class="o">=</span><span class="s">'HRM'</span><span class="p">)</span>
+</code></pre></div></div>
+<p>John Doe is in both departments</p>
+<div class="language-python highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="n">john_doe</span> <span class="o">=</span> <span class="n">Person</span><span class="p">.</span><span class="n">objects</span><span class="p">.</span><span class="n">create</span><span class="p">(...)</span>
+<span class="n">hr</span><span class="p">.</span><span class="n">add</span><span class="p">(</span><span class="n">john_doe</span><span class="p">)</span>
+<span class="n">accounting</span><span class="p">.</span><span class="n">add</span><span class="p">(</span><span class="n">john_doe</span><span class="p">)</span>
+</code></pre></div></div>
+<p>If we try to get person who is in department that it's name contains word <code>HR</code></p>
+<div class="language-python highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="n">Person</span><span class="p">.</span><span class="n">objects</span><span class="p">.</span><span class="nb">filter</span><span class="p">(</span><span class="n">departments__name__icontains</span><span class="o">=</span><span class="s">'HR'</span><span class="p">)</span>
+<span class="c1"># &lt;QuerySet [&lt;Person: John Doe&gt;, &lt;Person: John Doe&gt;]&gt;
+</span></code></pre></div></div>
+<p>We will get duplicated records because John Doe is in both departments. The solution for this case is to use <code>.distinct()</code></p>
+<div class="language-python highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="n">Person</span><span class="p">.</span><span class="n">objects</span><span class="p">.</span><span class="nb">filter</span><span class="p">(</span><span class="n">departments__name__icontains</span><span class="o">=</span><span class="s">'HR'</span><span class="p">).</span><span class="n">distinct</span><span class="p">()</span>
+<span class="c1"># &lt;QuerySet [&lt;Person: John Doe&gt;]&gt;
+</span></code></pre></div></div>
+<p>If you are using <code>PostgreSQL</code> as a database backend, you can specify field <code>id</code> in <code>.distinct()</code> to improve the performance. Note that you will need to order the queryset by <code>id</code> as well</p>
+<div class="language-python highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="n">Person</span><span class="p">.</span><span class="n">objects</span><span class="p">.</span><span class="nb">filter</span><span class="p">(</span><span class="n">departments__name__icontains</span><span class="o">=</span><span class="s">'HR'</span><span class="p">).</span><span class="n">order_by</span><span class="p">(</span><span class="s">'id'</span><span class="p">).</span><span class="n">distinct</span><span class="p">(</span><span class="s">'id'</span><span class="p">)</span>
+<span class="c1"># &lt;QuerySet [&lt;Person: John Doe&gt;]&gt;
+</span></code></pre></div></div>
+<h3 id="no-need-to-use-codeallcode-before-codefiltercode">No need to use <code>.all()</code> before <code>.filter()</code></h3>
+<p>If you're using <code>.filter()</code> in your queryset, then you don't need to provide <code>.all()</code> anymore</p>
+<div class="language-python highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="c1"># Yes
+</span><span class="n">Person</span><span class="p">.</span><span class="n">objects</span><span class="p">.</span><span class="nb">filter</span><span class="p">(</span><span class="n">first_name</span><span class="o">=</span><span class="s">'John'</span><span class="p">)</span>
+
+<span class="c1"># No
+</span><span class="n">Person</span><span class="p">.</span><span class="n">objects</span><span class="p">.</span><span class="nb">all</span><span class="p">().</span><span class="nb">filter</span><span class="p">(</span><span class="n">first_name</span><span class="o">=</span><span class="s">'John'</span><span class="p">)</span>
+</code></pre></div></div>
+<h3 id="avoid-filtering-against-codejsonfieldcode">Avoid filtering against <code>JSONField</code></h3>
+<p>Filtering against <code>JSONField</code> can cause a huge performance degrades.</p>
+<p>If it is really needed to filter, then you might need to consider refactoring your model by using database relation (such as <em>one-to-many</em> or <em>many-to-many</em>) to represent your data instead.</p>
+<h3 id="codeq--qcode-is-more-preferred-than-union-queryset"><code>Q() | Q()</code> is more preferred than union queryset</h3>
+<div class="language-python highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="c1"># Yes
+</span><span class="n">queryset</span> <span class="o">=</span> <span class="n">Person</span><span class="p">.</span><span class="n">objects</span><span class="p">.</span><span class="nb">filter</span><span class="p">(</span>
+    <span class="n">Q</span><span class="p">(</span><span class="n">first_name</span><span class="o">=</span><span class="s">'John'</span><span class="p">)</span> <span class="o">|</span> <span class="n">Q</span><span class="p">(</span><span class="n">last_name</span><span class="o">=</span><span class="s">'Doe'</span><span class="p">)</span>
+<span class="p">)</span>
+
+<span class="c1"># No
+</span><span class="n">queryset</span> <span class="o">=</span> <span class="n">Person</span><span class="p">.</span><span class="n">objects</span><span class="p">.</span><span class="nb">filter</span><span class="p">(</span><span class="n">first_name</span><span class="o">=</span><span class="s">'John'</span><span class="p">)</span>
+<span class="n">queryset</span><span class="p">.</span><span class="n">union</span><span class="p">(</span>
+    <span class="n">Person</span><span class="p">.</span><span class="n">objects</span><span class="p">.</span><span class="nb">filter</span><span class="p">(</span><span class="n">last_name</span><span class="o">=</span><span class="s">'Doe'</span><span class="p">)</span>
+<span class="p">)</span>
+</code></pre></div></div>
+<p>The first method will generate a query such as <code>SELECT ... FROM ... WHERE ... OR ...</code> which is faster than the second one which will generate <code>SELECT ... FROM ... WHERE ... UNION SELECT ... FROM ... WHERE ...</code>.</p>
+<h2 id="manipulating-data">Manipulating Data</h2>
+<h3 id="codeupdatecode-is-more-preferred-than-looping-save-models"><code>.update()</code> is more preferred than looping save models</h3>
+<div class="language-python highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="c1"># Yes
+</span><span class="n">Person</span><span class="p">.</span><span class="n">objects</span><span class="p">.</span><span class="n">update</span><span class="p">(</span><span class="n">active</span><span class="o">=</span><span class="bp">False</span><span class="p">)</span>  <span class="c1"># hit database
+</span>
+<span class="c1"># No
+</span><span class="k">for</span> <span class="n">person</span> <span class="ow">in</span> <span class="n">Person</span><span class="p">.</span><span class="n">objects</span><span class="p">.</span><span class="nb">all</span><span class="p">():</span>
+    <span class="n">person</span><span class="p">.</span><span class="n">active</span> <span class="o">=</span> <span class="bp">False</span>
+    <span class="n">person</span><span class="p">.</span><span class="n">save</span><span class="p">()</span>                    <span class="c1"># hit database (n times)
+</span></code></pre></div></div>
+<p>Calling <code>QuerySet.update()</code> will produce a single query using <code>UPDATE ... WHERE ...</code>. It is faster than looping update the model in Python which hit database every iteration.</p>
+<blockquote>
+<p><strong>WARNING:</strong> Calling <code>.update()</code> won't trigger <code>post_save</code> signal.</p>
+</blockquote>
+<h3 id="refresh-model-from-database">Refresh model from database</h3>
+<div class="language-python highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="c1"># Getting John
+</span><span class="n">john</span> <span class="o">=</span> <span class="n">Person</span><span class="p">.</span><span class="n">objects</span><span class="p">.</span><span class="n">get</span><span class="p">(</span><span class="n">first_name</span><span class="o">=</span><span class="s">'John'</span><span class="p">,</span> <span class="n">active</span><span class="o">=</span><span class="bp">True</span><span class="p">)</span>
+<span class="c1"># Set John to inactive
+</span><span class="n">Person</span><span class="p">.</span><span class="n">objects</span><span class="p">.</span><span class="nb">filter</span><span class="p">(</span><span class="n">pk</span><span class="o">=</span><span class="n">person</span><span class="p">.</span><span class="n">pk</span><span class="p">).</span><span class="n">update</span><span class="p">(</span><span class="n">active</span><span class="o">=</span><span class="bp">False</span><span class="p">)</span>
+
+<span class="k">print</span><span class="p">(</span><span class="n">john</span><span class="p">.</span><span class="n">active</span><span class="p">)</span>
+<span class="c1"># True
+</span>
+<span class="n">john</span><span class="p">.</span><span class="n">refresh_from_db</span><span class="p">(</span><span class="n">fields</span><span class="o">=</span><span class="p">[</span><span class="s">'active'</span><span class="p">])</span>
+<span class="k">print</span><span class="p">(</span><span class="n">john</span><span class="p">.</span><span class="n">active</span><span class="p">)</span>
+<span class="c1"># False
+</span></code></pre></div></div>
+<p>When you update a model field using <code>.update()</code>, a local instance won't update automatically. You'll need to call <code>.refresh_from_db()</code> to refresh an instance from database.</p>
+<p>Sometimes you might need refresh the whole queryset. In this case, you can query it again by calling <code>.all()</code></p>
+<div class="language-python highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="n">queryset</span> <span class="o">=</span> <span class="n">Person</span><span class="p">.</span><span class="n">objects</span><span class="p">.</span><span class="nb">all</span><span class="p">()</span>
+<span class="n">queryset</span><span class="p">.</span><span class="nb">filter</span><span class="p">(</span><span class="n">first_name</span><span class="o">=</span><span class="s">'John'</span><span class="p">).</span><span class="n">update</span><span class="p">(</span><span class="n">active</span><span class="o">=</span><span class="bp">False</span><span class="p">)</span>
+
+<span class="c1"># update the whole queryset
+</span><span class="n">queryset</span> <span class="o">=</span> <span class="n">queryset</span><span class="p">.</span><span class="nb">all</span><span class="p">()</span>
+</code></pre></div></div>
+<h2 id="related-models">Related Models</h2>
+<h3 id="using-codeselectrelatedcode-and-codeprefetchrelatedcode">Using <code>.select_related()</code> and <code>.prefetch_related()</code></h3>
+<div class="language-python highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="c1"># Yes
+</span><span class="n">person</span> <span class="o">=</span> <span class="n">Person</span><span class="p">.</span><span class="n">objects</span> \
+    <span class="p">.</span><span class="n">select_related</span><span class="p">(</span><span class="s">'user'</span><span class="p">)</span> \
+    <span class="p">.</span><span class="n">prefetch_related</span><span class="p">(</span><span class="s">'departments'</span><span class="p">)</span> \
+    <span class="p">.</span><span class="n">first</span><span class="p">()</span>                                 <span class="c1"># hit database
+</span><span class="k">print</span><span class="p">(</span><span class="n">person</span><span class="p">.</span><span class="n">first_name</span><span class="p">)</span>
+<span class="k">print</span><span class="p">(</span><span class="n">person</span><span class="p">.</span><span class="n">user</span><span class="p">.</span><span class="n">username</span><span class="p">)</span>
+<span class="k">print</span><span class="p">(</span><span class="n">person</span><span class="p">.</span><span class="n">departments</span><span class="p">.</span><span class="nb">all</span><span class="p">())</span>
+
+<span class="c1"># No
+</span><span class="n">person</span> <span class="o">=</span> <span class="n">Person</span><span class="p">.</span><span class="n">objects</span><span class="p">.</span><span class="n">first</span><span class="p">()</span>              <span class="c1"># hit database
+</span><span class="k">print</span><span class="p">(</span><span class="n">person</span><span class="p">.</span><span class="n">first_name</span><span class="p">)</span>
+<span class="k">print</span><span class="p">(</span><span class="n">person</span><span class="p">.</span><span class="n">user</span><span class="p">.</span><span class="n">username</span><span class="p">)</span>                  <span class="c1"># hit database
+</span><span class="k">print</span><span class="p">(</span><span class="n">person</span><span class="p">.</span><span class="n">departments</span><span class="p">.</span><span class="nb">all</span><span class="p">())</span>              <span class="c1"># hit database
+</span></code></pre></div></div>
+<p>The second method seems short and easy to understand. But behind that, it hits database 3 times.</p>
+<blockquote>
+<p><strong>WARNING:</strong> Calling <code>person.departments.filter(name='HR')</code> in both methods will hit database since it needs to query database to find the records which matched the given condition. <code>prefetch_related</code> does not help you in this situation.</p>
+</blockquote>
+<h3 id="selectprefetch-related-only-when-youre-using-those-values">Select/Prefetch related only when you're using those values</h3>
+<div class="language-python highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="n">any_user</span> <span class="o">=</span> <span class="n">User</span><span class="p">.</span><span class="n">objects</span><span class="p">.</span><span class="n">first</span><span class="p">()</span>
+
+<span class="c1"># No need to use `select_related` since you only filter it.
+</span><span class="n">Person</span><span class="p">.</span><span class="n">objects</span><span class="p">.</span><span class="nb">filter</span><span class="p">(</span><span class="n">user</span><span class="o">=</span><span class="n">any_user</span><span class="p">)</span>
+
+<span class="c1"># You need to, because you're accessing user instance
+</span><span class="n">person</span> <span class="o">=</span> <span class="n">Person</span><span class="p">.</span><span class="n">objects</span><span class="p">.</span><span class="n">select_related</span><span class="p">(</span><span class="s">'user'</span><span class="p">).</span><span class="n">first</span><span class="p">()</span>
+<span class="n">do_something</span><span class="p">(</span><span class="n">person</span><span class="p">.</span><span class="n">user</span><span class="p">.</span><span class="n">username</span><span class="p">)</span>
+</code></pre></div></div>
+<h3 id="avoid-comparing-instance-if-not-selectprefetch-related">Avoid comparing instance if not select/prefetch related</h3>
+<div class="language-python highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="n">person</span> <span class="o">=</span> <span class="n">Person</span><span class="p">.</span><span class="n">objects</span><span class="p">.</span><span class="n">first</span><span class="p">()</span>
+<span class="n">user</span> <span class="o">=</span> <span class="n">User</span><span class="p">.</span><span class="n">objects</span><span class="p">.</span><span class="n">first</span><span class="p">()</span>
+
+<span class="c1"># Yes
+</span><span class="k">if</span> <span class="n">person</span><span class="p">.</span><span class="n">user_id</span> <span class="o">==</span> <span class="n">user</span><span class="p">.</span><span class="n">pk</span><span class="p">:</span>    <span class="c1"># no database hit
+</span>    <span class="n">do_something</span><span class="p">()</span>
+
+<span class="c1"># No
+</span><span class="k">if</span> <span class="n">person</span><span class="p">.</span><span class="n">user</span> <span class="o">==</span> <span class="n">user</span><span class="p">:</span>          <span class="c1"># hit database
+</span>    <span class="n">do_something</span><span class="p">()</span>
+</code></pre></div></div>
+<p>The first method doesn't hit the database because field <code>user_id</code> is in <code>Person</code> instance locally.</p>
+<p>The second one hit the database because accessing <code>user</code> property makes Django to query <code>User</code> instance.</p>
+<h2 id="custom-manager">Custom Manager</h2>
+<h3 id="repeat-filtering-logics">Repeat filtering logics</h3>
+<p>If you have any repeat filtering logics, it is recommended to adding an extra manager function instead of repeating yourself in multiple location.</p>
+<div class="language-python highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="k">class</span> <span class="nc">PersonManager</span><span class="p">(</span><span class="n">models</span><span class="p">.</span><span class="n">Manager</span><span class="p">):</span>
+    <span class="k">def</span> <span class="nf">only_inactive</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="k">return</span> <span class="bp">self</span><span class="p">.</span><span class="nb">filter</span><span class="p">(</span><span class="n">active</span><span class="o">=</span><span class="bp">False</span><span class="p">)</span>
+
+
+<span class="k">class</span> <span class="nc">Person</span><span class="p">(</span><span class="n">models</span><span class="p">.</span><span class="n">Model</span><span class="p">):</span>
+    <span class="p">...</span>
+    <span class="n">objects</span> <span class="o">=</span> <span class="n">PersonManager</span><span class="p">()</span>
+
+
+<span class="c1"># Then you can call it with
+</span><span class="n">Person</span><span class="p">.</span><span class="n">objects</span><span class="p">.</span><span class="n">only_inactive</span><span class="p">()</span>
+</code></pre></div></div>
+<h3 id="override-default-queryset">Override default queryset</h3>
+<p>For example, if you want the default behavior to filter only active person.</p>
+<div class="language-python highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="k">class</span> <span class="nc">PersonManager</span><span class="p">(</span><span class="n">models</span><span class="p">.</span><span class="n">Manager</span><span class="p">):</span>
+    <span class="k">def</span> <span class="nf">get_queryset</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="k">return</span> <span class="nb">super</span><span class="p">().</span><span class="n">get_queryset</span><span class="p">().</span><span class="nb">filter</span><span class="p">(</span><span class="n">active</span><span class="o">=</span><span class="bp">True</span><span class="p">)</span>
+
+
+<span class="k">class</span> <span class="nc">Person</span><span class="p">(</span><span class="n">models</span><span class="p">.</span><span class="n">Model</span><span class="p">):</span>
+    <span class="p">...</span>
+    <span class="n">objects</span> <span class="o">=</span> <span class="n">PersonManager</span><span class="p">()</span>
+
+
+<span class="n">Person</span><span class="p">.</span><span class="n">objects</span><span class="p">.</span><span class="nb">all</span><span class="p">()</span>  <span class="c1"># will now showing only active person
+</span></code></pre></div></div>
+<h2 id="other">Other</h2>
+<h3 id="using-codeonlycode-to-optimize-performance">Using <code>.only()</code> to optimize performance</h3>
+<p>In case you want to process only person's first name, using <code>.only()</code> will result a better performance.</p>
+<div class="language-python highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="n">Person</span><span class="p">.</span><span class="n">objects</span><span class="p">.</span><span class="n">only</span><span class="p">(</span><span class="s">'first_name'</span><span class="p">)</span>  <span class="c1"># faster
+</span><span class="n">Person</span><span class="p">.</span><span class="n">objects</span><span class="p">.</span><span class="nb">all</span><span class="p">()</span>
+</code></pre></div></div>
+<blockquote>
+<p><strong>WARNING:</strong> If you try to get field that is not in <code>.only()</code>, Django will query the database again to get the field.</p>
+</blockquote>
+<h3 id="difference-between-codeonlycode-and-codevaluescode">Difference between <code>.only()</code> and <code>.values()</code></h3>
+<p>Both of them are getting only for selected field(s). But,</p>
+<ul>
+<li><code>.only()</code> produce a model instance which you still can get any other field from the result</li>
+<li><code>.values()</code> produce a dictionary. So, you cannot get any other field from the result</li>
+</ul>
+<div class="language-python highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="n">person</span> <span class="o">=</span> <span class="n">Person</span><span class="p">.</span><span class="n">objects</span><span class="p">.</span><span class="n">only</span><span class="p">(</span><span class="s">'first_name'</span><span class="p">).</span><span class="n">first</span><span class="p">()</span>
+<span class="k">print</span><span class="p">(</span><span class="n">person</span><span class="p">)</span>
+<span class="c1"># &lt;Person: John Doe&gt;
+</span><span class="k">print</span><span class="p">(</span><span class="n">person</span><span class="p">.</span><span class="n">first_name</span><span class="p">)</span>
+<span class="c1"># John
+</span><span class="k">print</span><span class="p">(</span><span class="n">person</span><span class="p">.</span><span class="n">last_name</span><span class="p">)</span>     <span class="c1"># hit database
+# Doe
+</span>
+<span class="n">person</span> <span class="o">=</span> <span class="n">Person</span><span class="p">.</span><span class="n">objects</span><span class="p">.</span><span class="n">values</span><span class="p">(</span><span class="s">'first_name'</span><span class="p">).</span><span class="n">first</span><span class="p">()</span>
+<span class="k">print</span><span class="p">(</span><span class="n">person</span><span class="p">)</span>
+<span class="c1"># {'first_name': 'John'}
+</span><span class="k">print</span><span class="p">(</span><span class="n">person</span><span class="p">[</span><span class="s">'first_name'</span><span class="p">])</span>
+<span class="c1"># John
+</span><span class="k">print</span><span class="p">(</span><span class="n">person</span><span class="p">[</span><span class="s">'last_name'</span><span class="p">])</span>  <span class="c1"># raise KeyError
+</span></code></pre></div></div>
+<h3 id="no-raw-sql">No Raw SQL</h3>
+<p>Writing query in <em>Raw SQL</em> format can cause many problems.</p>
+<p>The most important reason is <em>the difficulty to maintain</em>. If you write a lot of queries, it will be difficult to understand the logics of those queries. Makes it difficult to modify as well.</p>
+<p>The second one is <em>security</em>. Writing <em>Raw SQL</em> can cause a SQL injection if you don't carefully escape every parameters used in the queries.</p>
+<p>The last reason is <em>it can goes wrong easily</em>. By using <em>Raw SQL</em>, you'll need to write it as a plain text. If you're using IDE that support validating SQL language, you might be lucky. But if you aren't, you'll easily mess things up. Checking with a real database query should be done frequently.</p>
+<p>Django provides a lot of utility functions which can help you writing queries without using <em>Raw SQL</em> such as <a href="https://docs.djangoproject.com/en/3.1/ref/models/expressions/#subquery-expressions">Subquery</a>, <a href="https://docs.djangoproject.com/en/3.1/ref/models/expressions/#func-expressions">Func</a>, <a href="https://docs.djangoproject.com/en/3.1/ref/models/expressions/#aggregate-expressions">Aggregate</a>, and etc.</p>
+<p>Anyway, there might be a case that you cannot prevent using <em>Raw SQL</em>. If that time comes, please be very careful.</p>
+<hr />
+<h2 id="references">References</h2>
+<ul>
+<li><a href="https://docs.djangoproject.com/en/3.1/ref/models/querysets/">QuerySet API reference</a></li>
+<li><a href="https://docs.djangoproject.com/en/3.1/topics/db/queries/">Making queries</a></li>
+<li><a href="https://docs.djangoproject.com/en/3.1/topics/db/managers/">Managers</a></li>
+</ul>
+
+  </div>
+
+</article>
+
+
+        
+
+        
+      </div>
+    </main><footer class="site-footer h-card">
+  <data class="u-url" href="/technical-standard/"></data>
+
+  <div class="wrapper">
+
+    <h2 class="footer-heading">CODIUM Technical Standard</h2>
+
+    <div class="footer-col-wrapper">
+      <div class="footer-col footer-col-1">
+        <ul class="contact-list">
+          <li class="p-name">CODIUM Technical Standard</li><li><a class="u-email" href="mailto:contact@codium.co">contact@codium.co</a></li></ul>
+      </div>
+
+      <div class="footer-col footer-col-2"><ul class="social-media-list"><li><a href="https://github.com/c0d1um"><svg class="svg-icon"><use xlink:href="/technical-standard/assets/minima-social-icons.svg#github"></use></svg> <span class="username">c0d1um</span></a></li></ul>
+</div>
+
+      <div class="footer-col footer-col-3">
+        <p>CODIUM Co., Ltd.</p>
+      </div>
+    </div>
+
+  </div>
+
+</footer>
+</body>
+
+</html>

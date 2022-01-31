@@ -1,0 +1,328 @@
+<!DOCTYPE html>
+<html lang="en"><head>
+  <meta charset="utf-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="viewport" content="width=device-width, initial-scale=1"><!-- Begin Jekyll SEO tag v2.7.1 -->
+<title>Model | CODIUM Technical Standard</title>
+<meta name="generator" content="Jekyll v3.9.0" />
+<meta property="og:title" content="Model" />
+<meta property="og:locale" content="en_US" />
+<meta name="description" content="CODIUM Co., Ltd." />
+<meta property="og:description" content="CODIUM Co., Ltd." />
+<link rel="canonical" href="https://codium.co/technical-standard/django/models/" />
+<meta property="og:url" content="https://codium.co/technical-standard/django/models/" />
+<meta property="og:site_name" content="CODIUM Technical Standard" />
+<meta name="twitter:card" content="summary" />
+<meta property="twitter:title" content="Model" />
+<script type="application/ld+json">
+{"description":"CODIUM Co., Ltd.","url":"https://codium.co/technical-standard/django/models/","@type":"WebPage","headline":"Model","@context":"https://schema.org"}</script>
+<!-- End Jekyll SEO tag -->
+<link rel="stylesheet" href="/technical-standard/assets/main.css"><link type="application/atom+xml" rel="alternate" href="https://codium.co/technical-standard/feed.xml" title="CODIUM Technical Standard" /></head>
+<body><header class="site-header">
+    <div class="wrapper"><a class="site-title" rel="author" href="/technical-standard/">CODIUM Technical Standard</a><nav class="site-nav">
+            <input type="checkbox" id="nav-trigger" class="nav-trigger" />
+            <label for="nav-trigger">
+                <span class="menu-icon">
+                    <svg viewBox="0 0 18 15" width="18px" height="15px">
+                        <path
+                            d="M18,1.484c0,0.82-0.665,1.484-1.484,1.484H1.484C0.665,2.969,0,2.304,0,1.484l0,0C0,0.665,0.665,0,1.484,0 h15.032C17.335,0,18,0.665,18,1.484L18,1.484z M18,7.516C18,8.335,17.335,9,16.516,9H1.484C0.665,9,0,8.335,0,7.516l0,0 c0-0.82,0.665-1.484,1.484-1.484h15.032C17.335,6.031,18,6.696,18,7.516L18,7.516z M18,13.516C18,14.335,17.335,15,16.516,15H1.484 C0.665,15,0,14.335,0,13.516l0,0c0-0.82,0.665-1.483,1.484-1.483h15.032C17.335,12.031,18,12.695,18,13.516L18,13.516z" />
+                    </svg>
+                </span>
+            </label>
+
+            <div class="trigger">
+                <form action="/technical-standard/search.html" method="get">
+    <label for="search-box">Search</label>
+    <input type="text" id="search-box" name="query">
+    <input type="submit" value="search">
+</form>
+
+            </div>
+        </nav></div>
+</header>
+<main class="page-content" aria-label="Content">
+      <div class="wrapper">
+        <h3><strong>Table of Contents</strong></h3>
+<ul><li><a href="#common">Common</a><ul><li><a href="#the-string-representation-function">The String Representation Function</a></li></ul></li><li><a href="#fields">Fields</a><ul><li><a href="#naming">Naming</a></li><li><a href="#relationship">Relationship</a></li><li><a href="#related-name">Related Name</a></li></ul></li><li><a href="#model-controller">Model Controller</a><ul><li><a href="#unique">Unique</a></li></ul></li><li><a href="#managers">Managers</a><ul><li><a href="#reference">Reference</a></li></ul></li></ul>
+
+          <hr><br><br>
+        
+
+        <article class="post">
+
+  <header class="post-header">
+    <h1 class="post-title">Model</h1>
+  </header>
+
+  <div class="post-content">
+    <p>Best practices for creating model class.</p>
+<h2 id="common">Common</h2>
+<p>These are some of the best practices that you should add to your model class.</p>
+<h3 id="the-string-representation-function">The String Representation Function</h3>
+<p>By default django will use id when we try to print the object.</p>
+<div class="language-python highlighter-rouge"><div class="highlight"><pre class="highlight"><code>
+<span class="n">obj</span> <span class="o">=</span> <span class="n">Model</span><span class="p">.</span><span class="n">objects</span><span class="p">.</span><span class="n">first</span><span class="p">()</span>
+<span class="k">print</span><span class="p">(</span><span class="n">obj</span><span class="p">)</span>
+<span class="o">&gt;&gt;&gt;</span> <span class="o">&lt;</span><span class="n">Model</span><span class="p">:</span> <span class="p">(</span><span class="mi">1</span><span class="p">)</span><span class="o">&gt;</span>
+</code></pre></div></div>
+<p>It's easier to debug when you get more information regarding the object.</p>
+<div class="language-python highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="k">class</span> <span class="nc">Person</span><span class="p">(</span><span class="n">models</span><span class="p">.</span><span class="n">Model</span><span class="p">):</span>
+    <span class="n">first_name</span> <span class="o">=</span> <span class="n">models</span><span class="p">.</span><span class="n">CharField</span><span class="p">(</span><span class="n">max_length</span><span class="o">=</span><span class="mi">50</span><span class="p">)</span>
+    <span class="n">last_name</span> <span class="o">=</span> <span class="n">models</span><span class="p">.</span><span class="n">CharField</span><span class="p">(</span><span class="n">max_length</span><span class="o">=</span><span class="mi">50</span><span class="p">)</span>
+    <span class="n">position</span> <span class="o">=</span> <span class="n">models</span><span class="p">.</span><span class="n">ForeignKey</span><span class="p">(</span>
+        <span class="n">to</span><span class="o">=</span><span class="s">'people.Position'</span><span class="p">,</span>
+        <span class="n">on_delete</span><span class="o">=</span><span class="n">models</span><span class="p">.</span><span class="n">CASCADE</span><span class="p">,</span>
+        <span class="n">related_name</span><span class="o">=</span><span class="s">'people'</span><span class="p">,</span>
+    <span class="p">)</span>
+
+    <span class="c1"># String function that you should add
+</span>    <span class="k">def</span> <span class="nf">__str__</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="k">return</span> <span class="sa">f</span><span class="s">'</span><span class="si">{</span><span class="bp">self</span><span class="p">.</span><span class="n">first_name</span><span class="si">}</span><span class="s"> </span><span class="si">{</span><span class="bp">self</span><span class="p">.</span><span class="n">last_name</span><span class="si">}</span><span class="s">'</span>
+</code></pre></div></div>
+<p>When trying to debug:</p>
+<div class="language-python highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="n">person</span> <span class="o">=</span> <span class="n">Person</span><span class="p">.</span><span class="n">objects</span><span class="p">.</span><span class="n">first</span><span class="p">()</span>
+<span class="k">print</span><span class="p">(</span><span class="n">person</span><span class="p">)</span>
+<span class="o">&gt;&gt;&gt;</span> <span class="o">&lt;</span><span class="n">Person</span><span class="p">:</span> <span class="n">Khemanorak</span> <span class="n">Khath</span><span class="o">&gt;</span>
+</code></pre></div></div>
+<p><strong>CAUTION</strong>: You should not use foreign key field in your string function,
+because this could lead to performance problem.</p>
+<div class="language-python highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="c1"># No
+</span><span class="k">def</span> <span class="nf">__str__</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+    <span class="k">return</span> <span class="sa">f</span><span class="s">'</span><span class="si">{</span><span class="bp">self</span><span class="p">.</span><span class="n">first_name</span><span class="si">}</span><span class="s"> </span><span class="si">{</span><span class="bp">self</span><span class="p">.</span><span class="n">last_name</span><span class="si">}</span><span class="s"> </span><span class="si">{</span><span class="bp">self</span><span class="p">.</span><span class="n">position</span><span class="p">.</span><span class="n">name</span><span class="si">}</span><span class="s">'</span>
+
+<span class="c1"># If your query is not select_related position, this will hit database
+# with the amount of people.
+</span></code></pre></div></div>
+<h2 id="fields">Fields</h2>
+<p>Best practices when defining field in model.</p>
+<h3 id="naming">Naming</h3>
+<ul>
+<li>Field name should be <strong>noun</strong> and in <strong>singular</strong> form, except
+for many-to-many field should be <strong>plural</strong> form.</li>
+<li>Boolean field should be <strong>verb</strong> with past tense.</li>
+<li>Do not repeat model name in field name.</li>
+<li>Related name parameter value should be <strong>plural</strong> form.</li>
+</ul>
+<div class="language-python highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="k">class</span> <span class="nc">Person</span><span class="p">(</span><span class="n">models</span><span class="p">.</span><span class="n">Model</span><span class="p">):</span>
+    <span class="c1"># Yes: Singular noun
+</span>    <span class="n">first_name</span> <span class="o">=</span> <span class="n">models</span><span class="p">.</span><span class="n">CharField</span><span class="p">(</span><span class="n">max_length</span><span class="o">=</span><span class="mi">100</span><span class="p">)</span>
+    <span class="c1"># No : Repeat model name person
+</span>    <span class="n">person_first_name</span> <span class="o">=</span> <span class="n">models</span><span class="p">.</span><span class="n">CharField</span><span class="p">(</span><span class="n">max_length</span><span class="o">=</span><span class="mi">100</span><span class="p">)</span>
+
+    <span class="c1"># Yes: Many to Many in plural form
+</span>    <span class="n">companies</span> <span class="o">=</span> <span class="n">model</span><span class="p">.</span><span class="n">ManyToMany</span><span class="p">(</span><span class="n">to</span><span class="o">=</span><span class="s">'company.Company'</span><span class="p">,</span> <span class="n">blank</span><span class="o">=</span><span class="bp">True</span><span class="p">,</span> <span class="n">related_name</span><span class="o">=</span><span class="s">'people'</span><span class="p">)</span>
+
+    <span class="c1"># Yes
+</span>    <span class="n">activated</span> <span class="o">=</span> <span class="n">models</span><span class="p">.</span><span class="n">BooleanField</span><span class="p">()</span>
+    <span class="c1"># No
+</span>    <span class="n">is_active</span> <span class="o">=</span> <span class="n">models</span><span class="p">.</span><span class="n">BooleanFiled</span><span class="p">()</span>
+</code></pre></div></div>
+<h3 id="relationship">Relationship</h3>
+<ul>
+<li>When defining foreign key, one to one or many to many in a model it should be
+lazy reference instead of importing the model class directly, preventing
+circular or recursive import exception.
+<a href="https://docs.djangoproject.com/en/3.1/ref/models/fields/#foreignkey">Read more</a></li>
+<li>Always add related name parameter to foreign key or many to many field. If you
+don't want Django to create backward relation, add '+' to the <code>related_name</code> parameter.</li>
+</ul>
+<div class="language-python highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="c1"># Yes
+</span><span class="k">class</span> <span class="nc">Employee</span><span class="p">(</span><span class="n">models</span><span class="p">.</span><span class="n">Model</span><span class="p">):</span>
+    <span class="c1"># Create backward relation
+</span>    <span class="n">person</span> <span class="o">=</span> <span class="n">models</span><span class="p">.</span><span class="n">ForeignKey</span><span class="p">(</span><span class="n">to</span><span class="o">=</span><span class="s">'people.Person'</span><span class="p">,</span> <span class="n">on_delete</span><span class="o">=</span><span class="n">models</span><span class="p">.</span><span class="n">CASCADE</span><span class="p">,</span> <span class="n">related_name</span><span class="o">=</span><span class="s">'employees'</span><span class="p">)</span>
+    <span class="c1"># Do not create backward relation
+</span>    <span class="n">person</span> <span class="o">=</span> <span class="n">models</span><span class="p">.</span><span class="n">ForeignKey</span><span class="p">(</span><span class="n">to</span><span class="o">=</span><span class="s">'people.Person'</span><span class="p">,</span> <span class="n">on_delete</span><span class="o">=</span><span class="n">models</span><span class="p">.</span><span class="n">CASCADE</span><span class="p">,</span> <span class="n">related_name</span><span class="o">=</span><span class="s">'+'</span><span class="p">)</span>
+
+<span class="c1"># No
+</span><span class="kn">from</span> <span class="nn">people.models</span> <span class="kn">import</span> <span class="n">Person</span>
+<span class="k">class</span> <span class="nc">Employee</span><span class="p">(</span><span class="n">models</span><span class="p">.</span><span class="n">Model</span><span class="p">):</span>
+    <span class="n">person</span> <span class="o">=</span> <span class="n">models</span><span class="p">.</span><span class="n">ForeignKey</span><span class="p">(</span><span class="n">to</span><span class="o">=</span><span class="n">Person</span><span class="p">,</span> <span class="n">on_delete</span><span class="o">=</span><span class="n">models</span><span class="p">.</span><span class="n">CASCADE</span><span class="p">)</span>
+</code></pre></div></div>
+<h3 id="related-name">Related Name</h3>
+<p>By default the related name of a relationship field is <code>{field_name}_set</code>,
+so by adding <code>related_name</code> parameter make the code cleaner and more readable.</p>
+<div class="language-python highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="c1"># Yes
+</span><span class="k">class</span> <span class="nc">Employee</span><span class="p">(</span><span class="n">models</span><span class="p">.</span><span class="n">Model</span><span class="p">):</span>
+    <span class="n">person</span> <span class="o">=</span> <span class="n">models</span><span class="p">.</span><span class="n">ForeignKey</span><span class="p">(</span>
+        <span class="n">to</span><span class="o">=</span><span class="s">'people.Person'</span><span class="p">,</span>
+        <span class="n">on_delete</span><span class="p">.</span><span class="n">CASCADE</span><span class="p">,</span>
+        <span class="n">related_name</span><span class="o">=</span><span class="s">'employees'</span>
+    <span class="p">)</span>
+
+<span class="n">person</span> <span class="o">=</span> <span class="n">Person</span><span class="p">.</span><span class="n">objects</span><span class="p">.</span><span class="n">first</span><span class="p">()</span>
+<span class="n">person</span><span class="p">.</span><span class="n">employees</span><span class="p">.</span><span class="nb">all</span><span class="p">()</span>
+
+<span class="c1"># No
+</span><span class="k">class</span> <span class="nc">Employee</span><span class="p">(</span><span class="n">models</span><span class="p">.</span><span class="n">Model</span><span class="p">):</span>
+    <span class="n">person</span> <span class="o">=</span> <span class="n">models</span><span class="p">.</span><span class="n">ForeignKey</span><span class="p">(</span><span class="n">to</span><span class="o">=</span><span class="s">'people.Person'</span><span class="p">,</span> <span class="n">on_delete</span><span class="p">.</span><span class="n">CASCADE</span><span class="p">)</span>
+
+<span class="n">person</span> <span class="o">=</span> <span class="n">Person</span><span class="p">.</span><span class="n">objects</span><span class="p">.</span><span class="n">first</span><span class="p">()</span>
+<span class="n">person</span><span class="p">.</span><span class="n">employee_set</span><span class="p">.</span><span class="nb">all</span><span class="p">()</span>
+</code></pre></div></div>
+<h2 id="model-controller">Model Controller</h2>
+<p>Model Controller is a third party library that we use to keep track of data
+in each row, sometimes we would like to know when this row was create or
+update or who create or update this row.</p>
+<p>For installation and setup
+<a href="https://github.com/NorakGithub/django-model-controller">read here</a> <sup>1</sup></p>
+<div class="language-python highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="kn">from</span> <span class="nn">model_controller.models</span> <span class="kn">import</span> <span class="n">AbstractSoftDeletionModelController</span>
+
+
+<span class="k">class</span> <span class="nc">Person</span><span class="p">(</span><span class="n">AbstractSoftDeletionModelController</span><span class="p">):</span>
+    <span class="k">pass</span>
+</code></pre></div></div>
+<p>With this abstract class you get 5 fields:</p>
+<ul>
+<li><code>alive</code>: instead of delete row from database we just change the <code>alive</code> field to <code>null</code>, so that we can recover this row later.</li>
+<li><code>created_user/updated_user</code>: these fields are foreign key to <code>User</code> model. If you are using <code>ModelControllerSerializer</code> it will automatically add these field for you.</li>
+<li><code>created_at/updated_at</code>: these fields store the datetime fields when the record was created or latest update.</li>
+</ul>
+<p>Two important things you need to know after extended
+<code>AbstractSoftDeletionModelController</code>:</p>
+<ul>
+<li>It overwrite the <code>delete()</code> method so that when you call delete method in your model object it will update <code>alive = null</code> instead of actually delete the object.</li>
+<li>It provided you with two managers <code>objects</code> and <code>all_objects</code></li>
+</ul>
+<div class="language-python highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="c1"># This will return person that alive is true
+</span><span class="n">Person</span><span class="p">.</span><span class="n">objects</span><span class="p">.</span><span class="nb">all</span><span class="p">()</span>
+
+<span class="c1"># This will return all person rows in database include alive is null
+</span><span class="n">Person</span><span class="p">.</span><span class="n">all_objects</span><span class="p">.</span><span class="nb">all</span><span class="p">()</span>
+</code></pre></div></div>
+<h3 id="unique">Unique</h3>
+<p>When using <code>AbstractSoftDeletionModelController</code> if you want to make field value
+unique, make sure you use <code>unique_together</code> with <code>alive</code> field instead of
+field unique. Use <code>UniqueConstraint</code> with Django &gt;= 2.0.</p>
+<div class="language-python highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="c1"># Yes
+</span><span class="k">class</span> <span class="nc">Person</span><span class="p">(</span><span class="n">AbstractSoftDeletionModelController</span><span class="p">):</span>
+    <span class="n">username</span> <span class="o">=</span> <span class="n">model</span><span class="p">.</span><span class="n">CharField</span><span class="p">(</span><span class="n">max_length</span><span class="o">=</span><span class="mi">100</span><span class="p">)</span>
+
+    <span class="k">class</span> <span class="nc">Meta</span><span class="p">:</span>
+        <span class="c1"># Django &lt;= 1.9
+</span>        <span class="n">unique_together</span> <span class="o">=</span> <span class="p">(</span><span class="s">'username'</span><span class="p">,</span> <span class="s">'alive'</span><span class="p">)</span>
+        <span class="c1"># Django &gt;= 2.0
+</span>        <span class="n">constraints</span> <span class="o">=</span> <span class="p">(</span>
+            <span class="n">models</span><span class="p">.</span><span class="n">UniqueConstraint</span><span class="p">(</span><span class="n">fields</span><span class="o">=</span><span class="p">(</span><span class="s">'username'</span><span class="p">,</span> <span class="s">'alive'</span><span class="p">),</span> <span class="n">name</span><span class="o">=</span><span class="s">'unique-username'</span><span class="p">)</span>
+        <span class="p">)</span>
+
+
+<span class="c1"># No
+</span><span class="k">class</span> <span class="nc">Person</span><span class="p">(</span><span class="n">AbstractSoftDeletionModelController</span><span class="p">):</span>
+    <span class="n">username</span> <span class="o">=</span> <span class="n">models</span><span class="p">.</span><span class="n">CharField</span><span class="p">(</span><span class="n">max_length</span><span class="o">=</span><span class="mi">100</span><span class="p">,</span> <span class="n">unique</span><span class="o">=</span><span class="bp">True</span><span class="p">)</span>
+</code></pre></div></div>
+<p>By using <code>unique_together</code> it allow you to create only 1 record if it's alive,
+you can recreate the same object if <code>alive is null</code>.</p>
+<p><strong>FAQ:</strong> Why we set alive to null instead of false when delete?</p>
+<table>
+<thead>
+<tr>
+<th>id</th>
+<th>username</th>
+<th>alive</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>1</td>
+<td>sample</td>
+<td>false</td>
+</tr>
+<tr>
+<td>2</td>
+<td>sample</td>
+<td>fasle</td>
+</tr>
+</tbody>
+</table>
+<p>If you are using unique together, this case is not possible because data with id
+1 is already exists.</p>
+<table>
+<thead>
+<tr>
+<th>id</th>
+<th>username</th>
+<th>alive</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>1</td>
+<td>sample</td>
+<td>null</td>
+</tr>
+<tr>
+<td>2</td>
+<td>sample</td>
+<td>null</td>
+</tr>
+</tbody>
+</table>
+<p>This case is possible because database will ignore null field.</p>
+<h2 id="managers">Managers</h2>
+<p>This is where you add reusable query, it make query more maintainable and
+readable.</p>
+<p>If you are using <code>AbstractSoftDeletionModelController</code> make sure to extend
+your manager from <code>SoftDeletionManager</code>.</p>
+<div class="language-python highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="kn">from</span> <span class="nn">model_controller.managers</span> <span class="kn">import</span> <span class="n">SoftDeletionManager</span>
+
+
+<span class="k">class</span> <span class="nc">PersonManager</span><span class="p">(</span><span class="n">SoftDeletionManager</span><span class="p">):</span>
+
+    <span class="k">def</span> <span class="nf">get_with_employees</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="n">query</span> <span class="o">=</span> <span class="bp">self</span><span class="p">.</span><span class="n">get_query</span><span class="p">()</span>
+        <span class="k">return</span> <span class="n">query</span><span class="p">.</span><span class="n">prefetch_related</span><span class="p">(</span><span class="s">'employees'</span><span class="p">)</span>
+</code></pre></div></div>
+<p>Register to your model</p>
+<div class="language-python highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="k">class</span> <span class="nc">Person</span><span class="p">(</span><span class="n">AbstractSoftDeletionModelController</span><span class="p">):</span>
+    <span class="p">...</span>
+    <span class="n">objects</span> <span class="o">=</span> <span class="n">PersonManager</span><span class="p">()</span>
+</code></pre></div></div>
+<p>Example usage</p>
+<div class="language-python highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="n">people</span> <span class="o">=</span> <span class="n">Person</span><span class="p">.</span><span class="n">objects</span><span class="p">.</span><span class="n">get_with_employees</span><span class="p">()</span>
+</code></pre></div></div>
+<h3 id="reference">Reference</h3>
+<ul>
+<li><a href="https://docs.djangoproject.com/en/3.1/topics/db/managers/">Official Doc</a></li>
+<li><a href="django/project-structure/README.md">Project Structure</a>
+(where should your manager be)</li>
+</ul>
+<hr />
+<p><sup>1</sup> <em>At the time of writing, the latest version is
+<code>django-model-controller==0.4.2</code></em>.</p>
+
+  </div>
+
+</article>
+
+
+        
+
+        
+      </div>
+    </main><footer class="site-footer h-card">
+  <data class="u-url" href="/technical-standard/"></data>
+
+  <div class="wrapper">
+
+    <h2 class="footer-heading">CODIUM Technical Standard</h2>
+
+    <div class="footer-col-wrapper">
+      <div class="footer-col footer-col-1">
+        <ul class="contact-list">
+          <li class="p-name">CODIUM Technical Standard</li><li><a class="u-email" href="mailto:contact@codium.co">contact@codium.co</a></li></ul>
+      </div>
+
+      <div class="footer-col footer-col-2"><ul class="social-media-list"><li><a href="https://github.com/c0d1um"><svg class="svg-icon"><use xlink:href="/technical-standard/assets/minima-social-icons.svg#github"></use></svg> <span class="username">c0d1um</span></a></li></ul>
+</div>
+
+      <div class="footer-col footer-col-3">
+        <p>CODIUM Co., Ltd.</p>
+      </div>
+    </div>
+
+  </div>
+
+</footer>
+</body>
+
+</html>

@@ -1,0 +1,180 @@
+<!DOCTYPE html>
+<html lang="en"><head>
+  <meta charset="utf-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="viewport" content="width=device-width, initial-scale=1"><!-- Begin Jekyll SEO tag v2.7.1 -->
+<title>Permissions | CODIUM Technical Standard</title>
+<meta name="generator" content="Jekyll v3.9.0" />
+<meta property="og:title" content="Permissions" />
+<meta property="og:locale" content="en_US" />
+<meta name="description" content="CODIUM Co., Ltd." />
+<meta property="og:description" content="CODIUM Co., Ltd." />
+<link rel="canonical" href="https://codium.co/technical-standard/django/permissions/" />
+<meta property="og:url" content="https://codium.co/technical-standard/django/permissions/" />
+<meta property="og:site_name" content="CODIUM Technical Standard" />
+<meta name="twitter:card" content="summary" />
+<meta property="twitter:title" content="Permissions" />
+<script type="application/ld+json">
+{"description":"CODIUM Co., Ltd.","url":"https://codium.co/technical-standard/django/permissions/","@type":"WebPage","headline":"Permissions","@context":"https://schema.org"}</script>
+<!-- End Jekyll SEO tag -->
+<link rel="stylesheet" href="/technical-standard/assets/main.css"><link type="application/atom+xml" rel="alternate" href="https://codium.co/technical-standard/feed.xml" title="CODIUM Technical Standard" /></head>
+<body><header class="site-header">
+    <div class="wrapper"><a class="site-title" rel="author" href="/technical-standard/">CODIUM Technical Standard</a><nav class="site-nav">
+            <input type="checkbox" id="nav-trigger" class="nav-trigger" />
+            <label for="nav-trigger">
+                <span class="menu-icon">
+                    <svg viewBox="0 0 18 15" width="18px" height="15px">
+                        <path
+                            d="M18,1.484c0,0.82-0.665,1.484-1.484,1.484H1.484C0.665,2.969,0,2.304,0,1.484l0,0C0,0.665,0.665,0,1.484,0 h15.032C17.335,0,18,0.665,18,1.484L18,1.484z M18,7.516C18,8.335,17.335,9,16.516,9H1.484C0.665,9,0,8.335,0,7.516l0,0 c0-0.82,0.665-1.484,1.484-1.484h15.032C17.335,6.031,18,6.696,18,7.516L18,7.516z M18,13.516C18,14.335,17.335,15,16.516,15H1.484 C0.665,15,0,14.335,0,13.516l0,0c0-0.82,0.665-1.483,1.484-1.483h15.032C17.335,12.031,18,12.695,18,13.516L18,13.516z" />
+                    </svg>
+                </span>
+            </label>
+
+            <div class="trigger">
+                <form action="/technical-standard/search.html" method="get">
+    <label for="search-box">Search</label>
+    <input type="text" id="search-box" name="query">
+    <input type="submit" value="search">
+</form>
+
+            </div>
+        </nav></div>
+</header>
+<main class="page-content" aria-label="Content">
+      <div class="wrapper">
+        <h3><strong>Table of Contents</strong></h3>
+<ul><li><a href="#default-permission-policy">Default permission policy</a></li><li><a href="#example-permission-class">Example permission class</a></li><li><a href="#compose-permissions">Compose permissions</a></li><li><a href="#view-level-permission">View level permission</a></li><li><a href="#object-level-permission">Object level permission</a></li></ul>
+
+          <hr><br><br>
+        
+
+        <article class="post">
+
+  <header class="post-header">
+    <h1 class="post-title">Permissions</h1>
+  </header>
+
+  <div class="post-content">
+    <ul>
+<li>Keep permissions inside <code>permissions.py</code></li>
+<li>Check <a href="https://www.django-rest-framework.org/api-guide/permissions/#third-party-packages">third-party packages</a> before writing your own permission classes</li>
+<li>Function-based views will need to check object permissions explicitly by calling <code>.check_object_permissions(request, obj)</code>, raising <code>PermissionDenied</code> on failure.</li>
+</ul>
+<h2 id="default-permission-policy">Default permission policy</h2>
+<p>Always provide the default permission classes in <code>settings.py</code></p>
+<div class="language-python highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="c1"># settings.py
+</span>
+<span class="n">REST_FRAMEWORK</span> <span class="o">=</span> <span class="p">{</span>
+    <span class="s">'DEFAULT_PERMISSION_CLASSES'</span><span class="p">:</span> <span class="p">[</span>
+        <span class="s">'rest_framework.permissions.IsAuthenticated'</span><span class="p">,</span>
+    <span class="p">]</span>
+<span class="p">}</span>
+</code></pre></div></div>
+<h2 id="example-permission-class">Example permission class</h2>
+<div class="language-python highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="c1"># permissions.py
+</span>
+<span class="kn">from</span> <span class="nn">rest_framework</span> <span class="kn">import</span> <span class="n">permissions</span>
+
+
+<span class="k">class</span> <span class="nc">ReadOnly</span><span class="p">(</span><span class="n">permissions</span><span class="p">.</span><span class="n">BasePermission</span><span class="p">):</span>
+    <span class="k">def</span> <span class="nf">has_permission</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">request</span><span class="p">,</span> <span class="n">view</span><span class="p">):</span>
+        <span class="k">return</span> <span class="n">request</span><span class="p">.</span><span class="n">method</span> <span class="ow">in</span> <span class="n">permissions</span><span class="p">.</span><span class="n">SAFE_METHODS</span>
+
+</code></pre></div></div>
+<h2 id="compose-permissions">Compose permissions</h2>
+<p>Many permission classes can be composed by Python bitwise operators.
+<em>Note: It supports <code>&amp;</code> (and), <code>|</code> (or) and <code>~</code> (not).</em></p>
+<div class="language-python highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="c1"># views.py
+</span>
+<span class="kn">from</span> <span class="nn">rest_framework</span> <span class="kn">import</span> <span class="n">permissions</span>
+<span class="kn">from</span> <span class="nn">rest_framework</span> <span class="kn">import</span> <span class="n">response</span>
+<span class="kn">from</span> <span class="nn">rest_framework</span> <span class="kn">import</span> <span class="n">views</span>
+
+<span class="k">class</span> <span class="nc">ExampleView</span><span class="p">(</span><span class="n">views</span><span class="p">.</span><span class="n">APIView</span><span class="p">):</span>
+    <span class="n">permission_classes</span> <span class="o">=</span> <span class="p">[</span><span class="n">permissions</span><span class="p">.</span><span class="n">IsAuthenticated</span><span class="o">|</span><span class="n">permissions</span><span class="p">.</span><span class="n">ReadOnly</span><span class="p">]</span>
+
+    <span class="k">def</span> <span class="nf">get</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">request</span><span class="p">,</span> <span class="nb">format</span><span class="o">=</span><span class="bp">None</span><span class="p">):</span>
+        <span class="n">content</span> <span class="o">=</span> <span class="p">{</span>
+            <span class="s">'status'</span><span class="p">:</span> <span class="s">'request was permitted'</span>
+        <span class="p">}</span>
+        <span class="k">return</span> <span class="n">response</span><span class="p">.</span><span class="n">Response</span><span class="p">(</span><span class="n">content</span><span class="p">)</span>
+
+</code></pre></div></div>
+<h2 id="view-level-permission">View level permission</h2>
+<p>Example</p>
+<div class="language-python highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="c1"># permissions.py
+</span>
+<span class="kn">from</span> <span class="nn">rest_framework</span> <span class="kn">import</span> <span class="n">permissions</span>
+
+<span class="k">class</span> <span class="nc">BlocklistPermission</span><span class="p">(</span><span class="n">permissions</span><span class="p">.</span><span class="n">BasePermission</span><span class="p">):</span>
+    <span class="s">"""
+    Global permission check for blocked IPs.
+    """</span>
+
+    <span class="k">def</span> <span class="nf">has_permission</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">request</span><span class="p">,</span> <span class="n">view</span><span class="p">):</span>
+        <span class="n">ip_addr</span> <span class="o">=</span> <span class="n">request</span><span class="p">.</span><span class="n">META</span><span class="p">[</span><span class="s">'REMOTE_ADDR'</span><span class="p">]</span>
+        <span class="n">blocked</span> <span class="o">=</span> <span class="n">Blocklist</span><span class="p">.</span><span class="n">objects</span><span class="p">.</span><span class="nb">filter</span><span class="p">(</span><span class="n">ip_addr</span><span class="o">=</span><span class="n">ip_addr</span><span class="p">).</span><span class="n">exists</span><span class="p">()</span>
+        <span class="k">return</span> <span class="ow">not</span> <span class="n">blocked</span>
+</code></pre></div></div>
+<h2 id="object-level-permission">Object level permission</h2>
+<p>For clarification, use <code>has_object_permission</code> over <code>has_permission</code> as in <a href="#view-level-permission">View level permission</a>.</p>
+<div class="language-python highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="c1"># permissions.py
+</span>
+<span class="c1"># Yes
+</span><span class="k">class</span> <span class="nc">IsOwnerOrReadOnly</span><span class="p">(</span><span class="n">permissions</span><span class="p">.</span><span class="n">BasePermission</span><span class="p">):</span>
+    <span class="k">def</span> <span class="nf">has_object_permission</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">request</span><span class="p">,</span> <span class="n">view</span><span class="p">,</span> <span class="n">obj</span><span class="p">):</span>
+
+        <span class="k">if</span> <span class="n">request</span><span class="p">.</span><span class="n">method</span> <span class="ow">in</span> <span class="n">permissions</span><span class="p">.</span><span class="n">SAFE_METHODS</span><span class="p">:</span>
+            <span class="k">return</span> <span class="bp">True</span>
+
+        <span class="k">return</span> <span class="n">obj</span><span class="p">.</span><span class="n">owner</span> <span class="o">==</span> <span class="n">request</span><span class="p">.</span><span class="n">user</span>
+
+
+<span class="c1"># No
+</span><span class="k">class</span> <span class="nc">IsOwnerOrReadOnly</span><span class="p">(</span><span class="n">permissions</span><span class="p">.</span><span class="n">BasePermission</span><span class="p">):</span>
+    <span class="k">def</span> <span class="nf">has_permission</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">request</span><span class="p">,</span> <span class="n">view</span><span class="p">):</span>
+        <span class="n">obj</span> <span class="o">=</span> <span class="n">view</span><span class="p">.</span><span class="n">get_object</span><span class="p">()</span>
+
+        <span class="k">if</span> <span class="n">request</span><span class="p">.</span><span class="n">method</span> <span class="ow">in</span> <span class="n">permissions</span><span class="p">.</span><span class="n">SAFE_METHODS</span><span class="p">:</span>
+            <span class="k">return</span> <span class="bp">True</span>
+
+        <span class="k">return</span> <span class="n">obj</span><span class="p">.</span><span class="n">owner</span> <span class="o">==</span> <span class="n">request</span><span class="p">.</span><span class="n">user</span>
+
+</code></pre></div></div>
+
+  </div>
+
+</article>
+
+
+        
+
+        
+      </div>
+    </main><footer class="site-footer h-card">
+  <data class="u-url" href="/technical-standard/"></data>
+
+  <div class="wrapper">
+
+    <h2 class="footer-heading">CODIUM Technical Standard</h2>
+
+    <div class="footer-col-wrapper">
+      <div class="footer-col footer-col-1">
+        <ul class="contact-list">
+          <li class="p-name">CODIUM Technical Standard</li><li><a class="u-email" href="mailto:contact@codium.co">contact@codium.co</a></li></ul>
+      </div>
+
+      <div class="footer-col footer-col-2"><ul class="social-media-list"><li><a href="https://github.com/c0d1um"><svg class="svg-icon"><use xlink:href="/technical-standard/assets/minima-social-icons.svg#github"></use></svg> <span class="username">c0d1um</span></a></li></ul>
+</div>
+
+      <div class="footer-col footer-col-3">
+        <p>CODIUM Co., Ltd.</p>
+      </div>
+    </div>
+
+  </div>
+
+</footer>
+</body>
+
+</html>

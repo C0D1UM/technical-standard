@@ -1,0 +1,234 @@
+<!DOCTYPE html>
+<html lang="en"><head>
+  <meta charset="utf-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="viewport" content="width=device-width, initial-scale=1"><!-- Begin Jekyll SEO tag v2.7.1 -->
+<title>Project Structure | CODIUM Technical Standard</title>
+<meta name="generator" content="Jekyll v3.9.0" />
+<meta property="og:title" content="Project Structure" />
+<meta property="og:locale" content="en_US" />
+<meta name="description" content="CODIUM Co., Ltd." />
+<meta property="og:description" content="CODIUM Co., Ltd." />
+<link rel="canonical" href="https://codium.co/technical-standard/django/project-structure/" />
+<meta property="og:url" content="https://codium.co/technical-standard/django/project-structure/" />
+<meta property="og:site_name" content="CODIUM Technical Standard" />
+<meta name="twitter:card" content="summary" />
+<meta property="twitter:title" content="Project Structure" />
+<script type="application/ld+json">
+{"description":"CODIUM Co., Ltd.","url":"https://codium.co/technical-standard/django/project-structure/","@type":"WebPage","headline":"Project Structure","@context":"https://schema.org"}</script>
+<!-- End Jekyll SEO tag -->
+<link rel="stylesheet" href="/technical-standard/assets/main.css"><link type="application/atom+xml" rel="alternate" href="https://codium.co/technical-standard/feed.xml" title="CODIUM Technical Standard" /></head>
+<body><header class="site-header">
+    <div class="wrapper"><a class="site-title" rel="author" href="/technical-standard/">CODIUM Technical Standard</a><nav class="site-nav">
+            <input type="checkbox" id="nav-trigger" class="nav-trigger" />
+            <label for="nav-trigger">
+                <span class="menu-icon">
+                    <svg viewBox="0 0 18 15" width="18px" height="15px">
+                        <path
+                            d="M18,1.484c0,0.82-0.665,1.484-1.484,1.484H1.484C0.665,2.969,0,2.304,0,1.484l0,0C0,0.665,0.665,0,1.484,0 h15.032C17.335,0,18,0.665,18,1.484L18,1.484z M18,7.516C18,8.335,17.335,9,16.516,9H1.484C0.665,9,0,8.335,0,7.516l0,0 c0-0.82,0.665-1.484,1.484-1.484h15.032C17.335,6.031,18,6.696,18,7.516L18,7.516z M18,13.516C18,14.335,17.335,15,16.516,15H1.484 C0.665,15,0,14.335,0,13.516l0,0c0-0.82,0.665-1.483,1.484-1.483h15.032C17.335,12.031,18,12.695,18,13.516L18,13.516z" />
+                    </svg>
+                </span>
+            </label>
+
+            <div class="trigger">
+                <form action="/technical-standard/search.html" method="get">
+    <label for="search-box">Search</label>
+    <input type="text" id="search-box" name="query">
+    <input type="submit" value="search">
+</form>
+
+            </div>
+        </nav></div>
+</header>
+<main class="page-content" aria-label="Content">
+      <div class="wrapper">
+        <h3><strong>Table of Contents</strong></h3>
+<ul><li><a href="#introduction">Introduction</a></li><li><a href="#structure">Structure</a><ul><li><a href="#explanation">Explanation</a><ul><li><a href="#sup1sup-application-name"><sup>[1]</sup> Application Name</a></li><li><a href="#sup2sup-codeapiurlspycode"><sup>[2]</sup> <code>api_urls.py</code></a></li><li><a href="#sup3sup-codeurlspycode"><sup>[3]</sup> <code>urls.py</code></a></li><li><a href="#sup4sup-codeflake8code"><sup>[4]</sup> <code>.flake8</code></a></li><li><a href="#sup5sup-codecoveragerccode"><sup>[5]</sup> <code>.coveragerc</code></a></li><li><a href="#sup6sup-codegitignorecode"><sup>[6]</sup> <code>.gitignore</code></a></li><li><a href="#sup7sup-codeasgipycode"><sup>[7]</sup> <code>asgi.py</code></a></li><li><a href="#sup8sup-codecelerypycode"><sup>[8]</sup> <code>celery.py</code></a></li><li><a href="#sup9sup-codewsgipycode"><sup>[9]</sup> <code>wsgi.py</code></a></li><li><a href="#sup10sup-static-across-applications"><sup>[10]</sup> Static Across Applications</a></li><li><a href="#sup11sup-static-for-applications-template"><sup>[11]</sup> Static for Application's Template</a></li><li><a href="#sup12sup-codechoicespycode"><sup>[12]</sup> <code>choices.py</code></a></li><li><a href="#sup13sup-codefactoriespycode"><sup>[13]</sup> <code>factories.py</code></a></li><li><a href="#sup14sup-codefilterspycode"><sup>[14]</sup> <code>filters.py</code></a></li><li><a href="#sup15sup-codefunctionspycode"><sup>[15]</sup> <code>functions.py</code></a></li><li><a href="#sup16sup-codetaskspycode"><sup>[16]</sup> <code>tasks.py</code></a></li><li><a href="#sup17sup-codeutilspycode"><sup>[17]</sup> <code>utils.py</code></a></li><li><a href="#sup18sup-requirements"><sup>[18]</sup> Requirements</a></li><li><a href="#sup19sup-codecommoncode-application"><sup>[19]</sup> <code>common</code> Application</a></li><li><a href="#sup20sup-third-party-services"><sup>[20]</sup> Third-Party Services</a></li><li><a href="#sub21sup-fixtures"><sub>[21]</sup> Fixtures</a></li><li><a href="#sub22sup-fixture-template"><sub>[22]</sup> Fixture Template</a></li></ul></li></ul></li></ul>
+
+          <hr><br><br>
+        
+
+        <article class="post">
+
+  <header class="post-header">
+    <h1 class="post-title">Project Structure</h1>
+  </header>
+
+  <div class="post-content">
+    <h2 id="introduction">Introduction</h2>
+<p>The difference in structure of each project makes it developers difficult to understand the code. This standard comes to solve this problem and to reduce the time used when developers study the project.</p>
+<h2 id="structure">Structure</h2>
+<blockquote>
+<p><strong>IMPORTANT:</strong> Every file/directory name should be <a href="https://en.wikipedia.org/wiki/Snake_case">snake_case</a></p>
+</blockquote>
+<blockquote>
+<p><strong>Note:</strong> <code>__init__.py</code> is omitted</p>
+</blockquote>
+<pre>
+    •
+    ├── [project_name]/
+    │   ├── apps/
+    │   │   ├── common/ <sup><a href="#sup19sup-codecommoncode-application">19</a></sup>
+    │   │   │   └── fixture_templates.py <sup><a href="#sup22sup-fixtures-templates"></a></sup>
+    │   │   │   └── ..
+    │   │   ├── [app1_name]/ <sup><a href="#sup1sup-application-name">1</a></sup>
+    │   │   │   ├── fixtures/ <sup><a href="#sup21sup-fixtures">21</a></sup>
+    │   │   │   ├── management/
+    │   │   │   │   └── commands/
+    │   │   │   ├── migrations/
+    │   │   │   ├── templates/
+    │   │   │   │   ├── css/ <sup><a href="#sup11sup-static-for-applications-template">11</a></sup>
+    │   │   │   │   ├── fonts/ <sup><a href="#sup11sup-static-for-applications-template">11</a></sup>
+    │   │   │   │   ├── images/ <sup><a href="#sup11sup-static-for-applications-template">11</a></sup>
+    │   │   │   │   └── [template_name].html
+    │   │   │   ├── tests/
+    │   │   │   │   ├── test_[topic_name].py
+    │   │   │   │   └── ..
+    │   │   │   ├── admin.py
+    │   │   │   ├── apps.py
+    │   │   │   ├── choices.py <sup><a href="#sup12sup-codechoicespycode">12</a></sup>
+    │   │   │   ├── exceptions.py
+    │   │   │   ├── factories.py <sup><a href="#sup13sup-codefactoriespycode">13</a></sup>
+    │   │   │   ├── filters.py <sup><a href="#sup14sup-codefilterspycode">14</a></sup>
+    │   │   │   ├── functions.py <sup><a href="#sup15sup-codefunctionspycode">15</a></sup>
+    │   │   │   ├── managers.py
+    │   │   │   ├── models.py
+    │   │   │   ├── paginations.py
+    │   │   │   ├── permissions.py
+    │   │   │   ├── serializers.py
+    │   │   │   ├── services.py <sup><a href="#sup20sup-third-party-services">20</a></sup>
+    │   │   │   ├── signals.py
+    │   │   │   ├── tasks.py <sup><a href="#sup16sup-codetaskspycode">16</a></sup>
+    │   │   │   ├── utils.py <sup><a href="#sup17sup-codeutilspycode">17</a></sup>
+    │   │   │   └── views.py
+    │   │   │   └── ..
+    │   │   ├── [app2_name]/
+    │   │   │   └── ..
+    │   │   └── ..
+    │   ├── api_urls.py <sup><a href="#sup2sup-codeapi_urlspycode">2</a></sup>
+    │   ├── asgi.py <sup><a href="#sup7sup-codeasgipycode">7</a></sup>
+    │   ├── celery.py <sup><a href="#sup8sup-codecelerypycode">8</a></sup>
+    │   ├── settings.py
+    │   ├── urls.py <sup><a href="#sup3sup-codeurlspycode">3</a></sup>
+    │   └── wsgi.py <sup><a href="#sup9sup-codewsgipycode">9</a></sup>
+    ├── locales/
+    │   ├── [lang]/
+    │   │   └── LC_MESSAGES/
+    │   │       └── django.po
+    │   └── ..
+    ├── static/ <sup><a href="#sup10sup-static-across-applications">10</a></sup>
+    │   ├── css/
+    │   ├── fonts/
+    │   ├── images/
+    │   └── ..
+    ├── .flake8 <sup><a href="#sup4sup-codeflake8code">4</a></sup>
+    ├── .coveragerc <sup><a href="#sup5sup-codecoveragerccode">5</a></sup>
+    ├── .gitignore <sup><a href="#sup6sup-codegitignorecode">6</a></sup>
+    ├── Dockerfile
+    ├── manage.py
+    ├── requirements.in <sup><a href="#sup18sup-requirements">18</a></sup>
+    └── requirements.txt <sup><a href="#sup18sup-requirements">18</a></sup>
+</pre>
+<h3 id="explanation">Explanation</h3>
+<h4 id="sup1sup-application-name"><sup>[1]</sup> Application Name</h4>
+<p>Every applciation name should be <strong>noun</strong>, is in the <strong>plural</strong> form, and using underscore (<code>_</code>) to improve readability <sup>[*]</sup>. <code>common</code> is an exception.</p>
+<div class="language-python highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="n">memos</span>            <span class="c1"># Yes
+</span><span class="n">monthly_reports</span>  <span class="c1"># Yes
+</span>
+<span class="n">person</span>           <span class="c1"># No, because it is in singular form
+</span><span class="n">externalservices</span> <span class="c1"># No, because it didn't use underscore
+</span></code></pre></div></div>
+<p><sup>[*]</sup> There is no best practice choosing between singular or plural form but it should match <a href="https://www.python.org/dev/peps/pep-0008/#package-and-module-names">PEP8's Package and Module Names</a>.</p>
+<h4 id="sup2sup-codeapiurlspycode"><sup>[2]</sup> <code>api_urls.py</code></h4>
+<p>It should contains only <a href="https://www.django-rest-framework.org/api-guide/routers/">Django REST Framework's router and urlpatterns</a>.</p>
+<h4 id="sup3sup-codeurlspycode"><sup>[3]</sup> <code>urls.py</code></h4>
+<p>It should contains only top-level <code>urlpatterns</code>. That is <code>urlpatterns</code> from any other packages including <a href="#sup2sup-codeapi_urlspycode"><code>api_urls.py</code></a></p>
+<h4 id="sup4sup-codeflake8code"><sup>[4]</sup> <code>.flake8</code></h4>
+<p>See: <a href="https://flake8.pycqa.org/en/latest/">Flake8</a></p>
+<h4 id="sup5sup-codecoveragerccode"><sup>[5]</sup> <code>.coveragerc</code></h4>
+<p>See: <a href="https://coverage.readthedocs.io/">Coverage.py</a></p>
+<h4 id="sup6sup-codegitignorecode"><sup>[6]</sup> <code>.gitignore</code></h4>
+<p>It should contains only <code>gitignore</code> for Django/Python application only.</p>
+<p>See: <a href="https://www.freecodecamp.org/news/gitignore-what-is-it-and-how-to-add-to-repo/">What is .gitignore?</a></p>
+<h4 id="sup7sup-codeasgipycode"><sup>[7]</sup> <code>asgi.py</code></h4>
+<p>It is not required if your application is not using <a href="https://docs.djangoproject.com/en/3.1/howto/deployment/asgi/">ASGI</a>.</p>
+<h4 id="sup8sup-codecelerypycode"><sup>[8]</sup> <code>celery.py</code></h4>
+<p>It is not required if your application is not using <a href="https://docs.celeryproject.org/en/stable/index.html">Celery</a>.</p>
+<h4 id="sup9sup-codewsgipycode"><sup>[9]</sup> <code>wsgi.py</code></h4>
+<p>It is not required if your application is not using <a href="https://docs.djangoproject.com/en/3.1/howto/deployment/wsgi/">WSGI</a>.</p>
+<h4 id="sup10sup-static-across-applications"><sup>[10]</sup> Static Across Applications</h4>
+<p>Static files here should be used across many applications in the project.</p>
+<h4 id="sup11sup-static-for-applications-template"><sup>[11]</sup> Static for Application's Template</h4>
+<p>Static files here should be used only in the certain application's template.</p>
+<h4 id="sup12sup-codechoicespycode"><sup>[12]</sup> <code>choices.py</code></h4>
+<p>Contains <a href="https://docs.djangoproject.com/en/3.1/ref/models/fields/#enumeration-types">Django's Enumeration types</a> class definitions</p>
+<h4 id="sup13sup-codefactoriespycode"><sup>[13]</sup> <code>factories.py</code></h4>
+<p>Contains <a href="https://factoryboy.readthedocs.io/">Factory Boy</a> factories</p>
+<h4 id="sup14sup-codefilterspycode"><sup>[14]</sup> <code>filters.py</code></h4>
+<p>Contains <a href="https://django-filter.readthedocs.io/">django-filter</a> classes</p>
+<h4 id="sup15sup-codefunctionspycode"><sup>[15]</sup> <code>functions.py</code></h4>
+<p>Contains functions which are related with the business logic. Most of functions should be in this file. For example:</p>
+<ul>
+<li>Function to calculate SLA from work hour</li>
+<li>Function to removing expired products</li>
+<li>etc</li>
+</ul>
+<h4 id="sup16sup-codetaskspycode"><sup>[16]</sup> <code>tasks.py</code></h4>
+<p>Contains <a href="https://docs.celeryproject.org/en/stable/index.html">Celery</a> tasks</p>
+<h4 id="sup17sup-codeutilspycode"><sup>[17]</sup> <code>utils.py</code></h4>
+<p>Contains <strong>utility</strong> functions which are not related with the business logic. For example:</p>
+<ul>
+<li>Date formatting</li>
+<li>Manipulating string</li>
+<li>etc</li>
+</ul>
+<h4 id="sup18sup-requirements"><sup>[18]</sup> Requirements</h4>
+<p>Using <a href="https://github.com/jazzband/pip-tools"><code>pip-tools</code></a> you can compile <code>requirements.in</code> into <code>requirements.txt</code> automatically.</p>
+<h4 id="sup19sup-codecommoncode-application"><sup>[19]</sup> <code>common</code> Application</h4>
+<p>The <code>common</code> application is the application that you can put any code which is reused in many applications. You can put filters, permission classes, managers, and etc here. This is because of the <a href="https://en.wikipedia.org/wiki/Don%27t_repeat_yourself">DRY</a> principle.</p>
+<blockquote>
+<p>Note: Inside <code>common</code> application, it should follow the standard of application as well.</p>
+</blockquote>
+<h4 id="sup20sup-third-party-services"><sup>[20]</sup> Third-Party Services</h4>
+<p>If your application connects to third-party services, this is where you want to put the service-related logics.</p>
+<h4 id="sub21sup-fixtures"><sub>[21]</sup> Fixtures</h4>
+<p>Put your JSON fixtures here.</p>
+<h4 id="sub22sup-fixture-template"><sub>[22]</sup> Fixture Template</h4>
+<p>Contain reusable set of fixtures, read more <a href="/django/unit-test/#fixtures">here</a>.</p>
+
+  </div>
+
+</article>
+
+
+        
+
+        
+      </div>
+    </main><footer class="site-footer h-card">
+  <data class="u-url" href="/technical-standard/"></data>
+
+  <div class="wrapper">
+
+    <h2 class="footer-heading">CODIUM Technical Standard</h2>
+
+    <div class="footer-col-wrapper">
+      <div class="footer-col footer-col-1">
+        <ul class="contact-list">
+          <li class="p-name">CODIUM Technical Standard</li><li><a class="u-email" href="mailto:contact@codium.co">contact@codium.co</a></li></ul>
+      </div>
+
+      <div class="footer-col footer-col-2"><ul class="social-media-list"><li><a href="https://github.com/c0d1um"><svg class="svg-icon"><use xlink:href="/technical-standard/assets/minima-social-icons.svg#github"></use></svg> <span class="username">c0d1um</span></a></li></ul>
+</div>
+
+      <div class="footer-col footer-col-3">
+        <p>CODIUM Co., Ltd.</p>
+      </div>
+    </div>
+
+  </div>
+
+</footer>
+</body>
+
+</html>

@@ -1,0 +1,156 @@
+<!DOCTYPE html>
+<html lang="en"><head>
+  <meta charset="utf-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="viewport" content="width=device-width, initial-scale=1"><!-- Begin Jekyll SEO tag v2.7.1 -->
+<title>Datetime | CODIUM Technical Standard</title>
+<meta name="generator" content="Jekyll v3.9.0" />
+<meta property="og:title" content="Datetime" />
+<meta property="og:locale" content="en_US" />
+<meta name="description" content="CODIUM Co., Ltd." />
+<meta property="og:description" content="CODIUM Co., Ltd." />
+<link rel="canonical" href="https://codium.co/technical-standard/django/datetime/" />
+<meta property="og:url" content="https://codium.co/technical-standard/django/datetime/" />
+<meta property="og:site_name" content="CODIUM Technical Standard" />
+<meta name="twitter:card" content="summary" />
+<meta property="twitter:title" content="Datetime" />
+<script type="application/ld+json">
+{"description":"CODIUM Co., Ltd.","url":"https://codium.co/technical-standard/django/datetime/","@type":"WebPage","headline":"Datetime","@context":"https://schema.org"}</script>
+<!-- End Jekyll SEO tag -->
+<link rel="stylesheet" href="/technical-standard/assets/main.css"><link type="application/atom+xml" rel="alternate" href="https://codium.co/technical-standard/feed.xml" title="CODIUM Technical Standard" /></head>
+<body><header class="site-header">
+    <div class="wrapper"><a class="site-title" rel="author" href="/technical-standard/">CODIUM Technical Standard</a><nav class="site-nav">
+            <input type="checkbox" id="nav-trigger" class="nav-trigger" />
+            <label for="nav-trigger">
+                <span class="menu-icon">
+                    <svg viewBox="0 0 18 15" width="18px" height="15px">
+                        <path
+                            d="M18,1.484c0,0.82-0.665,1.484-1.484,1.484H1.484C0.665,2.969,0,2.304,0,1.484l0,0C0,0.665,0.665,0,1.484,0 h15.032C17.335,0,18,0.665,18,1.484L18,1.484z M18,7.516C18,8.335,17.335,9,16.516,9H1.484C0.665,9,0,8.335,0,7.516l0,0 c0-0.82,0.665-1.484,1.484-1.484h15.032C17.335,6.031,18,6.696,18,7.516L18,7.516z M18,13.516C18,14.335,17.335,15,16.516,15H1.484 C0.665,15,0,14.335,0,13.516l0,0c0-0.82,0.665-1.483,1.484-1.483h15.032C17.335,12.031,18,12.695,18,13.516L18,13.516z" />
+                    </svg>
+                </span>
+            </label>
+
+            <div class="trigger">
+                <form action="/technical-standard/search.html" method="get">
+    <label for="search-box">Search</label>
+    <input type="text" id="search-box" name="query">
+    <input type="submit" value="search">
+</form>
+
+            </div>
+        </nav></div>
+</header>
+<main class="page-content" aria-label="Content">
+      <div class="wrapper">
+        <h3><strong>Table of Contents</strong></h3>
+<ul><li><a href="#python">Python</a></li><li><a href="#django-configuration">Django Configuration</a></li><li><a href="#datetime-comparison">Datetime Comparison</a></li><li><a href="#get-current-datetime">Get current datetime</a></li><li><a href="#convert-naive-datetime-to-aware-datetime">Convert Naive Datetime to Aware Datetime</a></li><li><a href="#convert-aware-datetime-to-different-timezone">Convert Aware Datetime to different timezone</a></li></ul>
+
+          <hr><br><br>
+        
+
+        <article class="post">
+
+  <header class="post-header">
+    <h1 class="post-title">Datetime</h1>
+  </header>
+
+  <div class="post-content">
+    <h2 id="python">Python</h2>
+<p>There are two different kind of datetime in Python</p>
+<ol>
+<li>Naive Datetime - datetime without timezone</li>
+<li>Aware Datetime - datetime with timezone</li>
+</ol>
+<h2 id="django-configuration">Django Configuration</h2>
+<p>Always enable timezone support in Django <code>settings.py</code></p>
+<div class="language-py highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="c1"># django
+</span><span class="n">USE_TZ</span> <span class="o">=</span> <span class="bp">True</span>
+<span class="n">TIME_ZONE</span> <span class="o">=</span> <span class="s">"Asia/Bangkok"</span>
+
+<span class="c1"># celery
+</span><span class="n">CELERY_TIMEZONE</span> <span class="o">=</span> <span class="s">"Asia/Bangkok"</span>
+</code></pre></div></div>
+<h2 id="datetime-comparison">Datetime Comparison</h2>
+<p>When you are getting data from the database you will get the Aware Datetime.
+If you need to compare it with a Datetime object, it should be Aware Datetime object see <a href="#get-current-datetime">below</a>.</p>
+<h2 id="get-current-datetime">Get current datetime</h2>
+<p>Use <code>timezone.now()</code> or <code>timezone.localtime</code> over <code>datetime.now()</code></p>
+<div class="language-py highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="kn">import</span> <span class="nn">datetime</span>
+
+<span class="kn">from</span> <span class="nn">django.utils</span> <span class="kn">import</span> <span class="n">timezone</span>
+
+<span class="c1"># Yes
+</span><span class="n">now</span> <span class="o">=</span> <span class="n">timezone</span><span class="p">.</span><span class="n">now</span><span class="p">()</span> <span class="c1"># get current Aware datetime in UTC
+</span>
+<span class="n">now</span> <span class="o">=</span> <span class="n">timezone</span><span class="p">.</span><span class="n">localtime</span><span class="p">()</span> <span class="c1"># get current Aware datetime in Asia/Bangkok
+</span>
+
+<span class="c1"># No
+</span><span class="n">now</span> <span class="o">=</span> <span class="n">datetime</span><span class="p">.</span><span class="n">datetime</span><span class="p">.</span><span class="n">now</span><span class="p">()</span> <span class="c1"># get current Naive datetime
+</span></code></pre></div></div>
+<h2 id="convert-naive-datetime-to-aware-datetime">Convert Naive Datetime to Aware Datetime</h2>
+<div class="language-py highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="kn">import</span> <span class="nn">datetime</span>
+
+<span class="kn">import</span> <span class="nn">pytz</span>
+
+<span class="c1"># Yes
+</span><span class="n">now</span> <span class="o">=</span> <span class="n">datetime</span><span class="p">.</span><span class="n">datetime</span><span class="p">.</span><span class="n">now</span><span class="p">()</span> <span class="c1"># current Naive datetime
+</span>
+<span class="n">tz</span> <span class="o">=</span> <span class="n">pytz</span><span class="p">.</span><span class="n">timezone</span><span class="p">(</span><span class="s">"Asia/Bangkok"</span><span class="p">)</span>
+<span class="n">aware_now</span> <span class="o">=</span> <span class="n">tz</span><span class="p">.</span><span class="n">localize</span><span class="p">(</span><span class="n">now</span><span class="p">)</span>
+
+<span class="c1"># No
+</span><span class="n">now</span> <span class="o">=</span> <span class="n">datetime</span><span class="p">.</span><span class="n">datetime</span><span class="p">.</span><span class="n">now</span><span class="p">()</span> <span class="c1"># current Naive datetime
+</span>
+<span class="n">tz</span> <span class="o">=</span> <span class="n">pytz</span><span class="p">.</span><span class="n">timezone</span><span class="p">(</span><span class="s">"Asia/Bangkok"</span><span class="p">)</span>
+<span class="n">aware_now</span> <span class="o">=</span> <span class="n">now</span><span class="p">.</span><span class="n">replace</span><span class="p">(</span><span class="n">tzinfo</span><span class="o">=</span><span class="n">tz</span><span class="p">)</span> <span class="c1"># return wrong datetime
+</span>
+</code></pre></div></div>
+<h2 id="convert-aware-datetime-to-different-timezone">Convert Aware Datetime to different timezone</h2>
+<div class="language-py highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="kn">from</span> <span class="nn">django.utils</span> <span class="kn">import</span> <span class="n">timezone</span>
+
+<span class="kn">import</span> <span class="nn">pytz</span>
+
+<span class="n">now</span> <span class="o">=</span> <span class="n">timezone</span><span class="p">.</span><span class="n">now</span><span class="p">()</span> <span class="c1"># current datetime in UTC
+</span>
+<span class="n">tz</span> <span class="o">=</span>  <span class="n">pytz</span><span class="p">.</span><span class="n">timezone</span><span class="p">(</span><span class="s">"Asia/Bangkok"</span><span class="p">)</span>
+
+<span class="n">bkk_now</span> <span class="o">=</span> <span class="n">now</span><span class="p">.</span><span class="n">astimezone</span><span class="p">(</span><span class="n">tz</span><span class="p">)</span> <span class="c1"># get current datetime in Asia/Bangkok
+</span></code></pre></div></div>
+
+  </div>
+
+</article>
+
+
+        
+
+        
+      </div>
+    </main><footer class="site-footer h-card">
+  <data class="u-url" href="/technical-standard/"></data>
+
+  <div class="wrapper">
+
+    <h2 class="footer-heading">CODIUM Technical Standard</h2>
+
+    <div class="footer-col-wrapper">
+      <div class="footer-col footer-col-1">
+        <ul class="contact-list">
+          <li class="p-name">CODIUM Technical Standard</li><li><a class="u-email" href="mailto:contact@codium.co">contact@codium.co</a></li></ul>
+      </div>
+
+      <div class="footer-col footer-col-2"><ul class="social-media-list"><li><a href="https://github.com/c0d1um"><svg class="svg-icon"><use xlink:href="/technical-standard/assets/minima-social-icons.svg#github"></use></svg> <span class="username">c0d1um</span></a></li></ul>
+</div>
+
+      <div class="footer-col footer-col-3">
+        <p>CODIUM Co., Ltd.</p>
+      </div>
+    </div>
+
+  </div>
+
+</footer>
+</body>
+
+</html>
